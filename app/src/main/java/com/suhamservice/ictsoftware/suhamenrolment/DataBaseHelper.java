@@ -37,7 +37,7 @@ import static com.suhamservice.ictsoftware.suhamenrolment.MainActivity.pregPerso
 public  class DataBaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE = "SUHAM_ENROLDATA";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2;
     //-----------TABLES--------------
     private static final String TABLE_NAME_REGION = "REGIONTABLE";
 
@@ -99,14 +99,19 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
     private static final String COL_TEST_ID = "ID";
     //---------COLUMNS FOR TRANSITION-----------
 
-    //---------COLUMNS FOR TRANSITION-----------
-    private static final String COL_EMP_ID = "EMPID";
+    //---------COLUMNS FOR EMP REG-----------
+   /*private static final String COL_EMP_ID = "EMPID";
     private static final String COL_EMP_NAME = "NAME";
     private static final String COL_EMP_PHONE = "PHONE";
     private static final String COL_EMP_ADDRESS= "ADDRESS";
     private static final String COL_EMP_TIME = "TIME";
-    private static final String COL_EMP_STATUS = "STATUS";
-    //---------COLUMNS FOR TRANSITION-----------
+    private static final String COL_EMP_STATUS = "STATUS";*/
+    private static final String COL_EMP_ID = "ID";
+    private static final String COL_EMP_NAME = "NAME";
+    private static final String COL_EMP_MOBILE = "MOBILE";
+    private static final String COL_EMP_ADDRESS= "ADDRESS";
+    private static final String COL_EMP_PIN = "PIN";
+    //---------COLUMNS FOR EMP REG-----------
 
     //---------COLUMNS FOR TRANSITION-----------
     private static final String COL_OLD = "OLD";
@@ -267,8 +272,16 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
         //------CREATE TABLE CONTACT------
 
         //------CREATE TABLE EMPREG------
-         CREATE_TABLE = "CREATE TABLE " + TABLE_NAME_EMPREG + " (" + COL_EMP_ID +" TEXT,"+COL_EMP_NAME + " TEXT,"+ COL_EMP_PHONE + " TEXT,"+COL_EMP_ADDRESS+" TEXT,"+COL_EMP_TIME+" TEXT,"+COL_EMP_STATUS+" TEXT);";
+        //----------VERSION1-----------------
+         //CREATE_TABLE = "CREATE TABLE " + TABLE_NAME_EMPREG + " (" + COL_EMP_ID +" TEXT,"+COL_EMP_NAME + " TEXT,"+ COL_EMP_PHONE + " TEXT,"+COL_EMP_ADDRESS+" TEXT,"+COL_EMP_TIME+" TEXT,"+COL_EMP_STATUS+" TEXT);";
+       // db.execSQL(CREATE_TABLE);
+        //----------VERSION1-----------------
+
+        //----------VERSION-2-----------------
+        CREATE_TABLE = "CREATE TABLE " + TABLE_NAME_EMPREG + " (" + COL_EMP_ID + " TEXT," + COL_EMP_NAME + " TEXT,"+ COL_EMP_PIN + " TEXT,"+ COL_EMP_MOBILE + " TEXT,"+ COL_EMP_ADDRESS + " TEXT);";
         db.execSQL(CREATE_TABLE);
+        //----------VERSION-2-----------------
+
         //Log.d("ON-CREATE","Create TABLE_NAME_EMPREG QUERY->"+CREATE_TABLE);
         //------CREATE TABLE EMPREG------
 
@@ -429,17 +442,19 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-        /*if(oldVersion<2) {
-            //------CREATE TABLE GIRLGROUP------
-            String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME_TEST + " (" + COL_TEST_NAME + " TEXT," + COL_TEST_ID + " TEXT);";
+        if(oldVersion<2) {
+            //------CREATE NEW  TABLE EMPREG------
+                db.delete(TABLE_NAME_EMPREG, null, null);
+
+            String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME_EMPREG + " (" + COL_EMP_ID + " TEXT," + COL_EMP_NAME + " TEXT,"+ COL_EMP_PIN + " TEXT,"+ COL_EMP_MOBILE + " TEXT,"+ COL_EMP_ADDRESS + " TEXT);";
             db.execSQL(CREATE_TABLE);
-            // log.d("ON-CREATE", "Create TABLE_NAME_TEST QUERY->" + CREATE_TABLE);
-            //------CREATE TABLE GIRLGROUP------
-        }*/
+            //------CREATE NEW  TABLE EMPREG------
+        }
+
 
     }
 
-    public String isEMPRegFormFilled()
+    /*public String isEMPRegFormFilled()
     {
         SQLiteDatabase db=this.getReadableDatabase();
         String query="SELECT "+COL_EMP_STATUS+","+COL_EMP_ID+" FROM "+TABLE_NAME_EMPREG+";";
@@ -468,9 +483,9 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
            }
        }
         return "CHECK";
-    }
+    }*/
 
-    public void updateEmpRegStatus(String EmpID,String Status)
+   /* public void updateEmpRegStatus(String EmpID,String Status)
     {
         String mess="UPDATE-ERS";
         SQLiteDatabase db=this.getWritableDatabase();
@@ -478,10 +493,10 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL_EMP_STATUS,Status);
         db.update(TABLE_NAME_EMPREG,contentValues,COL_EMP_ID+"=?",new String[]{EmpID});
         ////db.close();
-    }
+    }*/
 
-    public ContentValues sendEmpRegData(String name,String phone,String address)
-    {
+    //public ContentValues sendEmpRegData(String name,String phone,String address)
+    //{
         /*
         String query="SELECT "+COL_EMP_STATUS+","+COL_EMP_ID+" FROM "+TABLE_NAME_EMPREG+";";
         Cursor cursor=null;
@@ -495,7 +510,7 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
 
         //---------------CHECK IF ANY ROW ALREADY PRESENT IN LOCAL DB--------------
 
-        String query="Select * from "+TABLE_NAME_EMPREG;
+       /* String query="Select * from "+TABLE_NAME_EMPREG;
         SQLiteDatabase db=this.getReadableDatabase();
         Cursor cursor=db.rawQuery(query,null);
         if(cursor.getCount()>0){
@@ -519,9 +534,9 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
        // //db.close();
         // log.d("IN-sendEmpRegData",contentValues.toString());
         return contentValues;
-    }
+    }*/
 
-    public String[] getEmpRegData()
+  /*  public String[] getEmpRegData()
     {
         String mess="IN getEmpRegData";
         // log.d(mess,"FirstLine");
@@ -560,7 +575,7 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
             }
 
 
-    }
+    }*/
 
 
 
