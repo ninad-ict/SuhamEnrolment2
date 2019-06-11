@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/FrameArchive"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <TableLayout
+        android:id="@+id/TableArch"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:stretchColumns="*">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10sp">
+            <Button
+                android:id="@+id/ButtonArBack"
+                android:text="HOME"
+                android:layout_span="5"
+                android:layout_margin="5dp"
+                android:background="@color/skyblue"
+                android:textColor="@color/white"
+                />
+
+            <Button
+                android:id="@+id/ButtonArRefresh"
+                android:layout_span="5"
+                android:text="REFRESH"
+                android:layout_margin="5dp"
+                android:background="@color/skyblue"
+                android:textColor="@color/white"/>
+        </TableRow>
+
+        <TableRow android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.AppCompat.Headline"
+            >
+
+            <TextView
+                android:id="@+id/H1"
+                android:text="Sr.No."
+                android:layout_span="2"
+                android:textSize="20sp"
+                android:background="@drawable/headcell_shape"
+                style="@style/Base.TextAppearance.AppCompat.Headline"
+                android:textColor="@color/white"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:id="@+id/H2"
+                android:text="Name"
+                android:layout_span="4"
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                android:textAlignment="center"
+                android:background="@drawable/headcell_shape"
+                style="@style/Base.TextAppearance.AppCompat.Headline"/>
+
+            <TextView
+                android:id="@+id/H3"
+                android:text="ID"
+                android:layout_span="4"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:background="@drawable/headcell_shape"
+                android:textAlignment="center"
+                style="@style/Base.TextAppearance.AppCompat.Headline"/>
+
+            <!--<TextView
+                android:id="@+id/H4"
+                android:text="Status"
+                android:layout_span="1"
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                android:textAlignment="center"
+                android:background="@drawable/headcell_shape"
+                style="@style/Base.TextAppearance.AppCompat.Headline"/>-->
+        </TableRow>
+        <TableRow>
+
+        </TableRow>
+
+    </TableLayout>
+    </ScrollView>
+</FrameLayout>
+
+
+

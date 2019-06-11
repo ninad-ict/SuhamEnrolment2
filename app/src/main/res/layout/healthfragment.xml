@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/FrameHealth"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+   >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+<TableLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:stretchColumns="*">
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_marginBottom="60dp"
+        android:background="@color/white"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/textViewHeadingH"
+            android:layout_gravity="center_horizontal"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:textSize="20dp"
+            android:textColor="@color/skyblue"
+            android:gravity="center"
+            android:layout_span="6"
+            android:text="Health Details"
+           />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="30dp">
+        <TextView
+            android:id="@+id/textViewRegionHB"
+            android:text="Hemoglobin :"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_span="3"
+            android:textColor="@color/skyblue"
+            android:textSize="25dp"
+         />
+        <EditText
+            android:id="@+id/editTextHB"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="numberDecimal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:hint="in gms/dl:"
+            android:layout_span="3"
+            android:maxLength="5"
+           />
+
+    </TableRow>
+
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="30dp">
+
+        <TextView
+            android:id="@+id/textViewHeight"
+            android:text="Height:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_span="3"
+            android:textColor="@color/skyblue"
+            android:textSize="25dp"
+            />
+
+        <EditText
+            android:id="@+id/editTextHeight"
+            android:ems="10"
+            android:inputType="numberDecimal"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:hint="in Cms"
+            android:maxLength="5"
+            android:layout_span="3"
+           />
+
+
+
+    </TableRow>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="30dp">
+
+
+    <TextView
+        android:id="@+id/textViewWeight"
+        android:text="Weight: "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_span="3"
+        android:textColor="@color/skyblue"
+        android:textSize="25dp"
+        />
+
+    <EditText
+        android:id="@+id/editTextWeight"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:maxLength="5"
+        android:hint="in kgs"
+        android:layout_span="3"
+        />
+    </TableRow>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="30dp">
+
+        <TextView
+            android:id="@+id/textViewPubertyAsk"
+            android:text="Attained Puberty?"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_span="4"
+            android:textColor="@color/skyblue"
+            android:textSize="25dp"
+            />
+
+        <RadioGroup
+            android:id="@+id/radioGroupPuberty"
+            android:layout_width="218dp"
+            android:layout_height="39dp"
+            android:layout_span="2"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radioButtonPNo"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:onClick="clickonHealthRadio"
+                android:text="No"
+                android:textColor="@color/skyblue" />
+
+            <RadioButton
+                android:id="@+id/radioButtonPYes"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:baselineAligned="false"
+                android:onClick="clickonHealthRadio"
+                android:checked="true"
+                android:text="Yes"
+                android:textColor="@color/skyblue" />
+        </RadioGroup>
+
+    </TableRow>
+<TableRow
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:layout_marginTop="30dp">
+
+    <TextView
+        android:id="@+id/textViewPubertyYear"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_span="4"
+        android:text="Enter year of Puberty"
+        android:textColor="@color/skyblue"
+        android:textSize="25dp" />
+        <EditText
+            android:id="@+id/editTextPuberty"
+            android:hint="YYYY"
+            android:gravity="center"
+            android:inputType="date"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:maxLength="4"
+            android:layout_span="2"
+            />
+</TableRow>
+
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="30dp">
+
+        <Button
+            android:id="@+id/buttonBackH"
+            android:text="BACK"
+            android:onClick="clickOnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_span="2"
+            android:background="@color/skyblue"
+            android:layout_margin="5dp"
+            android:textColor="@color/white"
+   />
+
+        <Button
+            android:id="@+id/buttonClearH"
+            android:text="CLEAR"
+            android:onClick="clearHealth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_span="2"
+            android:background="@color/skyblue"
+            android:layout_margin="5dp"
+            android:textColor="@color/white"
+          />
+
+        <Button
+            android:id="@+id/buttonNextH"
+            android:text="SAVE"
+            android:onClick="checkHealth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_span="2"
+            android:background="@color/skyblue"
+            android:layout_margin="5dp"
+            android:textColor="@color/white"
+         />
+
+    </TableRow>
+</TableLayout>
+    </ScrollView>
+</FrameLayout>

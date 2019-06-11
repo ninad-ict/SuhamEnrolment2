@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/FrameEmpReg"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:id="@+id/LinearEmpReg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Employee Information"
+                android:textStyle="bold"
+                style="@style/TextAppearance.AppCompat.Headline"
+                android:textColor="@color/skyblue"
+                android:layout_marginTop="10sp"
+                android:layout_marginBottom="30sp"/>
+            <TextView
+                android:id="@+id/TextViewEmpRegWait"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/address_edittext"
+                android:layout_margin="10sp"
+                android:padding="5sp"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:text="@string/waitEmpReg"
+                android:visibility="gone"
+                />
+
+            <Button
+                android:id="@+id/buttonEmpRegRefresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_marginStart="10sp"
+                android:layout_marginTop="10sp"
+                android:text="REFRESH"
+                android:onClick="Refresh"
+                style="@style/Base.TextAppearance.AppCompat.Button"
+                android:background="@color/skyblue"
+                android:visibility="gone"
+                android:textColor="@color/white"/>
+
+            <TableLayout
+                android:id="@+id/TableEmpReg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name:"
+                android:layout_marginLeft="5sp"
+                android:textColor="@color/skyblue"
+                />
+
+            <EditText
+                android:id="@+id/EditEmpRegName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Your Complete Name"
+                android:inputType="textCapWords"
+                android:enabled="false"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mobile Number"
+                android:layout_marginLeft="5sp"
+                android:layout_marginTop="30sp"
+                android:textColor="@color/skyblue"
+                />
+
+
+            <EditText
+                android:id="@+id/EditEmpRegPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:enabled="false"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Address"
+                android:layout_marginTop="30sp"
+                android:layout_marginBottom="10sp"
+                android:layout_marginLeft="5sp"
+                android:textColor="@color/skyblue"
+
+                />
+            <EditText
+                android:id="@+id/EditEmpRegAddress"
+                android:inputType="textMultiLine"
+                android:layout_margin="5sp"
+                android:enabled="false"
+            android:lines="8"
+            android:minLines="6"
+            android:gravity="top|left"
+            android:maxLines="10"
+                android:hint="Enter Your Complete Postal Address"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:scrollbars="vertical"
+                android:background="@drawable/address_edittext"
+            />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Time of Registration"
+                    android:layout_marginLeft="5sp"
+                    android:layout_marginTop="30sp"
+                    android:textColor="@color/skyblue"
+                    />
+
+                <EditText
+                    android:id="@+id/EditEmpRegTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:enabled="false"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Permit For Enrolment?"
+                    android:layout_marginLeft="5sp"
+                    android:layout_marginTop="30sp"
+                    android:textColor="@color/skyblue"
+                    />
+
+                <EditText
+                    android:id="@+id/EditEmpRegPermit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:enabled="false"
+                    />
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50sp"
+                android:layout_gravity="center"
+                >
+                <Button
+                    android:id="@+id/buttonEmpRegSubmit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="50sp"
+                    android:gravity="center"
+                    android:text="SUBMIT"
+                    android:visibility="gone"
+                    style="@style/Base.TextAppearance.AppCompat.Button"
+                    android:background="@color/skyblue"
+                    android:textColor="@color/white"/>
+                <Button
+                    android:id="@+id/buttonEmpRegClear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10sp"
+                    android:text="CLEAR"
+                    android:visibility="gone"
+                    style="@style/Base.TextAppearance.AppCompat.Button"
+                    android:background="@color/skyblue"
+                    android:textColor="@color/white"/>
+
+            </TableRow>
+            </TableLayout>
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>
+

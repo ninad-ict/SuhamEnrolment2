@@ -1,0 +1,106 @@
+<resources>
+    <string name="app_name">SUHAM HEALTH SERVICES</string>
+
+    <string name="Desc">
+SUHAM stands for Sustainable Healthcare Advancement.It has been incorporated as a Trust on March 30, 2007.
+</string>
+
+    <string name="contact">SUHAM : 91-8565954433\n\nICT Team 91-9865674534</string>
+
+    <string name="address">DHAN Foundation,\n1A, Vaidyanathapuram East,\nKennet Cross Road,\nMadurai - 625016,\nTamil Nadu, INDIA.\n
+</string>
+
+    <string name="mission">
+       Building community and institutions for promoting healthy generations by creating access to affordable healthcare and influencing policies involving mainstream partners. </string>
+
+    <string name="vision">Centre of Excellence in promoting sustainable community owned healthcare systems.
+    </string>
+    <string name="values">
+  &lt;b&gt;Excellence&lt;/b&gt; Quality work, Quality implementation and reaching Quality outcomes.\n\n &lt;br /&gt;&lt;br /&gt;
+
+    &lt;b&gt;Grassroots action:&lt;/b&gt; Working with the community at grassroots towards ensuring quality of life of poor households.\n\n&lt;br /&gt;&lt;br /&gt;
+
+    &lt;b&gt;Collaboration:&lt;/b&gt; Working with mainstream health institutions and insurance sector towards addressing the poverty.\n\n&lt;br /&gt;&lt;br /&gt;
+
+    &lt;b&gt;Innovation:&lt;/b&gt; Bringing technology and model on quality healthcare at affordability.\n\n&lt;br /&gt;&lt;br /&gt;
+
+    &lt;b&gt;Enabling:&lt;/b&gt; building the capacity of governance and empowering the community towards owning the initiatives in a sustainable way.\n\n&lt;br /&gt;&lt;br /&gt;
+
+ &lt;b&gt;Transparency:&lt;/b&gt; Bringing clarity among the members and customers.\n\n&lt;br /&gt;&lt;br /&gt;
+</string>
+    <string name="email">
+        suham@dhan.org\n\nict@dhan.org
+    </string>
+
+    <string name="waitEmpReg">Your Registration is awaiting Approval from Central Team. Kindly Contact 12223455 for More Details</string>
+
+    <string name="NoDeliveryMess">
+    No Information Required.
+</string>
+
+    <string name="forgotid"><u>Forgot ID?</u></string>
+    <string-array name="spinnerSEX">
+        <item>Gender</item>
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+    <string-array name="spinnerEntryHE">
+        <item>Select Highest Class Studied:</item>
+        <item>5th Std.</item>
+        <item>6th Std.</item>
+        <item>7th Std.</item>
+        <item>8th Std.</item>
+        <item>9th Std.</item>
+        <item>10th Std.</item>
+        <item>11th Std.</item>
+        <item>12th Std.</item>
+        <item>GRADUATE</item>
+    </string-array>
+
+    <string-array name="spinnerEntryPregEdu">
+        <item>Select Your Education Level:</item>
+        <item>School Complete</item>
+        <item>School Drop-out</item>
+        <item>Graduate</item>
+        <item>Post-Graduate</item>
+    </string-array>
+
+    <string-array name="spinnerMembership">
+        <item>Select Applicable Programme</item>
+        <item>None</item>
+        <item>Kalanjiam</item>
+        <item>Vayalagam</item>
+        <item>CALL</item>
+        <item>Rainfed Farming</item>
+        <item>SUHAM</item>
+    </string-array>
+
+    <string-array name="spinnerEntryOcc">
+        <item>Select An Option</item>
+        <item>No Work</item>
+        <item>House-Work</item>
+        <item>Business</item>
+        <item>Employed</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="RegionOptions">
+        <item>Nagapattinam</item>
+        <item>chennai</item>
+        <item>madurai</item>
+        <item>coimbatore</item>
+        <item>tirchi</item>
+        <item>nagarcoil</item>
+        <item>mumbai</item>
+        <item>thane</item>
+        <item>pune</item>
+        <item>pune1</item>
+        <item>pune2</item>
+        <item>pune3</item>
+        <item>pune4</item>
+        <item>pune5</item>
+        <item>pune7</item>
+    </string-array>
+    <string name="title_dynamic_feature">SUHAM</string>
+
+</resources>

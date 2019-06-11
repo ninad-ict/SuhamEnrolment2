@@ -1,0 +1,603 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/Framelocation"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/textViewHeadingL"
+                style="@style/TextAppearance.AppCompat.Title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20sp"
+                android:layout_span="6"
+                android:gravity="center"
+                android:text="Location Details"
+                android:textColor="@color/skyblue"
+                android:textSize="20dp" />
+            <!--FEDeration  Details-->
+
+            <!--Contact Details-->
+            <LinearLayout
+                android:id="@+id/LinearContactBanner"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_below="@id/textViewHeadingL"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+
+                <View
+                    android:layout_width="80sp"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="4sp"
+                    android:layout_weight="1"
+                    android:background="@color/skyblue" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="bottom"
+                    android:paddingLeft="5sp"
+                    android:paddingRight="5sp"
+                    android:text="Contact Details"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:layout_marginRight="5sp"
+                    android:layout_weight="2"
+                    android:background="@color/skyblue" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/LinearContact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textViewHeadingL"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20sp"
+                android:background="@drawable/topless_border"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TableRow
+                    android:id="@+id/rowContact"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="20sp">
+
+                    <TextView
+                        android:id="@+id/textViewContact"
+                        style="@style/TextAppearance.AppCompat.Body1"
+                        android:layout_width="100sp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_span="3"
+                        android:text="Contact:"
+                        android:textColor="@color/skyblue"
+                        android:textSize="20sp" />
+
+                    <EditText
+                        android:id="@+id/editTextContact"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:layout_span="3"
+                        android:digits="1234567890"
+                        android:ems="10"
+                        android:hint="Enter Contact Number"
+                        android:inputType="number"
+                        android:maxLength="10"
+                        android:singleLine="true" />
+
+                </TableRow>
+            </LinearLayout>
+            <!--Contact Details-->
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_below="@id/LinearContact"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+
+                <View
+                    android:layout_width="80sp"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="4sp"
+                    android:layout_weight="1"
+                    android:background="@color/skyblue" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="bottom"
+                    android:paddingLeft="5sp"
+                    android:paddingRight="5sp"
+                    android:text="Federation Level"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:layout_marginRight="5sp"
+                    android:layout_weight="2"
+                    android:background="@color/skyblue" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/LinearFed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/LinearContact"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/topless_border"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TableRow
+                    android:id="@+id/rowFedCode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="20sp">
+
+                    <TextView
+                        android:id="@+id/textViewFedCode"
+                        style="@style/TextAppearance.AppCompat.Body1"
+                        android:layout_width="100sp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_span="3"
+                        android:text="Fed. Code:"
+                        android:textColor="@color/skyblue"
+                        android:textSize="20sp" />
+
+                    <EditText
+                        android:id="@+id/editTextFedCode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:layout_span="3"
+                        android:digits="1234567890"
+                        android:ems="10"
+                        android:hint="Enter Federation Code"
+                        android:inputType="number"
+                        android:maxLength="4"
+                        android:singleLine="true" />
+
+                </TableRow>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="25sp"
+                    android:layout_below="@id/rowFedCode"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:weightSum="7">
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="4sp"
+                        android:layout_weight="2"
+                        android:background="@color/skyblue" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="top"
+                        android:layout_weight="3"
+                        android:gravity="center"
+                        android:paddingLeft="5sp"
+                        android:paddingRight="5sp"
+                        android:text="OR"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginRight="5sp"
+                        android:layout_weight="2"
+                        android:background="@color/skyblue" />
+                </LinearLayout>
+
+                <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:stretchColumns="*">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="30dp">
+
+                        <TextView
+                            android:id="@+id/textViewState"
+                            style="@style/TextAppearance.AppCompat.Body1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="State:"
+                            android:textColor="@color/skyblue"
+                            android:textSize="20sp" />
+
+                        <AutoCompleteTextView
+                            android:id="@+id/editTextState"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz"
+                            android:hint="Enter State Name"
+                            android:imeOptions="actionNext"
+                            android:inputType="textCapWords|textNoSuggestions"
+                            android:singleLine="true" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30sp">
+
+                        <TextView
+                            android:id="@+id/textViewDist"
+                            style="@style/TextAppearance.AppCompat.Body1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="District:"
+                            android:textColor="@color/skyblue"
+                            android:textSize="20sp" />
+
+                        <AutoCompleteTextView
+                            android:id="@+id/editTextDist"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz"
+                            android:hint="Enter Distict Name"
+                            android:imeOptions="actionNext"
+                            android:inputType="textCapWords|textNoSuggestions"
+                            android:singleLine="true" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="30dp">
+
+                        <TextView
+                            android:id="@+id/textViewFed"
+                            style="@style/TextAppearance.AppCompat.Body1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="5sp"
+                            android:text="Federation:"
+                            android:textColor="@color/skyblue"
+                            android:textSize="20sp" />
+
+                        <AutoCompleteTextView
+                            android:id="@+id/editTextFed"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz"
+                            android:hint="Enter Federation Name"
+                            android:imeOptions="actionNext"
+                            android:inputType="textCapWords|textNoSuggestions"
+                            android:singleLine="true" />
+                    </TableRow>
+
+
+                </TableLayout>
+            </LinearLayout>
+
+            <!--FEDeration  Details-->
+
+
+            <!--Village  Details-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_below="@id/LinearFed"
+                android:layout_marginTop="20sp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+
+                <View
+                    android:layout_width="80sp"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="4sp"
+                    android:layout_weight="1"
+                    android:background="@color/skyblue" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="bottom"
+                    android:paddingLeft="5sp"
+                    android:paddingRight="5sp"
+                    android:text="Village Level"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:layout_marginRight="5sp"
+                    android:layout_weight="2"
+                    android:background="@color/skyblue" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/LinearVillage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/LinearFed"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/topless_border"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+
+                <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:stretchColumns="*">
+
+                    <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp">
+
+                        <TextView
+                            android:id="@+id/textViewPanch"
+                            style="@style/TextAppearance.AppCompat.Body1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="10dp"
+                            android:layout_span="2"
+                            android:text="Panchayat/CLuster:"
+                            android:textColor="@color/skyblue"
+                            android:textSize="20sp" />
+
+                        <EditText
+                            android:id="@+id/editTextPanch"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_span="3"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz"
+                            android:ems="10"
+                            android:inputType="textCapWords"
+                            android:maxLength="50"
+                            android:singleLine="true" />
+
+
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/rowVillage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp">
+
+                        <TextView
+                            android:id="@+id/textViewVillage"
+                            style="@style/TextAppearance.AppCompat.Body1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_span="2"
+                            android:text="Village:"
+                            android:textColor="@color/skyblue"
+                            android:textSize="20sp" />
+
+                        <EditText
+                            android:id="@+id/editTextVillage"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_span="3"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz"
+                            android:ems="10"
+                            android:inputType="textCapWords"
+                            android:maxLength="50"
+                            android:singleLine="true" />
+
+                    </TableRow>
+                </TableLayout>
+
+
+            </LinearLayout>
+
+            <!--IDENTIFY IF THE GIRL IS FROM SCHOOL OR ADSL. GROUP -->
+
+            <LinearLayout
+                android:id="@+id/LinearGirlGroupBanner"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_below="@id/LinearVillage"
+                android:layout_marginTop="20sp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:weightSum="3">
+
+
+                <View
+                    android:layout_width="80sp"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="4sp"
+                    android:layout_weight="1"
+                    android:background="@color/skyblue" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="bottom"
+                    android:paddingLeft="5sp"
+                    android:paddingRight="5sp"
+                    android:text="Group Level"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:layout_marginRight="5sp"
+                    android:layout_weight="2"
+                    android:background="@color/skyblue" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/LinearGirlGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/LinearVillage"
+                android:layout_marginTop="30sp"
+                android:visibility="gone"
+                android:background="@drawable/topless_border"
+                android:orientation="vertical"
+                android:padding="10sp"
+               >
+
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/textViewGirlGroupQ"
+                            style="@style/TextAppearance.AppCompat.Body1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="10dp"
+                            android:layout_span="2"
+                            android:text="Select Applicable Group:"
+                            android:textColor="@color/skyblue"
+                            android:textSize="20sp" />
+
+                    </TableRow>
+<TableRow  android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+                    <RadioGroup
+                        android:id="@+id/radioGroupGirlGroup"
+                        android:layout_width="wrap_content"
+                        android:layout_marginTop="20sp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10sp"
+                        android:orientation="horizontal">
+
+
+                        <RadioButton
+                            android:id="@+id/radioButtonSchool"
+                            android:layout_width="150sp"
+                            android:layout_height="wrap_content"
+                            android:text="School Group"
+                            android:textColor="@color/skyblue" />
+
+                        <RadioButton
+                            android:id="@+id/radioButtonAdlGrp"
+                            android:layout_width="200sp"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:text="Adolscent Group"
+                            android:textColor="@color/skyblue" />
+                    </RadioGroup>
+</TableRow>
+
+                <TableRow  android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/editTextGirlGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz"
+                        android:ems="10"
+                        android:hint="Enter Group Name"
+                        android:inputType="textCapWords"
+                        android:maxLength="50"
+                        android:singleLine="true" />
+                </TableRow>
+            </LinearLayout>
+
+
+            <!--IDENTIFY IF THE GIRL IS FROM SCHOOL OR ADSL. GROUP-->
+
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/LinearGirlGroup"
+                android:layout_marginTop="30dp"
+                android:gravity="center">
+
+                <Button
+                    android:id="@+id/buttonBack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_span="2"
+                    android:background="@color/skyblue"
+                    android:onClick="clickOnBack"
+                    android:text="BACK"
+                    android:textColor="@color/white" />
+
+                <Button
+                    android:id="@+id/buttonClear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_span="2"
+                    android:background="@color/skyblue"
+                    android:onClick="clearLocation"
+                    android:text="CLEAR"
+                    android:textColor="@color/white" />
+
+                <Button
+                    android:id="@+id/buttonNextP"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_span="2"
+                    android:background="@color/skyblue"
+                    android:onClick="checkLocation"
+                    android:text="SAVE"
+                    android:textColor="@color/white" />
+
+            </TableRow>
+
+            <!--Village  Details-->
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</FrameLayout>

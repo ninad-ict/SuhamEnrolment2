@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/FrameApplicantName"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TableLayout
+        android:layout_width="match_parent"
+        android:id="@+id/TableApplication"
+        android:layout_height="match_parent"
+        android:stretchColumns="*"
+        android:layout_marginBottom="25sp"
+      >
+       <TableRow
+            android:layout_width="match_parent"
+            android:background="@color/skyblue"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/textViewApplHeading"
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_gravity="center"
+                android:layout_span="6"
+                android:padding="10sp"
+                android:text="Enrolment For Adolscent Girls"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+        </TableRow>
+
+        <TableRow xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/rowAskMember"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/Lightskyblue"
+            android:layout_marginTop="60sp"
+            >
+
+            <TextView
+                android:id="@+id/textViewAskMember"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Is The Applicant Member of SUHAM?"
+                android:paddingLeft="10sp"
+                android:layout_gravity="center"
+                android:layout_span="4"
+                android:textColor="@color/skyblue"
+                android:textSize="20sp" />
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/switchAskMember"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textOff="NO"
+                android:textOn="YES"
+                android:layout_gravity="center"
+                android:textSize="50sp"
+                android:layout_span="2"
+                android:textStyle="bold"
+                android:thumb="@drawable/customswitchselector"
+                app:showText="true"
+                app:track="@drawable/custom_track" />
+
+        </TableRow>
+
+  <TableRow
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="30sp">
+
+      <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+          android:layout_width="match_parent"
+          android:layout_height="100sp"
+          android:layout_span="6">
+
+            <EditText
+                android:id="@+id/EditTextApplName"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords"
+                android:layout_width="match_parent"
+                android:hint="Enter Applicant's Name"
+                android:layout_centerVertical="true"
+                android:textColor="@color/skyblue"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:maxLength="50"
+               />
+
+          <ImageButton
+              android:id="@+id/buttonArrowProceed"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentRight="true"
+              android:layout_marginRight="5sp"
+              android:layout_marginTop="15sp"
+              android:background="@android:color/transparent"
+              android:src="@mipmap/ic_shortcut_arrow_forward"
+              android:onClick="clickOnProceed"
+              android:visibility="gone"
+              android:text="Button" />
+
+          <TextView
+              android:id="@+id/errorText"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignRight="@+id/buttonArrowProceed"
+              android:layout_alignBottom="@+id/buttonArrowProceed"
+              android:text="Click me first"
+              android:visibility="gone"/>
+      </RelativeLayout>
+</TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+             >
+            <TextView
+                android:id="@+id/TextViewForgetID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="50sp"
+                android:layout_margin="5dp"
+                android:text="@string/forgotid"
+                android:layout_gravity="center"
+                android:textSize="15sp"
+                android:layout_span="6"
+                android:textColor="@color/skyblue"
+                android:visibility="gone" />
+        </TableRow>
+    </TableLayout>
+
+
+    <LinearLayout
+        android:id="@+id/LinearForgetIdBanner"
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="10sp"
+        android:layout_marginRight="10sp"
+        android:layout_height="20dp"
+        android:gravity="center_vertical"
+        android:layout_below="@+id/TableApplication"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:weightSum="13">
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="4sp"
+            android:layout_weight="5"
+            android:background="@color/skyblue" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom|center"
+            android:layout_gravity="center"
+            android:paddingLeft="5sp"
+            android:paddingRight="5sp"
+            android:layout_weight="3"
+            android:text="Enter Details for ID."
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_marginRight="5sp"
+            android:layout_weight="5"
+            android:background="@color/skyblue" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/LinearForgetId"
+        android:layout_width="match_parent"
+        android:layout_margin="10sp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/TableApplication"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/topless_border"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:padding="10dp">
+
+
+    <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp">
+
+            <EditText
+            android:id="@+id/EditTextIdName"
+            android:layout_height="40sp"
+            android:inputType="textCapWords"
+            android:layout_width="match_parent"
+            android:hint="Enter Name"
+            android:textColor="@color/skyblue"
+            android:gravity="center"
+            android:maxLength="50"
+            android:layout_span="6"
+                android:visibility="visible"
+            />
+    </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp">
+            <EditText
+                android:id="@+id/EditTextIdDob"
+                android:layout_height="40sp"
+                android:inputType="date"
+                android:layout_width="match_parent"
+                android:hint="Enter Birth-Date(DD-MM-YYYY)"
+                android:textColor="@color/skyblue"
+                android:gravity="center"
+                android:digits="1234567890-"
+                android:maxLength="10"
+                android:layout_span="6"
+                android:visibility="visible"
+                />
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp">
+            <EditText
+                android:id="@+id/EditTextIdFedCode"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:inputType="textCapWords"
+                android:hint="Fed-Code"
+                android:textColor="@color/skyblue"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:layout_span="6"
+                android:visibility="visible"
+                />
+        </TableRow>
+    </LinearLayout>
+        <TableRow
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+            <Button
+                android:id="@+id/ButtonApplClear"
+                android:layout_width="match_parent"
+                android:text="CLEAR"
+                android:background="@color/skyblue"
+                android:textColor="@color/white"
+                android:layout_span="3"
+                android:layout_margin="5dp"
+                android:visibility="gone"
+                android:onClick="clearApplicationName"/>
+            <Button
+                android:id="@+id/ButtonApplProceed"
+                android:layout_width="match_parent"
+                android:text="PROCEED"
+                android:layout_span="3"
+                android:background="@color/skyblue"
+                android:onClick="clickOnProceed"
+                android:textColor="@color/white"
+                android:visibility="gone"
+                android:layout_margin="5dp"/>
+        </TableRow>
+</RelativeLayout>
+    </ScrollView>
+</FrameLayout>

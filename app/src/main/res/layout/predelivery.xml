@@ -1,0 +1,889 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/FramePreDelivery"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--NEW STUFF-->
+
+        <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/textViewHeadingPD"
+                style="@style/TextAppearance.AppCompat.Title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:paddingBottom="25sp"
+                android:text="Pregnancy Details"
+                android:textColor="@color/skyblue"
+                android:textSize="20sp" />
+
+
+        <!--    <TableRow xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/rowAskDelivery"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textViewHeadingPD"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/textViewAskDelivery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:paddingBottom="25sp"
+                    android:text="Is Pregnancy Period Over?"
+                    android:textColor="@color/skyblue"
+                    android:textSize="20sp" />
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/switchkids"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toRightOf="@id/textViewAskDelivery"
+                    android:gravity="top"
+                    android:paddingLeft="5sp"
+                    android:textOff="NO"
+                    android:textOn="YES"
+                    android:textSize="50sp"
+                    android:textStyle="bold"
+                    android:thumb="@drawable/customswitchselector"
+                    app:showText="true"
+                    app:track="@drawable/custom_track" />
+
+                   <Switch
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20sp"
+                    android:layout_toRightOf="@id/textViewAskDelivery"
+                    android:gravity="top"
+                    android:checked="true"
+                    android:textOn="YES"
+                    android:textOff="NO"
+                    android:showText="true"
+                    />
+
+            </TableRow>-->
+
+           <!-- <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_below="@id/rowAskDelivery"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <View
+                    android:layout_width="80sp"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="4sp"
+                    android:layout_weight="1"
+                    android:background="@color/skyblue" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="bottom"
+                    android:paddingLeft="5sp"
+                    android:paddingRight="5sp"
+                    android:text="Pregnancy Details"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:layout_marginRight="5sp"
+                    android:layout_weight="2"
+                    android:background="@color/skyblue" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/LinearPreD"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/rowAskDelivery"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/topless_border"
+                android:orientation="vertical"
+                android:padding="10dp">
+-->
+
+                <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/TablePreDelivery"
+                    android:layout_width="wrap_content"
+                    android:layout_below="@id/textViewHeadingPD"
+                    android:layout_height="wrap_content"
+                    android:stretchColumns="*">
+
+
+                    <TableRow
+                        android:id="@+id/rowGravida"
+                        android:layout_width="match_parent"
+                        android:layout_height="100sp"
+                        android:layout_marginTop="30sp">
+
+                        <TextView
+                            android:id="@+id/textViewGravida"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_span="4"
+                            android:text="Gravida"
+                            android:textColor="@color/skyblue"
+                            android:textSize="23sp" />
+
+                        <EditText
+                            android:id="@+id/editTextGravida"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_span="12"
+                            android:digits="0123456789"
+                            android:ems="10"
+                            android:gravity="center"
+                            android:hint="Total Count of Pregnancies"
+                            android:inputType="number"
+                            android:maxLength="2"
+                            android:singleLine="true" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/rowEDD"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="30sp"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:id="@+id/textViewEDD"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_span="4"
+                            android:text="Delivery Date"
+                            android:textColor="@color/skyblue"
+                            android:textSize="20sp" />
+
+                        <EditText
+                            android:id="@+id/editTextEDD"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_span="12"
+                            android:digits="1234567890-"
+                            android:ems="10"
+                            android:gravity="center"
+                            android:hint="DD/MM/YYYY"
+                            android:inputType="number"
+                            android:maxLength="10"
+                            android:singleLine="true" />
+
+                    </TableRow>
+                </TableLayout>
+
+                <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/TablePreDelivery2"
+                    android:layout_below="@id/TablePreDelivery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:stretchColumns="*">
+
+                    <TableRow
+                        android:id="@+id/rowLMP"
+                        android:layout_width="match_parent"
+                        android:layout_height="100sp"
+                        android:layout_marginTop="30sp">
+
+                        <TextView
+                            android:id="@+id/textViewLMP"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_span="4"
+                            android:text="LMP "
+                            android:textColor="@color/skyblue"
+                            android:textSize="20sp" />
+
+                        <EditText
+                            android:id="@+id/editTextLMP"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_span="12"
+                            android:digits="0123456789"
+                            android:ems="10"
+                            android:gravity="center"
+                            android:hint="Last Menstrual Period in Weeks"
+                            android:inputType="number"
+                            android:maxLength="3"
+                            android:singleLine="true" />
+                    </TableRow>
+
+
+                    <TableRow
+                        android:id="@+id/rowPHC"
+                        android:layout_width="match_parent"
+                        android:layout_height="100sp"
+                        android:layout_marginTop="30sp">
+
+
+                        <TextView
+                            android:id="@+id/textViewPHC"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_span="10"
+                            android:text="Month of Registration in PHC/Anganwadi"
+                            android:textColor="@color/skyblue"
+                            android:textSize="20sp" />
+
+                        <EditText
+                            android:id="@+id/editTextPHC"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_span="6"
+                            android:digits="0123456789"
+                            android:ems="10"
+                            android:gravity="center"
+                            android:hint="Months"
+                            android:inputType="number"
+                            android:maxLength="2"
+                            android:singleLine="true" />
+                    </TableRow>
+                    <!--Enter the Month of Registration-->
+
+                    <TableRow
+                        android:id="@+id/rowMP"
+                        android:layout_width="match_parent"
+                        android:layout_height="100sp"
+                        android:layout_marginTop="30sp">
+
+                        <TextView
+                            android:id="@+id/textViewMP"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_span="10"
+                            android:text="Month of Pregnancy"
+                            android:textColor="@color/skyblue"
+                            android:textSize="20sp" />
+
+
+                        <EditText
+                            android:id="@+id/editTextMP"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_span="6"
+                            android:digits="0123456789"
+                            android:ems="10"
+                            android:gravity="center"
+                            android:hint="Months"
+                            android:inputType="number"
+                            android:maxLength="2"
+                            android:singleLine="true"/>
+                    </TableRow>
+                </TableLayout>
+          <!--  </LinearLayout>-->
+
+
+            <!--OUTCOME-->
+          <!--  <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginTop="20sp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <View
+                    android:layout_width="100sp"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="4sp"
+                    android:layout_weight="1"
+                    android:background="@color/skyblue" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="bottom"
+                    android:paddingLeft="8sp"
+                    android:paddingRight="8sp"
+                    android:text="Delivery Details"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:layout_marginRight="4sp"
+                    android:layout_weight="2"
+                    android:background="@color/skyblue" />
+            </LinearLayout>-->
+
+          <!--  <LinearLayout
+                android:id="@+id/LinearDelivery"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/LinearPreD"
+                android:layout_marginTop="30sp"
+                android:background="@drawable/topless_border"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/textviewNoDelivery"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="10sp"
+                    android:text="@string/NoDeliveryMess"
+                    android:textColor="@color/skyblue"
+                    android:visibility="visible" />
+
+                <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/TableDelivery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:stretchColumns="*"
+                    android:visibility="gone">
+
+                    <TableRow
+                        android:id="@+id/rowDelCheckBoxText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10sp">
+
+                        <TextView
+                            android:id="@+id/textViewDelOutcome"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_span="14"
+                            android:text="Outcome of Delivery:"
+                            android:textColor="@color/skyblue"
+                            android:textSize="20sp" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/rowDelCheckBox1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10sp">
+
+                        <android.support.v7.widget.AppCompatCheckBox
+                            android:id="@+id/checkNormal"
+                            android:layout_span="7"
+                            android:text="Child Birth"
+                            android:textColor="@color/skyblue" />
+
+                        <android.support.v7.widget.AppCompatCheckBox
+                            android:id="@+id/checkAbortion"
+                            android:layout_span="7"
+                            android:text="Abortion"
+                            android:textColor="@color/skyblue" />
+                    </TableRow>
+
+
+                    <TableRow
+                        android:id="@+id/rowDelCheckBox2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10sp">
+
+                        <android.support.v7.widget.AppCompatCheckBox
+                            android:id="@+id/checkMMR"
+                            android:layout_span="7"
+                            android:text="Mother Death"
+                            android:textColor="@color/skyblue" />
+
+                        <android.support.v7.widget.AppCompatCheckBox
+                            android:id="@+id/checkStill"
+                            android:layout_span="7"
+                            android:text="Still Birth"
+                            android:textColor="@color/skyblue" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/rowDelAbortion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10sp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/textViewDelAbortion"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_span="8"
+                            android:text="Month of Abortion:"
+                            android:textColor="@color/skyblue"
+                            android:textSize="20sp" />
+
+                        <EditText
+                            android:id="@+id/editTextDelAbortion"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10sp"
+                            android:layout_span="6"
+                            android:digits="0123456789"
+                            android:ems="10"
+                            android:gravity="left"
+                            android:hint="in kgs."
+                            android:inputType="number"
+                            android:maxLength="2"
+                            android:singleLine="true" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/rowDelPlace"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10sp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/textViewDelPlace"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_span="6"
+                            android:text="Delivery Place:"
+                            android:textColor="@color/skyblue"
+                            android:textSize="20sp" />
+
+                        <RadioGroup
+                            android:id="@+id/radioGroupDelPlace"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10sp"
+                            android:layout_span="8"
+                            android:orientation="horizontal">
+
+
+                            <RadioButton
+                                android:id="@+id/radioButtonHos"
+                                android:layout_width="100sp"
+                                android:layout_height="wrap_content"
+                                android:text="Hospital"
+                                android:textColor="@color/skyblue" />
+
+                            <RadioButton
+                                android:id="@+id/radioButtonHome"
+                                android:layout_width="100sp"
+                                android:layout_height="match_parent"
+                                android:baselineAligned="false"
+                                android:text="Home"
+                                android:textColor="@color/skyblue" />
+                        </RadioGroup>
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/rowDelStatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30sp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/textViewStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_span="6"
+                            android:text="Delivery State:"
+                            android:textColor="@color/skyblue"
+                            android:textSize="20sp" />
+
+                        <RadioGroup
+                            android:id="@+id/radioGroupDelStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_span="8"
+                            android:orientation="horizontal">
+
+
+                            <RadioButton
+                                android:id="@+id/radioButtonNor"
+                                android:layout_width="100sp"
+                                android:layout_height="wrap_content"
+                                android:text="Normal"
+                                android:textColor="@color/skyblue" />
+
+                            <RadioButton
+                                android:id="@+id/radioButtonCaes"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:baselineAligned="false"
+                                android:text="Caesarian"
+                                android:textColor="@color/skyblue" />
+                        </RadioGroup>
+
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/rowDelSex"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30sp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/textViewDelSex"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_span="6"
+                            android:text="Sex:"
+                            android:textColor="@color/skyblue"
+                            android:textSize="20sp" />
+
+                        <RadioGroup
+                            android:id="@+id/radioGroupDelSex"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_span="8"
+                            android:orientation="horizontal">
+
+
+                            <RadioButton
+                                android:id="@+id/radioButtonMale"
+                                android:layout_width="100sp"
+                                android:layout_height="match_parent"
+                                android:text="Male"
+                                android:textColor="@color/skyblue" />
+
+                            <RadioButton
+                                android:id="@+id/radioButtonFemale"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:baselineAligned="false"
+                                android:text="Female"
+                                android:textColor="@color/skyblue" />
+                        </RadioGroup>
+
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/rowDelCol"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30sp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/textViewDelCol"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_span="6"
+                            android:text="Colostrum Given?"
+                            android:textColor="@color/skyblue"
+                            android:textSize="20sp" />
+
+
+                        <RadioGroup
+                            android:id="@+id/radioGroupDelCol"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10sp"
+                            android:layout_span="8"
+                            android:orientation="horizontal">
+
+
+                            <RadioButton
+                                android:id="@+id/radioButtonCol_Y"
+                                android:layout_width="100sp"
+                                android:layout_height="match_parent"
+                                android:text="Yes"
+                                android:textColor="@color/skyblue" />
+
+                            <RadioButton
+                                android:id="@+id/radioButtonCol_N"
+                                android:layout_width="100sp"
+                                android:layout_height="match_parent"
+                                android:baselineAligned="false"
+                                android:text="No"
+                                android:textColor="@color/skyblue" />
+                        </RadioGroup>
+
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/rowDelWeight"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30sp"
+                        android:visibility="gone">
+
+
+                        <TextView
+                            android:id="@+id/textViewDelWeight"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_span="6"
+                            android:text="Birth Weight"
+                            android:textColor="@color/skyblue"
+                            android:textSize="20sp" />
+
+                        <EditText
+                            android:id="@+id/editTextDelWeight"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10sp"
+                            android:layout_marginRight="10sp"
+                            android:layout_span="8"
+                            android:digits="0123456789"
+                            android:ems="10"
+                            android:gravity="left"
+                            android:hint="in kgs."
+                            android:inputType="number"
+                            android:maxLength="2"
+                            android:singleLine="true" />
+                    </TableRow>
+
+                </TableLayout>
+
+                GROWTH CODE-->
+
+               <!-- <LinearLayout
+                    android:id="@+id/LinearGrowthBanner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30sp"
+                    android:layout_below="@id/TableDelivery"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:weightSum="5">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_weight="1.875"
+                        android:background="@color/skyblue" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.25"
+                        android:gravity="center"
+                        android:text="Growth Details"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginRight="5sp"
+                        android:layout_weight="1.875"
+                        android:background="@color/skyblue" />
+
+                </LinearLayout>
+
+
+
+                <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/tableChildGrowth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/LinearGrowthBanner"
+                    android:visibility="gone"
+                    android:stretchColumns="*">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="30dp">
+
+                        <TextView
+                            android:id="@+id/textViewChildOrder"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_span="3"
+                            android:textColor="@color/skyblue"
+                           android:textSize="20dp"
+                            android:text="Order of Birth"
+                            />
+
+                        <EditText
+                            android:id="@+id/editTextChildOrder"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:layout_span="3"
+                            android:ems="10"
+                            android:hint="Order of Birth"
+                            android:maxLength="50"
+                            android:inputType="number"
+                            android:digits="0123456789"
+                            android:singleLine="true"
+                            />
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/rowChildHeight"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="30dp"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:id="@+id/textViewChildHeight"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_span="3"
+                            android:text="Height"
+                            android:textColor="@color/skyblue"
+                           android:textSize="20dp" />
+
+
+                        <EditText
+                            android:id="@+id/editTextChildHeight"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:layout_span="3"
+                            android:ems="10"
+                            android:hint="in Cms."
+                            android:maxLength="3"
+                            android:digits="0123456789"
+                            android:inputType="number"
+                            android:singleLine="true"
+                            />
+
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="30dp">
+
+                        <TextView
+                            android:id="@+id/textViewChildWeight"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_span="3"
+                            android:text="Weight"
+                            android:textColor="@color/skyblue"
+                           android:textSize="20dp" />
+
+                        <EditText
+                            android:id="@+id/editTextChildWeight"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:layout_span="3"
+                            android:ems="10"
+                            android:hint="in Kgs."
+                            android:maxLength="2"
+                            android:digits="0123456789"
+                            android:inputType="number"
+                            android:singleLine="true"
+                            />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="30dp">
+
+                        <TextView
+                            android:id="@+id/textViewChildAge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_span="3"
+                            android:text="Age"
+                            android:textColor="@color/skyblue"
+                           android:textSize="20dp" />
+
+                        <EditText
+                            android:id="@+id/editTextChildAge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:layout_span="3"
+                            android:ems="10"
+                            android:hint="In Months"
+                            android:maxLength="3"
+                            android:inputType="number"
+                            android:digits="0123456789-"
+                            />
+                    </TableRow>
+
+                </TableLayout>
+            </LinearLayout>
+
+                GROWTH CODE-->
+
+
+
+            <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/tableButtons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/TablePreDelivery2"
+                android:stretchColumns="*">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30sp">
+
+                    <Button
+                        android:id="@+id/buttonBackPreD"
+                        style="?android:attr/buttonBarButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5sp"
+                        android:layout_span="2"
+                        android:background="@color/skyblue"
+                        android:onClick="clickOnBack"
+                        android:text="BACK"
+                        android:textColor="@color/white"
+
+                        />
+
+                    <Button
+                        android:id="@+id/buttonClearPreD"
+                        style="?android:attr/buttonBarButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5sp"
+                        android:layout_span="2"
+                        android:background="@color/skyblue"
+                        android:onClick="clearPreDelivery"
+                        android:text="CLEAR"
+                        android:textColor="@color/white" />
+
+                    <Button
+                        android:id="@+id/buttonNextPreD"
+                        style="?android:attr/buttonBarButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5sp"
+                        android:layout_span="2"
+                        android:background="@color/skyblue"
+                        android:onClick="checkPreDelivery"
+                        android:text="SAVE"
+                        android:textColor="@color/white" />
+
+                </TableRow>
+            </TableLayout>
+
+            <!--OUTCOME-->
+
+            <!--NEW STUFF-->
+
+        </RelativeLayout>
+    </ScrollView>
+
+</FrameLayout>

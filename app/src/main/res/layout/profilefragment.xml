@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/FrameProfile"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:text="Associate Profile"
+    android:textStyle="bold"
+    style="@style/TextAppearance.AppCompat.Headline"
+    android:textColor="@color/skyblue"
+    android:layout_marginTop="10sp"
+    android:layout_marginBottom="30sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name:"
+            android:layout_marginLeft="5sp"
+            android:textColor="@color/skyblue"
+            />
+
+        <EditText
+            android:id="@+id/EditProfName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapWords"
+         />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="UserName:"
+            android:layout_marginLeft="5sp"
+            android:layout_marginTop="30sp"
+            android:textColor="@color/skyblue"
+            />
+
+        <EditText
+            android:id="@+id/EditProfUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapWords"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Password:"
+            android:layout_marginLeft="5sp"
+            android:layout_marginTop="30sp"
+            android:textColor="@color/skyblue"
+            />
+
+
+        <EditText
+            android:id="@+id/EditProfPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Identity No."
+            android:layout_marginTop="30sp"
+            android:layout_marginLeft="5sp"
+            android:textColor="@color/skyblue"
+
+            />
+
+        <EditText
+            android:id="@+id/EditProfID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapWords"
+           />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Location/Region:"
+            android:layout_marginTop="30sp"
+            android:layout_marginLeft="5sp"
+            android:textColor="@color/skyblue"
+
+            />
+
+
+        <EditText
+            android:id="@+id/EditProfRegion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapWords"
+           />
+<TableRow
+     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="50sp"
+    >
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="SAVE"
+            android:layout_marginStart="100sp"
+            style="@style/Base.TextAppearance.AppCompat.Button"
+            android:background="@color/skyblue"
+            android:textColor="@color/white"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="CLEAR"
+        android:layout_marginLeft="20sp"
+        style="@style/Base.TextAppearance.AppCompat.Button"
+        android:background="@color/skyblue"
+        android:textColor="@color/white"/>
+
+</TableRow>
+    </LinearLayout>
+</ScrollView>
+</FrameLayout>
+
