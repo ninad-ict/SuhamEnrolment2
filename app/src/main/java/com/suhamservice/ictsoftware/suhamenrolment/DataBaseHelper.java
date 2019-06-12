@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import org.joda.time.LocalDateTime;
 import org.json.JSONException;
@@ -444,7 +445,7 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
 
         if(oldVersion<2) {
             //------CREATE NEW  TABLE EMPREG------
-                db.delete(TABLE_NAME_EMPREG, null, null);
+            db.execSQL("DROP TABLE IF EXISTS "+TABLE_NAME_EMPREG);
 
             String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME_EMPREG + " (" + COL_EMP_ID + " TEXT," + COL_EMP_NAME + " TEXT,"+ COL_EMP_PIN + " TEXT,"+ COL_EMP_MOBILE + " TEXT,"+ COL_EMP_ADDRESS + " TEXT);";
             db.execSQL(CREATE_TABLE);
@@ -452,6 +453,39 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
         }
 
 
+    }
+
+
+
+
+    public Boolean checkEmpStatus(String Login,String Password)
+    {String mess="In checkEmpStatus";
+        SQLiteDatabase db=this.getReadableDatabase();
+        String query="SELECT * FROM "+TABLE_NAME_EMPREG+" WHERE "+COL_EMP_MOBILE+"="+Login+" AND "+COL_EMP_PIN+"="+Password+";";
+        Cursor cursor=null;
+        Log.d(mess,"QUERY->"+query);
+
+        cursor=db.rawQuery(query,null);
+
+        if(cursor.getCount()<1)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    public void storeEmpDetails(String id,String name,String pin,String mobile,String address)
+    {
+        SQLiteDatabase db=this.getReadableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(COL_EMP_ID,id);
+        contentValues.put(COL_EMP_NAME,name);
+        contentValues.put(COL_EMP_PIN,pin);
+        contentValues.put(COL_EMP_MOBILE,mobile);
+        contentValues.put(COL_EMP_ADDRESS,address);
+
+        db.insert(TABLE_NAME_EMPREG,null,contentValues);
     }
 
     /*public String isEMPRegFormFilled()
@@ -536,7 +570,7 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
         return contentValues;
     }*/
 
-  /*  public String[] getEmpRegData()
+   public String[] getEmpRegData()
     {
         String mess="IN getEmpRegData";
         // log.d(mess,"FirstLine");
@@ -544,9 +578,9 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db=this.getReadableDatabase();
         Cursor cursor=null;
         //select s.name,d.name,f.name from fed f,state s,district d where f_code=8002 and f.d_code=d.d_code and f.s_code=s.s_code;
-        String query="SELECT * FROM "+TABLE_NAME_EMPREG+";";
+        String query="SELECT * FROM "+TABLE_NAME_EMPREG+" WHERE "+COL_EMP_MOBILE+"= ? AND "+COL_EMP_PIN+"= ?";
         // log.d(mess,query);
-            cursor = db.rawQuery(query, null);
+            cursor = db.rawQuery(query, new String[]{EmployeeLogin.LOGNAME,EmployeeLogin.LOGPASS});
             ////db.close();
             int count = cursor.getCount();
             // log.d(mess,"count->"+count);
@@ -563,19 +597,18 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
                 // log.d(mess,"cursor[4]->"+cursor.getString(4));
                 // log.d(mess,"cursor[5]->"+cursor.getString(5));
 
-                String[] EMPDATA = new String[6];
+                String[] EMPDATA = new String[5];
 
-                EMPDATA[0] = cursor.getString(1);
-                EMPDATA[1] = cursor.getString(2);
-                EMPDATA[2] = cursor.getString(3);
-                EMPDATA[3] = cursor.getString(4);
-                EMPDATA[4] = cursor.getString(5);
-                EMPDATA[5] = cursor.getString(0);
+                EMPDATA[0] = cursor.getString(0);
+                EMPDATA[1] = cursor.getString(1);
+                EMPDATA[2] = cursor.getString(2);
+                EMPDATA[3] = cursor.getString(3);
+                EMPDATA[4] = cursor.getString(4);
                 return EMPDATA;
             }
 
 
-    }*/
+    }
 
 
 

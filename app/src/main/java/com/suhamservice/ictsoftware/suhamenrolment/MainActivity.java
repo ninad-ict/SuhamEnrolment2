@@ -43,12 +43,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity  {
-    ExpandableListView expandableListView;
+    static ExpandableListView expandableListView;
     ExpandableListAdapter expandListAdaptor;
     List<String> ListTitle;
     LinkedHashMap<String,List<String>> ListItems;
 
     LocalDate birthdate = null;
+    //static Boolean LOGIN=false;
 
 
 
@@ -119,8 +120,9 @@ public class MainActivity extends AppCompatActivity  {
     InternetChecker internetChecker=new InternetChecker();
     ProfileAssociate profileAssociate=new ProfileAssociate();
 
-    Toolbar myToolbar;
-    private DrawerLayout mydrawLayout;
+    static Toolbar myToolbar;
+    static public DrawerLayout mydrawLayout;
+    View header;
 
     //ImageView PersonalImage=findViewById(R.id.imageViewPersonal);
 
@@ -157,12 +159,12 @@ public class MainActivity extends AppCompatActivity  {
         //Log.d("IN-onCreate-MA","First Line");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+/*
 //-----LOGIC FOR ONE-TIME EMPLOYEE REGISTRATION-----------------
         //DataBaseHelper DB=new DataBaseHelper(getBaseContext(),null,null,1);
         DataBaseHelper DB=DataBaseHelper.getInstance(getBaseContext());
         String EmpRegState=DB.isEMPRegFormFilled();
-        //DB.close();;
+        //DB.close();
            FragmentManager fragmentManager = getSupportFragmentManager();
            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
            fragmentTransaction.replace(R.id.Frame1, employeeRegistration);
@@ -179,7 +181,7 @@ public class MainActivity extends AppCompatActivity  {
         //Log.d("After AER->","AFTER-REGISTERED->");
        //new AsyncCheckReg
 
-//-----LOGIC FOR ONE-TIME EMPLOYEE REGISTRATION-----------------
+//-----LOGIC FOR ONE-TIME EMPLOYEE REGISTRATION-----------------*/
 
         //START:----------LOGIC FOR EXPANDABLE SLIDING MENU BAR--------------
         expandableListView=(ExpandableListView)findViewById(R.id.ExpandView);
@@ -189,53 +191,65 @@ public class MainActivity extends AppCompatActivity  {
         ListTitle=new ArrayList<String>(ListItems.keySet());
         expandListAdaptor=new ExpandListAdaptor(this,ListTitle,ListItems);
         expandableListView.setAdapter(expandListAdaptor);
-        View header=getLayoutInflater().inflate(R.layout.drawerheader, null);
+        header=getLayoutInflater().inflate(R.layout.drawerheader, null);
         expandableListView.addHeaderView(header);
 
-        expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-            @Override
-            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                String mess="In-OnGroupLis";
-                //Log.d(mess,""+groupPosition);
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                switch (groupPosition)
-                {
-                    case 0:
-                        //Log.d(mess,"Pressed Home Menu");
-                        fragmentTransaction.replace(R.id.Frame1, new HomePage());
-                        fragmentTransaction.addToBackStack(null);
-                        fragmentTransaction.commit();
 
+
+            expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+                @Override
+                public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                    if(!EmployeeLogin.LOGIN) {
+                     Toast.makeText(getApplicationContext(),"Kindly Login First",Toast.LENGTH_LONG).show();
                         mydrawLayout.closeDrawers();
+                        return false;
+                    }
+                    String mess = "In-OnGroupLis";
 
-                        return true;
-                    case 3:
-                        //Log.d(mess,"Pressed Contact Menu");
-                        fragmentTransaction.replace(R.id.Frame1, new ContactUs());
-                        fragmentTransaction.addToBackStack(null);
-                        fragmentTransaction.commit();
-                        mydrawLayout.closeDrawers();
+                    //Log.d(mess,""+groupPosition);
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    switch (groupPosition) {
+                        case 0:
+                            //Log.d(mess,"Pressed Home Menu");
+                            fragmentTransaction.replace(R.id.Frame1, new HomePage());
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
 
-                        return true;
+                            mydrawLayout.closeDrawers();
+
+                            return true;
+                        case 3:
+                            //Log.d(mess,"Pressed Contact Menu");
+                            fragmentTransaction.replace(R.id.Frame1, new ContactUs());
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
+                            mydrawLayout.closeDrawers();
+
+                            return true;
 
 
+                    }
+                    return false;
                 }
-                return false;
-            }
-        });
+            });
 
-        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                String mess="IN-ChildClickList";
-                //Log.d(mess,"groupPosition:"+groupPosition+" childPosition:"+childPosition);
-                String option=String.valueOf(groupPosition)+String.valueOf(childPosition);
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+                @Override
+                public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                    if(!EmployeeLogin.LOGIN) {
+                        Toast.makeText(getApplicationContext(),"Kindly Login First",Toast.LENGTH_LONG).show();
+                        mydrawLayout.closeDrawers();
+                        return false;
+                    }
+                    String mess = "IN-ChildClickList";
+                    //Log.d(mess,"groupPosition:"+groupPosition+" childPosition:"+childPosition);
+                    String option = String.valueOf(groupPosition) + String.valueOf(childPosition);
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-            // TextView textViewApplName;
-             //=(TextView)findViewById(R.id.TextViewApplName);
+                    // TextView textViewApplName;
+                    //=(TextView)findViewById(R.id.TextViewApplName);
   /*
                 if(MainActivity.ENROL_GIRL)
                     textViewApplName.setText("Enter Name of the Girl");
@@ -244,147 +258,143 @@ public class MainActivity extends AppCompatActivity  {
                 else if (MainActivity.ENROL_CHILD)
                     textViewApplName.setText("Enter Name of the Child");*/
 
-                switch (option)
-                {
-                    case ("10"):
-                        ENROL_GIRL=true;
-                        ENROL_DELL=false;
-                        ENROL_CHILD=false;
-                        ENROL_ANTE=false;
+                    switch (option) {
+                        case ("10"):
+                            ENROL_GIRL = true;
+                            ENROL_DELL = false;
+                            ENROL_CHILD = false;
+                            ENROL_ANTE = false;
 
-                        //Log.d(mess,"ENROLMENT FOR GIRL");
-                       // ApplicationName.ApplicantName.setText("Enter Name of the Girl");
-                        if(!applicationName.ApplName.equals("")) {
-                            baseFragment=new BaseFragment();
-                            fragmentTransaction.replace(R.id.Frame1, baseFragment);
-                        }
-                        else {
+                            //Log.d(mess,"ENROLMENT FOR GIRL");
+                            // ApplicationName.ApplicantName.setText("Enter Name of the Girl");
+                            if (!applicationName.ApplName.equals("")) {
+                                baseFragment = new BaseFragment();
+                                fragmentTransaction.replace(R.id.Frame1, baseFragment);
+                            } else {
 
-                            applicationName = new ApplicationName();
-                            fragmentTransaction.replace(R.id.Frame1, applicationName);
+                                applicationName = new ApplicationName();
+                                fragmentTransaction.replace(R.id.Frame1, applicationName);
 
-                        }
+                            }
 
-                        fragmentTransaction.addToBackStack(null);
-                        fragmentTransaction.commit();
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
 
-                      //  textViewApplName=(TextView)findViewById(R.id.TextViewApplName);
-                       // textViewApplName.setText("Enter Name of the Girl");
+                            //  textViewApplName=(TextView)findViewById(R.id.TextViewApplName);
+                            // textViewApplName.setText("Enter Name of the Girl");
 
-                        mydrawLayout.closeDrawers();
-                        //menuItem.setChecked(true);
-                        return true;
+                            mydrawLayout.closeDrawers();
+                            //menuItem.setChecked(true);
+                            return true;
 
-                    case ("11"):
-                        ENROL_GIRL=false;
-                        ENROL_ANTE=true;
-                        ENROL_DELL=false;
-                        ENROL_CHILD=false;
+                        case ("11"):
+                            ENROL_GIRL = false;
+                            ENROL_ANTE = true;
+                            ENROL_DELL = false;
+                            ENROL_CHILD = false;
 
-                        //Log.d(mess,"ENROLMENT FOR Antenatal Woman");
-                        // ApplicationName.ApplicantName.setText("Enter Name of the Girl");
-                        if(!anteApplicant.ApplName.equals("")) {
-                            baseFragment=new BaseFragment();
-                            fragmentTransaction.replace(R.id.Frame1, baseFragment);
-                        }
-                        else {
+                            //Log.d(mess,"ENROLMENT FOR Antenatal Woman");
+                            // ApplicationName.ApplicantName.setText("Enter Name of the Girl");
+                            if (!anteApplicant.ApplName.equals("")) {
+                                baseFragment = new BaseFragment();
+                                fragmentTransaction.replace(R.id.Frame1, baseFragment);
+                            } else {
 
-                            anteApplicant = new ApplicationName();
-                            fragmentTransaction.replace(R.id.Frame1, anteApplicant);
+                                anteApplicant = new ApplicationName();
+                                fragmentTransaction.replace(R.id.Frame1, anteApplicant);
 
-                        }
+                            }
 
-                        fragmentTransaction.addToBackStack(null);
-                        fragmentTransaction.commit();
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
 
-                        //  textViewApplName=(TextView)findViewById(R.id.TextViewApplName);
-                        // textViewApplName.setText("Enter Name of the Girl");
+                            //  textViewApplName=(TextView)findViewById(R.id.TextViewApplName);
+                            // textViewApplName.setText("Enter Name of the Girl");
 
-                        mydrawLayout.closeDrawers();
-                        //menuItem.setChecked(true);
+                            mydrawLayout.closeDrawers();
+                            //menuItem.setChecked(true);
 
-                        return true;
+                            return true;
 
-                    case ("12"):
-                        ENROL_DELL=true;
-                        ENROL_GIRL=false;
-                        ENROL_CHILD=false;
-                        ENROL_ANTE=false;
+                        case ("12"):
+                            ENROL_DELL = true;
+                            ENROL_GIRL = false;
+                            ENROL_CHILD = false;
+                            ENROL_ANTE = false;
 //                        ApplicationName.ApplicantName.setText("Enter Name of Pregnant Woman");
 
-                        //Log.d(mess,"ENROLMENT FOR PREGNANT");
+                            //Log.d(mess,"ENROLMENT FOR PREGNANT");
 
-                        if(!deliveryApplicant.ApplName.equals("")) {
-                           baseFragment=new BaseFragment();
-                            fragmentTransaction.replace(R.id.Frame1, baseFragment);
+                            if (!deliveryApplicant.ApplName.equals("")) {
+                                baseFragment = new BaseFragment();
+                                fragmentTransaction.replace(R.id.Frame1, baseFragment);
 
-                        }
-                        else
-                        {
-                            deliveryApplicant = new ApplicationName();
-                            fragmentTransaction.replace(R.id.Frame1, deliveryApplicant);
-                       }
+                            } else {
+                                deliveryApplicant = new ApplicationName();
+                                fragmentTransaction.replace(R.id.Frame1, deliveryApplicant);
+                            }
 
-                        fragmentTransaction.addToBackStack(null);
-                        fragmentTransaction.commit();
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
 
-                        mydrawLayout.closeDrawers();
+                            mydrawLayout.closeDrawers();
 
-                        return true;
-                    case ("13"):
-                        ENROL_CHILD=true;
-                        ENROL_GIRL=false;
-                        ENROL_DELL=false;
-                        ENROL_ANTE=false;
+                            return true;
+                        case ("13"):
+                            ENROL_CHILD = true;
+                            ENROL_GIRL = false;
+                            ENROL_DELL = false;
+                            ENROL_ANTE = false;
 
-                       // ApplicationName.ApplicantName.setText("Enter Name of Child");
-                        //ApplicationName.ApplicantName.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                       // textViewApplName.setText("Enter Name of the Child");
+                            // ApplicationName.ApplicantName.setText("Enter Name of Child");
+                            //ApplicationName.ApplicantName.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                            // textViewApplName.setText("Enter Name of the Child");
 
-                        //Log.d(mess,"ENROLMENT FOR CHILD");
+                            //Log.d(mess,"ENROLMENT FOR CHILD");
 
-                        if(!childApplicant.ApplName.equals("")) {
-                            baseFragment=new BaseFragment();
-                            fragmentTransaction.replace(R.id.Frame1, baseFragment);
+                            if (!childApplicant.ApplName.equals("")) {
+                                baseFragment = new BaseFragment();
+                                fragmentTransaction.replace(R.id.Frame1, baseFragment);
 
 
-                        }
-                        else {
-                            childApplicant = new ApplicationName();
-                            fragmentTransaction.replace(R.id.Frame1, childApplicant);
-                        }
+                            } else {
+                                childApplicant = new ApplicationName();
+                                fragmentTransaction.replace(R.id.Frame1, childApplicant);
+                            }
 
-                        fragmentTransaction.addToBackStack(null);
-                        fragmentTransaction.commit();
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
 
-                        mydrawLayout.closeDrawers();
+                            mydrawLayout.closeDrawers();
 
-                        return true;
-                    case ("14"):
-                        //Log.d(mess,"Pressed Archive Menu");
-                        // Toast.makeText(getApplicationContext(),"ARCHIVE!!!!1",Toast.LENGTH_LONG).show();
+                            return true;
+                        case ("14"):
+                            //Log.d(mess,"Pressed Archive Menu");
+                            // Toast.makeText(getApplicationContext(),"ARCHIVE!!!!1",Toast.LENGTH_LONG).show();
 
-                        fragmentTransaction.replace(R.id.Frame1, new ArchivedData());
-                        fragmentTransaction.addToBackStack(null);
-                        fragmentTransaction.commit();
+                            fragmentTransaction.replace(R.id.Frame1, new ArchivedData());
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
 
-                        mydrawLayout.closeDrawers();
+                            mydrawLayout.closeDrawers();
 
-                        return true;
+                            return true;
 
-                    case ("20"):
-                        //Log.d(mess,"Pressed Profile Menu");
-                        fragmentTransaction.replace(R.id.Frame1, profileAssociate);
-                        fragmentTransaction.addToBackStack(null);
-                        fragmentTransaction.commit();
+                        case ("20"):
+                            //Log.d(mess,"Pressed Profile Menu");
+                            fragmentTransaction.replace(R.id.Frame1, profileAssociate);
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
 
-                        mydrawLayout.closeDrawers();
+                            mydrawLayout.closeDrawers();
 
-                        return true;
+                            return true;
+                    }
+                    return false;
                 }
-                return false;
-            }
-        });
+            });
+
+
 
 
         expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
@@ -407,7 +417,7 @@ public class MainActivity extends AppCompatActivity  {
         //END:----------LOGIC FOR EXPANDABLE SLIDING MENU BAR--------------
 
           //DB=new DataBaseHelper(getBaseContext(),null,null,1);
-             DB=DataBaseHelper.getInstance(getBaseContext());
+             DataBaseHelper DB=DataBaseHelper.getInstance(getBaseContext());
         if(DB.rowPresent())
         {//DB.close();;
             MainActivity.RECEIVED=false;
@@ -417,11 +427,11 @@ public class MainActivity extends AppCompatActivity  {
             registerReceiver(internetChecker,intentFilter);
         }
         //unregisterReceiver(internetChecker);
-         fragmentManager= getSupportFragmentManager();
-         fragmentTransaction=fragmentManager.beginTransaction();
+        FragmentManager fragmentManager= getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
        // fragmentTransaction.add(android.R.id.content,applicationName);
 
-        fragmentTransaction.replace(R.id.Frame1,new HomePage());
+        fragmentTransaction.replace(R.id.Frame1,new EmployeeLogin());
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
 

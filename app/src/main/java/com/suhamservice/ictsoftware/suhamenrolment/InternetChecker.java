@@ -124,7 +124,7 @@ String IDtoDelete;
                         //DataBaseHelper DB=new DataBaseHelper(myContext,null,null,1);
                         DataBaseHelper DB=DataBaseHelper.getInstance(myContext);
 
-                        String EMPID=DB.getEmpRegData()[5];
+                        String EMPID=DB.getEmpRegData()[0];
                         //DB.close();
 
                         if(params[0]=="GIRL")

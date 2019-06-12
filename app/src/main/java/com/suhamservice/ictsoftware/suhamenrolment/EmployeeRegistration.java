@@ -51,11 +51,11 @@ public class EmployeeRegistration extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         String mess="IN-OCV-ER";
         //Log.d(mess,"First Line");
         viewEmpReg = inflater.inflate(R.layout.emp_registration, container, false);
-        buttonSubmit=viewEmpReg.findViewById(R.id.buttonEmpRegSubmit);
+       /* buttonSubmit=viewEmpReg.findViewById(R.id.buttonEmpRegSubmit);
         tableEmpReg=viewEmpReg.findViewById(R.id.TableEmpReg);
         buttonRefresh=viewEmpReg.findViewById(R.id.buttonEmpRegRefresh);
         buttonClear=viewEmpReg.findViewById(R.id.buttonEmpRegClear);
@@ -79,7 +79,7 @@ public class EmployeeRegistration extends Fragment {
           textEmpRegWait.setVisibility(View.VISIBLE);
           return viewEmpReg;
       }*/
-
+/*
       if(!state.equals("EMPTY"))
       {
 
@@ -105,7 +105,7 @@ public class EmployeeRegistration extends Fragment {
       }
 
       REGISTERED=false;
-
+*/
 /*buttonRefresh.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
@@ -117,7 +117,7 @@ public class EmployeeRegistration extends Fragment {
     }
 });*/
 
-        buttonSubmit.setOnClickListener(new View.OnClickListener() {
+      /*  buttonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Log.d("Submit Clicked->","First Line");
@@ -157,7 +157,7 @@ public class EmployeeRegistration extends Fragment {
                             tableEmpReg.setVisibility(View.GONE);
                             textEmpRegWait.setVisibility(View.VISIBLE);
                         }*/
-                }
+            /*    }
             }
         });
 
@@ -169,13 +169,13 @@ public class EmployeeRegistration extends Fragment {
                 editAddress.setText("");
             }
         });
-
+*/
         return viewEmpReg;
 
     }
 
     //----SENDING DATA TO SERVER FOR EMP REG-------------------
-    private class sendAsyncEmpReg extends AsyncTask<String,String,String> {
+   /* private class sendAsyncEmpReg extends AsyncTask<String,String,String> {
         URL url;
         HttpURLConnection conn;
 
@@ -311,11 +311,11 @@ public class EmployeeRegistration extends Fragment {
             }
 
         }
-    }
+    }*/
     //----SENDING DATA TO SERVER FOR EMP REG-------------------
 
     //--------CHECKING EMP PERMIT STATUS FROM SERVER--------------
-    private class checkAsyncPermit extends AsyncTask<String,String,String> {
+  /*  private class checkAsyncPermit extends AsyncTask<String,String,String> {
         URL url;
         HttpURLConnection conn;
 
@@ -437,7 +437,7 @@ public class EmployeeRegistration extends Fragment {
 
 
         }
-    }
+    }*/
     //--------CHECKING EMP PERMIT STATUS FROM SERVER--------------
 }
 
