@@ -42,6 +42,8 @@ import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import static com.suhamservice.ictsoftware.suhamenrolment.EmployeeLogin.EmployeeLocation;
+
 public class MainActivity extends AppCompatActivity  {
     static ExpandableListView expandableListView;
     ExpandableListAdapter expandListAdaptor;
@@ -140,6 +142,7 @@ public class MainActivity extends AppCompatActivity  {
     static boolean ENROL_DELL=false;
     static boolean ENROL_CHILD=false;
     static boolean ENROL_ANTE=false;
+    static boolean ENROL_EMP=false;
     //------VALUES FOR IDENTIFYING WHICH MENU OPTION IS SELECTED--------
 
 
@@ -1135,13 +1138,15 @@ public class MainActivity extends AppCompatActivity  {
                 isEmpty((EditText)findViewById(R.id.editTextDist))
                 ||isEmpty((EditText)findViewById(R.id.editTextPanch))
                 ||isEmpty((EditText)findViewById(R.id.editTextVillage))
-                ||isEmpty((EditText)findViewById(R.id.editTextContact))
+                //||isEmpty((EditText)findViewById(R.id.editTextContact))
                 ||isEmpty((EditText)findViewById(R.id.editTextFed))||((EditText)findViewById(R.id.editTextFedCode)).getError()!=null
-                ||(((EditText)findViewById(R.id.editTextGirlGroup)).isShown()&&isEmpty((EditText)findViewById(R.id.editTextGirlGroup)))
+                //||(((EditText)findViewById(R.id.editTextGirlGroup)).isShown()&&isEmpty((EditText)findViewById(R.id.editTextGirlGroup)))
         )
         {
             //Log.d("checkLocation","Something-empty");
             Toast.makeText(getBaseContext(),"Please Enter Correct Details",Toast.LENGTH_LONG).show();
+            if(ENROL_EMP)
+            {  EmployeeLocation.SAVELocation=false;return;}
             if(ENROL_GIRL)
             {  locationFragment.SAVELocation=false;return;}
             if(ENROL_DELL)
@@ -1151,7 +1156,34 @@ public class MainActivity extends AppCompatActivity  {
             if(ENROL_ANTE)
             { anteLocation.SAVELocation=false;return;}
         }
+
         else {
+            if(ENROL_EMP)
+            {
+                EmployeeLocation.SAVELocation = true;
+                //------SAVING DATA FROM EDITTEXT INTO FIXED VARIABLES---------
+
+                EmployeeLocation.STATE=((EditText)findViewById(R.id.editTextState)).getText().toString();
+                EmployeeLocation.DISTRICT=((EditText)findViewById(R.id.editTextDist)).getText().toString();
+                EmployeeLocation.FED=((EditText)findViewById(R.id.editTextFed)).getText().toString();
+                EmployeeLocation.FEDCODE=((EditText)findViewById(R.id.editTextFedCode)).getText().toString();
+                EmployeeLocation.PANCH=((EditText)findViewById(R.id.editTextPanch)).getText().toString();
+                EmployeeLocation.VILLAGE=((EditText)findViewById(R.id.editTextVillage)).getText().toString();
+                DataBaseHelper DB=DataBaseHelper.getInstance(getBaseContext());
+                DB.setEmpLocation(EmployeeLocation);
+
+                ENROL_EMP=false;
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.Frame1, new MainMenuFragment());
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+
+
+            }
+
+
+
             if(ENROL_GIRL)
             {
                 locationFragment.SAVELocation = true;
@@ -1224,12 +1256,12 @@ public class MainActivity extends AppCompatActivity  {
             }
 
 
-            Toast.makeText(getBaseContext(), "Location Details Saved!", Toast.LENGTH_LONG).show();
+            /*Toast.makeText(getBaseContext(), "Location Details Saved!", Toast.LENGTH_LONG).show();
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.Frame1, baseFragment);
             fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
+            fragmentTransaction.commit();*/
         }
     }
 

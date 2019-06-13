@@ -87,6 +87,22 @@ TextWatcher TWfedFed;
         Village=locationView.findViewById(R.id.editTextVillage);
         editContact=locationView.findViewById(R.id.editTextContact);
 
+        if(MainActivity.ENROL_EMP)
+        {
+            heading.setText("Enter Your Location Details" + applicationName.ApplName);
+            DataBaseHelper DB=DataBaseHelper.getInstance(getContext());
+            String locDetails[]=DB.getEmpLocation(DB.getEmpRegData()[0]);
+            if(!locDetails[0].equals("-1"))
+            {
+                FedCode.setText(locDetails[0]);
+                state.setText(locDetails[1]);
+                district.setText(locDetails[2]);
+                federation.setText(locDetails[3]);
+                Panch.setText(locDetails[4]);
+                Village.setText(locDetails[5]);
+            }
+        }
+
 
         if(MainActivity.ENROL_GIRL){
 

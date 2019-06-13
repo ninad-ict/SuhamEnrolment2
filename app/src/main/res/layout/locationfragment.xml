@@ -38,6 +38,7 @@
                 android:layout_below="@id/textViewHeadingL"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
+                android:visibility="gone"
                 android:weightSum="3">
 
 
@@ -75,6 +76,7 @@
                 android:layout_marginBottom="20sp"
                 android:background="@drawable/topless_border"
                 android:orientation="vertical"
+                android:visibility="gone"
                 android:padding="10dp">
 
                 <TableRow

@@ -95,6 +95,14 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_NAME_TEST = "TESTME";
     //-----------------------TABLE FOR CONTACT----------------------------
 
+
+    //-----------------------TABLE FOR CONTACT----------------------------
+    private static final String TABLE_EMP_LOCATION = "EMPLOCATION";
+    //-----------------------TABLE FOR CONTACT----------------------------
+
+
+
+
     //---------COLUMNS FOR TRANSITION-----------
     private static final String COL_TEST_NAME = "NAME";
     private static final String COL_TEST_ID = "ID";
@@ -312,13 +320,21 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
 
         //------CREATE TABLE LOCATION----
 
-        //------CREATE TABLE PERSONAL----
+
+        //---------CREATE TABLE FOR EMP LOCATION----------
+        CREATE_TABLE = "CREATE TABLE " + TABLE_EMP_LOCATION + " (" + COL_L_FEDCODE + " TEXT,"+ COL_L_STATE + " TEXT,"+ COL_L_DISTRICT + " TEXT," + COL_L_FED + " TEXT," + COL_L_PANCH + " TEXT," + COL_L_VILLAGE + " TEXT," + COL_ID + " TEXT NOT NULL);";
+        db.execSQL(CREATE_TABLE);
+        //---------CREATE TABLE FOR EMP LOCATION----------
+
+
+
+        //------CREATE TABLE PERSONAL-------------
 
         CREATE_TABLE = "CREATE TABLE " + TABLE_NAME_PERSONAL+ " (" + COL_P_NAME + " TEXT," + COL_P_MOTHER + " TEXT," +COL_P_M_MEMBER+" TEXT," + COL_P_FATHER + " TEXT,"+COL_P_F_MEMBER+" TEXT," + COL_P_DOB + " TEXT,"+ COL_P_MARRYEAR + " TEXT," +COL_ID+" TEXT NOT NULL);";
         db.execSQL(CREATE_TABLE);
        // Log.d("ON-CREATE","Create TABLE_PERSONAL QUERY->"+CREATE_TABLE);
 
-        //------CREATE TABLE PERSONAL----
+        //------CREATE TABLE PERSONAL--------------
 
         //------CREATE TABLE HEALTH----
 
@@ -450,6 +466,11 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
             String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME_EMPREG + " (" + COL_EMP_ID + " TEXT," + COL_EMP_NAME + " TEXT,"+ COL_EMP_PIN + " TEXT,"+ COL_EMP_MOBILE + " TEXT,"+ COL_EMP_ADDRESS + " TEXT);";
             db.execSQL(CREATE_TABLE);
             //------CREATE NEW  TABLE EMPREG------
+
+            //---------CREATE TABLE FOR EMP LOCATION----------
+            CREATE_TABLE = "CREATE TABLE " + TABLE_EMP_LOCATION + " (" + COL_L_FEDCODE + " TEXT,"+ COL_L_STATE + " TEXT,"+ COL_L_DISTRICT + " TEXT," + COL_L_FED + " TEXT," + COL_L_PANCH + " TEXT," + COL_L_VILLAGE + " TEXT," + COL_ID + " TEXT NOT NULL);";
+            db.execSQL(CREATE_TABLE);
+            //---------CREATE TABLE FOR EMP LOCATION----------
         }
 
 
@@ -611,10 +632,52 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
     }
 
 
+    public String[] getEmpLocation(String id)
+    {
+        Cursor cursor=null;
+        SQLiteDatabase db=this.getReadableDatabase();
+        String query="SELECT * FROM "+TABLE_EMP_LOCATION+" WHERE "+COL_ID+"= ?";
+        cursor = db.rawQuery(query, new String[]{id});
+
+        if (cursor.getCount() == 0) {
+            // log.d(mess,"No rows selected");
+            return new String[]{"-1"};
+        } else {
+            cursor.moveToNext();
+
+            String[] EMPDATA = new String[6];
+
+            EMPDATA[0] = cursor.getString(0);
+            EMPDATA[1] = cursor.getString(1);
+            EMPDATA[2] = cursor.getString(2);
+            EMPDATA[3] = cursor.getString(3);
+            EMPDATA[4] = cursor.getString(4);
+            EMPDATA[5] = cursor.getString(5);
+            return EMPDATA;
+        }
+
+
+    }
+
+    public void  setEmpLocation(LocationFragment locationFragment)
+    {
+        SQLiteDatabase db=this.getReadableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL_L_VILLAGE,locationFragment.VILLAGE);
+        contentValues.put(COL_L_STATE,locationFragment.STATE);
+        contentValues.put(COL_L_DISTRICT,locationFragment.DISTRICT);
+        contentValues.put(COL_L_FED,locationFragment.FED);
+        contentValues.put(COL_L_FEDCODE, locationFragment.FEDCODE);
+        contentValues.put(COL_L_PANCH, locationFragment.PANCH);
+        contentValues.put(COL_ID,getEmpRegData()[0]);
+
+        db.insert(TABLE_EMP_LOCATION,null,contentValues);
+    }
 
     public void uploadState(String regions)
     {
         String mess="Inside upload STATE";
+        Log.d(mess,"regions"+regions);
         // log.d(mess,regions);
        String[] Line= regions.split("-");
         // log.d(mess,"Line.Length->"+Line.length);

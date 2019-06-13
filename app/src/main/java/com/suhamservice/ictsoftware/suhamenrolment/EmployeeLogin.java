@@ -46,6 +46,7 @@ public class EmployeeLogin extends Fragment {
     Button buttonLogin;
     static String LOGNAME="";
     static String LOGPASS="";
+    static LocationFragment EmployeeLocation=new LocationFragment();
 
     static Boolean LOGIN=false;
     JSONObject jsonEmpData=null;
@@ -99,13 +100,19 @@ public class EmployeeLogin extends Fragment {
                 else
                 {
                     LOGIN=true;
+                    MainActivity.ENROL_EMP=true;
+                    MainActivity.ENROL_GIRL=false;
+                    MainActivity.ENROL_ANTE=false;
+                    MainActivity.ENROL_DELL=false;
+                    MainActivity.ENROL_CHILD=false;
+
                     LOGNAME=editLogin.getText().toString();
                     LOGPASS=editPassword.getText().toString();
 
                     //expandableListView.setEnabled(true);
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.Frame1, new HomePage());
+                    fragmentTransaction.replace(R.id.Frame1, EmployeeLocation);
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
                 }
@@ -258,11 +265,16 @@ public class EmployeeLogin extends Fragment {
                             jsonEmpData.get("ADDRESS").toString()
                     );
                     LOGIN=true;
+                    MainActivity.ENROL_EMP=true;
+                    MainActivity.ENROL_GIRL=false;
+                    MainActivity.ENROL_ANTE=false;
+                    MainActivity.ENROL_DELL=false;
+                    MainActivity.ENROL_CHILD=false;
                     LOGNAME=editLogin.getText().toString();
                     LOGPASS=editPassword.getText().toString();
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.Frame1, new HomePage());
+                    fragmentTransaction.replace(R.id.Frame1, EmployeeLocation);
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
                 }
