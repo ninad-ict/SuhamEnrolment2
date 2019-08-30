@@ -68,7 +68,6 @@ public class EducationWorkFragment extends Fragment {
                         new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.spinnerEntryHE));
                 ArrayAdapter<String> arrayAdapterOcc =
                         new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.spinnerEntryOcc));
-
                 spinEdu.setSelection(arrayAdapterHE.getPosition(applicationName.jsonObject.get("EDUCATION").toString()));
                 spinWork.setSelection(arrayAdapterOcc.getPosition(applicationName.jsonObject.get("WORK").toString()));
 

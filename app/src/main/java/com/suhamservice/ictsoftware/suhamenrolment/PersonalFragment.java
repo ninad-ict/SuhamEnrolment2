@@ -31,6 +31,11 @@ public class PersonalFragment extends Fragment {
     RadioButton buttonNO;
     RadioButton buttonYES;
 
+    EditText editContact;
+    RadioButton radioSchool;
+    RadioButton radioAdlGrp;
+    EditText EditGirlGroup;
+
 
     TextView heading;
     static int YOB=0;
@@ -61,6 +66,7 @@ public class PersonalFragment extends Fragment {
         v=inflater.inflate(R.layout.personalfragment,container,false);
 
 
+
         //TableLayout tablePersonal=(TableLayout)v.findViewById(R.id.TablePersonal);
         //TableRow rowMother=(TableRow)v.findViewById(R.id.rowMother);
        // tablePersonal.removeView(rowMother);
@@ -87,6 +93,26 @@ public class PersonalFragment extends Fragment {
             buttonYES=v.findViewById(R.id.radioButtonYes);
             spinMom=v.findViewById(R.id.spinnerMomMember);
             spinDad=v.findViewById(R.id.spinnerDadMember);
+            editContact=v.findViewById(R.id.editTextContact);
+
+        radioSchool=v.findViewById(R.id.radioButtonSchool);
+        radioAdlGrp=v.findViewById(R.id.radioButtonAdlGrp);
+
+        EditGirlGroup=v.findViewById(R.id.editTextGirlGroup);
+        radioSchool.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditGirlGroup.setHint("Enter School Name");
+            }
+        });
+
+        radioAdlGrp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditGirlGroup.setHint("Enter Group Name");
+            }
+        });
+
 
         if (applicationName.ID_ENTERED) {
             try {
@@ -95,11 +121,15 @@ public class PersonalFragment extends Fragment {
 
                 editMother.setText(applicationName.jsonObject.get("MOTHER").toString());
                 editFather.setText(applicationName.jsonObject.get("FATHER").toString());
+                editContact.setText(applicationName.jsonObject.get("CONTACT").toString());
 
                 ArrayAdapter<String> arrayAdapter =
-                            new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.spinnerMembership));
+                            new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.spinnerManMembership));
 
                 spinDad.setSelection(arrayAdapter.getPosition(applicationName.jsonObject.get("F_MEMBER").toString()));
+                arrayAdapter =
+                        new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.spinnerWomanMembership));
+
                 spinMom.setSelection(arrayAdapter.getPosition(applicationName.jsonObject.get("M_MEMBER").toString()));
 
 
@@ -117,8 +147,12 @@ public class PersonalFragment extends Fragment {
                     editMarriage.setText(applicationName.jsonObject.get("MARRIAGE_YEAR").toString());
                 }
 
+                EditGirlGroup.setText(applicationName.jsonObject.get("GROUPNAME").toString());
 
-
+                if(applicationName.jsonObject.get("GROUPNAME").equals("AdlGroup"))
+                    radioAdlGrp.setChecked(true);
+                else
+                    radioSchool.setChecked(true);
             }
 
             catch(JSONException j)

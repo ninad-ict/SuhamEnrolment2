@@ -41,6 +41,7 @@
 
 
         <android.support.v7.widget.CardView
+            android:id="@+id/CardGirl"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_columnWeight="1"
@@ -81,6 +82,7 @@
         <!-- COLUMN 2  -->
 
         <android.support.v7.widget.CardView
+            android:id="@+id/CardPregnant"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_columnWeight="1"
@@ -124,6 +126,7 @@
         <!-- COLUMN 1  -->
 
         <android.support.v7.widget.CardView
+            android:id="@+id/CardMother"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_columnWeight="1"
@@ -164,6 +167,7 @@
         <!-- COLUMN 2  -->
 
         <android.support.v7.widget.CardView
+            android:id="@+id/CardChild"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_columnWeight="1"

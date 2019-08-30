@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -70,8 +69,8 @@ public class HealthFragment extends Fragment {
                 editHeight.setText(applicationName.jsonObject.get("HEIGHT").toString());
                 editWeight.setText(applicationName.jsonObject.get("WEIGHT").toString());
 
-                ArrayAdapter<String> arrayAdapter =
-                        new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.spinnerMembership));
+               // ArrayAdapter<String> arrayAdapter =
+                 //       new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.spinnerMembership));
 
 
                 if(applicationName.jsonObject.get("YEAR_PUBERTY").toString().equals("NULL"))

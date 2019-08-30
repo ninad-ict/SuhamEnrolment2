@@ -49,7 +49,6 @@ public class PreDelivery extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-
         viewPreD=inflater.inflate(R.layout.predelivery,container,false);
 
         heading=((TextView)viewPreD.findViewById(R.id.textViewHeadingPD));
@@ -87,6 +86,8 @@ public class PreDelivery extends Fragment {
 
 
         editDD.addTextChangedListener(new GenericTextWatcher(editDD));
+        editLMP.addTextChangedListener(new GenericTextWatcher(editLMP));
+        editPHC.addTextChangedListener(new GenericTextWatcher(editPHC));
 
         return viewPreD;
     }

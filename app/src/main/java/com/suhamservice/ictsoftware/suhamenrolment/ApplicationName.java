@@ -9,16 +9,23 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.SwitchCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -62,8 +69,17 @@ public class ApplicationName extends Fragment {
     EditText editIDDob;
     EditText editIDFedCode;
 
+    static final int UPDATE_DAYS=7;
+
+    EditText editPanch;
+    EditText editVillage;
+
+    Spinner spinPanch;
+    Spinner spinVillage;
+
     TextView textviewForget;
 
+    ProgressBar id_progress;
     ImageButton ArrowProceed;
     getAsyncInternetCheck asyncInternetCheck;
 
@@ -72,7 +88,6 @@ public class ApplicationName extends Fragment {
         super.onCreate(savedInstanceState);
         //Log.d("IN onCreate()","Inside onCreate() iof ApplName");
         //ApplicantName=appView.findViewById(R.id.TextViewApplName);
-
     }
 
     @Nullable
@@ -90,9 +105,70 @@ public class ApplicationName extends Fragment {
          editIDDob=appView.findViewById(R.id.EditTextIdDob);
          editIDFedCode=appView.findViewById(R.id.EditTextIdFedCode);
 
+         editPanch=appView.findViewById(R.id.editTextPanch);
+         editVillage=appView.findViewById(R.id.editTextVillage);
+         spinPanch=appView.findViewById(R.id.spinPanch);
+         spinVillage=appView.findViewById(R.id.spinVillage);
+
+         id_progress=appView.findViewById(R.id.progress_circular);
+
+
+         /*if(!LocationFragment.commonPanch.equals(""))
+             spinPanch.setSelection(get).setText(LocationFragment.commonPanch);
+        if(!LocationFragment.commonVillage.equals(""))
+            editVillage.setText(LocationFragment.commonVillage);*/
+
+
         textviewForget=appView.findViewById(R.id.TextViewForgetID);
         asyncInternetCheck=new getAsyncInternetCheck();
         asyncInternetCheck.execute("Hi");
+
+        DataBaseHelper DB=DataBaseHelper.getInstance(getContext());
+        String locDetails[]=DB.getEmpLocation(DB.getEmpRegData()[0]);
+        String[] PANCH=DB.getPanch(locDetails[0]);
+            ArrayAdapter<String> arrayPanch =
+                    new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item,PANCH);
+            //spinPanch.setBackgroundColor(getResources().getColor(R.color.Lightskyblue));
+            spinPanch.setAdapter(arrayPanch);
+        if(!LocationFragment.commonPanch.equals(""))
+            spinPanch.setSelection(arrayPanch.getPosition(LocationFragment.commonPanch));
+
+
+        spinPanch.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("IN-SPIN-PANCH","current selection->"+spinPanch.getItemAtPosition(position));
+                DataBaseHelper DB=DataBaseHelper.getInstance(getContext());
+                String[] VILLAGE=DB.getVillage(spinPanch.getItemAtPosition(position).toString());
+                ArrayAdapter<String> arrayVillage =
+                        new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item,VILLAGE);
+                spinVillage.setAdapter(arrayVillage);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                if(!LocationFragment.commonVillage.equals(""))
+                {
+                    ArrayAdapter<String> arrayVillage =
+                            new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item,new String[]{LocationFragment.commonVillage,"AAA"});
+                    spinVillage.setAdapter(arrayVillage);
+                    spinVillage.setSelection(arrayVillage.getPosition(LocationFragment.commonVillage));
+                }
+
+            }
+        });
+
+        if(!LocationFragment.commonVillage.equals(""))
+        {
+            ArrayAdapter<String> arrayVillage =
+                    new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item,new String[]{LocationFragment.commonVillage,"AAA"});
+            spinVillage.setAdapter(arrayVillage);
+            spinVillage.setSelection(arrayVillage.getPosition(LocationFragment.commonVillage));
+        }
+
+
+
+
 
 
         if(MainActivity.ENROL_GIRL) {
@@ -327,41 +403,19 @@ public class ApplicationName extends Fragment {
     });
 
 //}
-/*ProceedButton.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        if(ENROL_GIRL)
-        {
 
-        }
-        if(ENROL_ANTE)
-        {
-
-        }
-        if(ENROL_DELL)
-        {
-
-        }
-        if(ENROL_CHILD)
-        {
-
-        }
-    }
-});*/
     return appView;
     }
+
+
+
+
+
 
     //-----------Async Task for checking Internet Connection---------------
     private class getAsyncInternetCheck extends AsyncTask<String,String,String> {
         URL url;
         HttpURLConnection conn;
-
-        /*private final Context myContext;
-
-        public getAsyncUID(Context context) {
-            super();
-            this.myContext = context;
-        }*/
 
         URL uri;
         HttpURLConnection connection;
@@ -401,13 +455,6 @@ public class ApplicationName extends Fragment {
     private class getAsyncUID extends AsyncTask<String,String,String> {
         URL url;
         HttpURLConnection conn;
-
-        /*private final Context myContext;
-
-        public getAsyncUID(Context context) {
-            super();
-            this.myContext = context;
-        }*/
 
         URL uri;
         HttpURLConnection connection;
@@ -476,6 +523,7 @@ public class ApplicationName extends Fragment {
                                 BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
                                 StringBuilder sb = new StringBuilder();
                                 String line;
+                               // publishProgress(null);
                                 while ((line = br.readLine()) != null) {
                                     sb.append(line);
                                 }
@@ -511,29 +559,33 @@ public class ApplicationName extends Fragment {
         }
 
         @Override
+        protected void onProgressUpdate(String... values) {
+            super.onProgressUpdate(values);
+            Log.d("Reached-OPU","First-Line");
+            id_progress.setVisibility(View.VISIBLE);
+
+        }
+
+        @Override
         protected void onPostExecute(String message) {
             //mConsumer.accept(internet);
-            String mess="POST-EXECUTE";
+            String mess="POST-EXECUTE-checkUID";
+            id_progress.setVisibility(View.GONE);
+            Boolean BADTIME=false;
+            Boolean BADEMP=false;
             //   Log.d(mess,"Entered onPostExecute");
 
             if(!message.equals("FALSE"))
             {
                 //   Log.d(mess,"UID is Present");
-
-                ((ImageButton)appView.findViewById(R.id.buttonArrowProceed)).setVisibility(View.VISIBLE);
-
-                // Drawable myIcon= ContextCompat.getDrawable(getActivity(),R.drawable.tick_green);
-               // Drawable myIcon= ContextCompat.getDrawable(getActivity(),R.mipmap.ic_shortcut_arrow_forward);
-              // myIcon.setBounds(0, 0, myIcon.getIntrinsicWidth(), myIcon.getIntrinsicHeight());
-               // ApplicantName.setError("ID Found!",myIcon);
-                ProceedButton.setEnabled(true);
-                //   Log.d(mess,message);
                 try {
-
                     jsonObject = new JSONObject(message);
-                    //     Log.d(mess,"json[STATE]->"+jsonObject.get("STATE").toString());
-                    //obj.get("name").toString();
-                    //anteLocation.FEDCODE=jsonObject.get("FED_CODE").toString();
+                    Log.d(mess,jsonObject.getString("TIME_STAMP"));
+                    //LocalDate THEN=LocalDate.parse(jsonObject.getString("TIME_STAMP").toString());
+                    DateTime THEN=DateTime.parse(jsonObject.getString("TIME_STAMP").toString());
+                    DateTime NOW=new DateTime();
+                    Days daysGap= Days.daysBetween(THEN,NOW);
+                    Log.d(mess,"Days->"+daysGap.getDays());
 
                     switch (jsonObject.get("ID").toString().charAt(4))
                     {
@@ -550,13 +602,55 @@ public class ApplicationName extends Fragment {
                             ID_WHO="CHILD";
                             break;
                     }
+                    DataBaseHelper DB=DataBaseHelper.getInstance(getContext());
+                    String EMPID=DB.getEmpRegData()[0];
+
+                    if(daysGap.getDays()>UPDATE_DAYS||(!jsonObject.get("EMPID").toString().equals(EMPID)))
+                    {
+                        if(ENROL_GIRL&&ID_WHO.equals("GIRL"))
+                            BADTIME=true;
+                        if(ENROL_ANTE&&ID_WHO.equals("PREG"))
+                            BADTIME=true;
+                        if(ENROL_DELL&&ID_WHO.equals("MOTH"))
+                            BADTIME=true;
+                        if(ENROL_CHILD&&ID_WHO.equals("CHILD"))
+                            BADTIME=true;
+                    }
+                }catch (JSONException j)
+                {
+                    j.printStackTrace();
+                }
+
+                if(!BADTIME)
+                ((ImageButton)appView.findViewById(R.id.buttonArrowProceed)).setVisibility(View.VISIBLE);
+                else
+                {
+                    ApplicantName.setError("This ID Cannot be Updated!");
+                    // Toast.makeText(getApplicationContext(), "NET IS ABSENT", Toast.LENGTH_LONG).show();
+                    ArrowProceed.setVisibility(View.GONE);
+                }
+
+                // Drawable myIcon= ContextCompat.getDrawable(getActivity(),R.drawable.tick_green);
+               // Drawable myIcon= ContextCompat.getDrawable(getActivity(),R.mipmap.ic_shortcut_arrow_forward);
+              // myIcon.setBounds(0, 0, myIcon.getIntrinsicWidth(), myIcon.getIntrinsicHeight());
+               // ApplicantName.setError("ID Found!",myIcon);
+                //ProceedButton.setEnabled(true);
+                //   Log.d(mess,message);
+               /* try {
+
+
+                    //     Log.d(mess,"json[STATE]->"+jsonObject.get("STATE").toString());
+                    //obj.get("name").toString();
+                    //anteLocation.FEDCODE=jsonObject.get("FED_CODE").toString();
+
+
                     //   Log.d(mess,"charAt(4)->"+jsonObject.get("ID").toString().charAt(4));
                     //    Log.d(mess,"fedcode->"+jsonObject.get("FED_CODE").toString());
                 }
                 catch (JSONException j)
                 {
                     j.printStackTrace();
-                }
+                }*/
 
                // JSONObject obj = (JSONObject) JSONValue.parse(json);
 
@@ -569,7 +663,7 @@ public class ApplicationName extends Fragment {
                 ApplicantName.setError("Please Enter a Valid ID");
                 // Toast.makeText(getApplicationContext(), "NET IS ABSENT", Toast.LENGTH_LONG).show();
                 ProceedButton.setEnabled(false);
-                ArrowProceed.setVisibility(View.INVISIBLE);
+                ArrowProceed.setVisibility(View.GONE);
 
             }
 

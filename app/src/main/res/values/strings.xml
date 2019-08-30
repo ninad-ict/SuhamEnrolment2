@@ -65,10 +65,19 @@ SUHAM stands for Sustainable Healthcare Advancement.It has been incorporated as 
         <item>Post-Graduate</item>
     </string-array>
 
-    <string-array name="spinnerMembership">
+    <string-array name="spinnerWomanMembership">
         <item>Select Applicable Programme</item>
         <item>None</item>
         <item>Kalanjiam</item>
+        <item>Vayalagam</item>
+        <item>CALL</item>
+        <item>Rainfed Farming</item>
+        <item>SUHAM</item>
+    </string-array>
+
+    <string-array name="spinnerManMembership">
+        <item>Select Applicable Programme</item>
+        <item>None</item>
         <item>Vayalagam</item>
         <item>CALL</item>
         <item>Rainfed Farming</item>
@@ -102,7 +111,7 @@ SUHAM stands for Sustainable Healthcare Advancement.It has been incorporated as 
         <item>pune7</item>
     </string-array>
     <string name="title_dynamic_feature">SUHAM</string>
-
+<string name="enrol_heading">Enter Details For </string>
 
     <string name="action_settings">Settings</string>
     <string name="action_refresh">Settings</string>

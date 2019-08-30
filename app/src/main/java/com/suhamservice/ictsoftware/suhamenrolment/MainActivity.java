@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.IntentFilter;
 //import android.support.v4.app.Fragment;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -14,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.SwitchCompat;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -31,9 +33,12 @@ import android.support.v7.widget.Toolbar;
 import org.json.JSONException;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalDate;
@@ -53,8 +58,6 @@ public class MainActivity extends AppCompatActivity  {
     LocalDate birthdate = null;
     //static Boolean LOGIN=false;
 
-
-
     BaseFragment baseFragment=new BaseFragment();
     //BaseFragment baseFragmentPreg=new BaseFragment();
     //BaseFragment baseFragmentChild=new BaseFragment();
@@ -73,7 +76,7 @@ public class MainActivity extends AppCompatActivity  {
 
     static EmployeeRegistration employeeRegistration=new EmployeeRegistration();
 
-
+static GirlFragment girlFragment=new GirlFragment();
 
 
     //------DECLARATION OBJECTS FOR POST-DELIVERY--------
@@ -197,8 +200,6 @@ public class MainActivity extends AppCompatActivity  {
         header=getLayoutInflater().inflate(R.layout.drawerheader, null);
         expandableListView.addHeaderView(header);
 
-
-
             expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
                 @Override
                 public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
@@ -215,7 +216,7 @@ public class MainActivity extends AppCompatActivity  {
                     switch (groupPosition) {
                         case 0:
                             //Log.d(mess,"Pressed Home Menu");
-                            fragmentTransaction.replace(R.id.Frame1, new HomePage());
+                            fragmentTransaction.replace(R.id.Frame1, new MainMenuFragment());
                             fragmentTransaction.addToBackStack(null);
                             fragmentTransaction.commit();
 
@@ -227,6 +228,26 @@ public class MainActivity extends AppCompatActivity  {
                             fragmentTransaction.replace(R.id.Frame1, new ContactUs());
                             fragmentTransaction.addToBackStack(null);
                             fragmentTransaction.commit();
+                            mydrawLayout.closeDrawers();
+
+                            return true;
+
+                        case 4:
+                            //Log.d(mess,"Pressed Home Menu");
+                            fragmentTransaction.replace(R.id.Frame1, new HomePage());
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
+
+                            mydrawLayout.closeDrawers();
+
+                            return true;
+
+                        case 5:
+                            //Log.d(mess,"Pressed Home Menu");
+                            fragmentTransaction.replace(R.id.Frame1, new EmployeeLogin());
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
+
                             mydrawLayout.closeDrawers();
 
                             return true;
@@ -263,6 +284,7 @@ public class MainActivity extends AppCompatActivity  {
 
                     switch (option) {
                         case ("10"):
+                            ENROL_EMP=false;
                             ENROL_GIRL = true;
                             ENROL_DELL = false;
                             ENROL_CHILD = false;
@@ -272,6 +294,7 @@ public class MainActivity extends AppCompatActivity  {
                             // ApplicationName.ApplicantName.setText("Enter Name of the Girl");
                             if (!applicationName.ApplName.equals("")) {
                                 baseFragment = new BaseFragment();
+                                //girlFragment=new GirlFragment();
                                 fragmentTransaction.replace(R.id.Frame1, baseFragment);
                             } else {
 
@@ -291,6 +314,7 @@ public class MainActivity extends AppCompatActivity  {
                             return true;
 
                         case ("11"):
+                            ENROL_EMP=false;
                             ENROL_GIRL = false;
                             ENROL_ANTE = true;
                             ENROL_DELL = false;
@@ -320,6 +344,7 @@ public class MainActivity extends AppCompatActivity  {
                             return true;
 
                         case ("12"):
+                            ENROL_EMP=false;
                             ENROL_DELL = true;
                             ENROL_GIRL = false;
                             ENROL_CHILD = false;
@@ -344,6 +369,7 @@ public class MainActivity extends AppCompatActivity  {
 
                             return true;
                         case ("13"):
+                            ENROL_EMP=false;
                             ENROL_CHILD = true;
                             ENROL_GIRL = false;
                             ENROL_DELL = false;
@@ -386,6 +412,22 @@ public class MainActivity extends AppCompatActivity  {
                         case ("20"):
                             //Log.d(mess,"Pressed Profile Menu");
                             fragmentTransaction.replace(R.id.Frame1, profileAssociate);
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
+
+                            mydrawLayout.closeDrawers();
+
+                            return true;
+
+                        case ("21"):
+                            //Log.d(mess,"Pressed Profile Menu");
+                            ENROL_EMP=true;
+                            ENROL_GIRL=false;
+                            ENROL_ANTE=false;
+                            ENROL_DELL=false;
+                            ENROL_CHILD=false;
+
+                            fragmentTransaction.replace(R.id.Frame1, EmployeeLocation);
                             fragmentTransaction.addToBackStack(null);
                             fragmentTransaction.commit();
 
@@ -444,9 +486,7 @@ public class MainActivity extends AppCompatActivity  {
         //Log.d("MESS","ggg");
 //PersonalImage.setVisibility(View.INVISIBLE);
     //new getAsyncRegions().execute();
-        new getAsyncState().execute();
-        new getAsyncDistrict().execute();
-        new getAsyncFed().execute();
+
     }
 
 
@@ -495,245 +535,49 @@ public class MainActivity extends AppCompatActivity  {
         return super.onOptionsItemSelected(item);
     }
 
-    //---------CODE FOR GETTING STATE LIST FROM SERVER IN LOCAL DB----------
-
-    private class getAsyncState extends AsyncTask<String,String,String>
-    {
-        URL url;
-        HttpURLConnection conn;
-
-        @Override
-        protected String doInBackground(String... strings) {
-            //Log.d("ASYNC","Entered BG of STATE");
-
-
-            try {
-                url = new URL(SERVER+"getState.php");
-            } catch (IOException e) {
-                e.printStackTrace();
-                return e.toString();
-            }
-            try {
-                conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(10000);
-                conn.setConnectTimeout(15000);
-               // conn.setRequestMethod("GET");
-                conn.setDoOutput(true);
-               // conn.setDoInput(true);
-               // conn.connect();
-            } catch (IOException e) {
-                e.printStackTrace();
-                return e.toString();
-            }
-
-            try {
-                int response = conn.getResponseCode();
-                if (response == HttpURLConnection.HTTP_OK) {
-                    InputStream is = conn.getInputStream();
-                    BufferedReader br = new BufferedReader(new InputStreamReader(is));
-                    StringBuilder result = new StringBuilder();
-                    String line;
-
-                    while ((line = br.readLine())!= null) {
-                        result.append(line);
-                    }
-                    //Log.d("Inside asyncSTATE",result.toString());
-                    return result.toString();
-                } else
-                    return "NOTEXT";
-            } catch (IOException e) {
-                e.printStackTrace();
-                return e.toString();
-            } finally {
-                conn.disconnect();
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            if(!s.equals("NOTEXT")&&!s.contains("java.net."))
-            {
-                //DataBaseHelper DB=new DataBaseHelper(getApplicationContext(),null,null,1);
-                DataBaseHelper DB=DataBaseHelper.getInstance(getBaseContext());
-                DB.uploadState(s);
-                //DB.close();;
-
-            }
-          //  else
-           // {
-                //Log.d("STATE:post execute","NO Data");
-            //}
-
-        }
-
-        }
-
-    //---------CODE FOR GETTING STATE LIST FROM SERVER IN LOCAL DB----------
-
-
-    //---------CODE FOR GETTING District LIST FROM SERVER IN LOCAL DB----------
-
-    private class getAsyncDistrict extends AsyncTask<String,String,String>
-    {
-        URL url;
-        HttpURLConnection conn;
-
-        @Override
-        protected String doInBackground(String... strings) {
-            //Log.d("ASYNC","Entered BG of DISTRICT");
-
-            try {
-                url = new URL(SERVER+"getDistrict.php");
-            } catch (IOException e) {
-                e.printStackTrace();
-                return e.toString();
-            }
-            try {
-                conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(10000);
-                conn.setConnectTimeout(15000);
-                // conn.setRequestMethod("GET");
-                conn.setDoOutput(true);
-                // conn.setDoInput(true);
-                // conn.connect();
-            } catch (IOException e) {
-                e.printStackTrace();
-                return e.toString();
-            }
-
-            try {
-                int response = conn.getResponseCode();
-                if (response == HttpURLConnection.HTTP_OK) {
-                    InputStream is = conn.getInputStream();
-                    BufferedReader br = new BufferedReader(new InputStreamReader(is));
-                    StringBuilder result = new StringBuilder();
-                    String line;
-
-                    while ((line = br.readLine())!= null) {
-                        result.append(line);
-                    }
-                    //Log.d("Inside asyncDistict",result.toString());
-                    return result.toString();
-                } else
-                    return "NOTEXT";
-            } catch (IOException e) {
-                e.printStackTrace();
-                return e.toString();
-            } finally {
-                conn.disconnect();
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            if(!s.equals("NOTEXT")&&!s.contains("java.net."))
-            {
-                //DataBaseHelper DB=new DataBaseHelper(getApplicationContext(),null,null,1);
-                DataBaseHelper DB=DataBaseHelper.getInstance(getBaseContext());
-                DB.uploadDistrict(s);
-                //DB.close();;
-
-            }
-         //   else
-           // {
-            //    //Log.d("District:post execute","NO Data");
-          //  }
-
-        }
-
-    }
-
-    //---------CODE FOR GETTING District LIST FROM SERVER IN LOCAL DB----------
-
-    //---------CODE FOR GETTING Fed LIST FROM SERVER IN LOCAL DB----------
-
-    private class getAsyncFed extends AsyncTask<String,String,String>
-    {
-        URL url;
-        HttpURLConnection conn;
-
-        @Override
-        protected String doInBackground(String... strings) {
-            //Log.d("ASYNC","Entered BG of FED");
-
-            try {
-                url = new URL(SERVER+"getFed.php");
-            } catch (IOException e) {
-                e.printStackTrace();
-                return e.toString();
-            }
-            try {
-                conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(10000);
-                conn.setConnectTimeout(15000);
-                // conn.setRequestMethod("GET");
-                conn.setDoOutput(true);
-                // conn.setDoInput(true);
-                // conn.connect();
-            } catch (IOException e) {
-                e.printStackTrace();
-                return e.toString();
-            }
-
-            try {
-                int response = conn.getResponseCode();
-                if (response == HttpURLConnection.HTTP_OK) {
-                    InputStream is = conn.getInputStream();
-                    BufferedReader br = new BufferedReader(new InputStreamReader(is));
-                    StringBuilder result = new StringBuilder();
-                    String line;
-
-                    while ((line = br.readLine())!= null) {
-                        result.append(line);
-                    }
-                    //Log.d("Inside asyncFed",result.toString());
-                    return result.toString();
-                } else
-                    return "NOTEXT";
-            } catch (IOException e) {
-                e.printStackTrace();
-                return e.toString();
-            } finally {
-                conn.disconnect();
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            if(!s.equals("NOTEXT")&&!s.contains("java.net."))
-            {
-                //DataBaseHelper DB=new DataBaseHelper(getApplicationContext(),null,null,1);
-                DataBaseHelper DB=DataBaseHelper.getInstance(getBaseContext());
-                DB.uploadFed(s);
-                //DB.close();;
-
-            }
-           // else
-           // {
-          //      //Log.d("FED:post execute","NO Data");
-           // }
-
-        }
-
-    }
-
-    //---------CODE FOR GETTING Fed LIST FROM SERVER IN LOCAL DB----------
-
 
     public  void clickOnProceed(View view)
     {
+        Spinner spinPanch=findViewById(R.id.spinPanch);
+        Spinner spinVillage=findViewById(R.id.spinVillage);
+        /*if(isEmpty((EditText)findViewById(R.id.editTextPanch))||isEmpty((EditText)findViewById(R.id.editTextVillage)))
+        {
+            Toast.makeText(getBaseContext(),"Enter Location Details",Toast.LENGTH_LONG).show();
+            return;
+        }*/
+        if(spinPanch.getSelectedItem().toString().equals("Select Panchayat")||spinVillage.getSelectedItem().toString().equals("Select Village"))
+        {
+            Toast.makeText(getBaseContext(),"Enter Location Details",Toast.LENGTH_LONG).show();
+            return;
+        }
 
     //Log.d("MMMM","Inside clickOnPressed");
+        DataBaseHelper DB=DataBaseHelper.getInstance(getBaseContext());
+        String locDetails[]=DB.getEmpLocation(DB.getEmpRegData()[0]);
+
+        LocationFragment.commonPanch=spinPanch.getSelectedItem().toString();
+        LocationFragment.commonVillage=spinVillage.getSelectedItem().toString();
 
     if(!isEmpty(((EditText)findViewById(R.id.EditTextApplName))))
     {
         if(ENROL_GIRL)
         {
-            //Log.d("OnclickProceedButton","ENROLGIRL");
-            locationFragment.SAVELocation=false;
+            if(!locDetails[0].equals("-1"))
+            {
+                locationFragment.SAVELocation=true;
+                locationFragment.FEDCODE=locDetails[0];
+                locationFragment.STATE=locDetails[1];
+                locationFragment.DISTRICT=locDetails[2];
+                locationFragment.FED=locDetails[3];
+                //locationFragment.PANCH=((EditText)findViewById(R.id.editTextPanch)).getText().toString();
+                //locationFragment.VILLAGE=((EditText)findViewById(R.id.editTextVillage)).getText().toString();
+                locationFragment.PANCH=spinPanch.getSelectedItem().toString();
+                locationFragment.VILLAGE=spinVillage.getSelectedItem().toString();
+
+            }
+
+            Log.d("Proceed->Girl","ENROLGIRL Start");
+
             PERSONALSAVED=false;
             HEALTHSAVED=false;
             EDUWORKSAVED=false;
@@ -750,11 +594,29 @@ public class MainActivity extends AppCompatActivity  {
                 }
             }
 
+           /* FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            //fragmentManager.findFragmentByTag("PerFrag");
+            fragmentTransaction.replace(R.id.Frame1, baseFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+            Log.d("Proceed->Girl","ENROLGIRL End");*/
         }
         if(ENROL_DELL) {
             //Log.d("OnclickProceedButton","ENROL_DELL");
 
-            DeliveryLocation.SAVELocation=false;
+            if(!locDetails[0].equals("-1"))
+            {
+                DeliveryLocation.SAVELocation=true;
+                DeliveryLocation.FEDCODE=locDetails[0];
+                DeliveryLocation.STATE=locDetails[1];
+                DeliveryLocation.DISTRICT=locDetails[2];
+                DeliveryLocation.FED=locDetails[3];
+                //DeliveryLocation.PANCH=((EditText)findViewById(R.id.editTextPanch)).getText().toString();
+                //DeliveryLocation.VILLAGE=((EditText)findViewById(R.id.editTextVillage)).getText().toString();
+                DeliveryLocation.PANCH=spinPanch.getSelectedItem().toString();
+                DeliveryLocation.VILLAGE=spinVillage.getSelectedItem().toString();
+            }
             MainActivity.DELIVERYSAVED=false;
             pregPersonal.PPSAVED=false;
             if (!deliveryApplicant.ID_ENTERED) {
@@ -776,7 +638,18 @@ public class MainActivity extends AppCompatActivity  {
         if(ENROL_CHILD) {
             //childApplicant.ApplName = ((EditText) findViewById(R.id.EditTextApplName)).getText().toString();
             //Log.d("OnclickProceedButton","ENROL_CHILD");
-            childLocation.SAVELocation=false;
+            if(!locDetails[0].equals("-1"))
+            {
+                childLocation.SAVELocation=true;
+                childLocation.FEDCODE=locDetails[0];
+                childLocation.STATE=locDetails[1];
+                childLocation.DISTRICT=locDetails[2];
+                childLocation.FED=locDetails[3];
+               // childLocation.PANCH=((EditText)findViewById(R.id.editTextPanch)).getText().toString();
+               // childLocation.VILLAGE=((EditText)findViewById(R.id.editTextVillage)).getText().toString();
+                childLocation.PANCH=spinPanch.getSelectedItem().toString();
+                childLocation.VILLAGE=spinVillage.getSelectedItem().toString();
+            }
             PARENTSSAVED=false;
             CHILDBIRTHSAVED=false;
             CHILDGROWTHSAVED=false;
@@ -809,7 +682,19 @@ public class MainActivity extends AppCompatActivity  {
         if(ENROL_ANTE) {
             //Log.d("OnclickProceedButton","ENROL_ANTE");
 
-            anteLocation.SAVELocation=false;
+            //anteLocation.SAVELocation=false;
+            if(!locDetails[0].equals("-1"))
+            {
+                anteLocation.SAVELocation=true;
+                anteLocation.FEDCODE=locDetails[0];
+                anteLocation.STATE=locDetails[1];
+                anteLocation.DISTRICT=locDetails[2];
+                anteLocation.FED=locDetails[3];
+                //anteLocation.PANCH=((EditText)findViewById(R.id.editTextPanch)).getText().toString();
+                //anteLocation.VILLAGE=((EditText)findViewById(R.id.editTextVillage)).getText().toString();
+                anteLocation.PANCH=spinPanch.getSelectedItem().toString();
+                anteLocation.VILLAGE=spinVillage.getSelectedItem().toString();
+            }
             antePersonal.PPSAVED=false;
             antePreDelivery.PD_SAVED=false;
 
@@ -1136,11 +1021,11 @@ public class MainActivity extends AppCompatActivity  {
                 isEmpty((EditText)findViewById(R.id.editTextFedCode))||
                 isEmpty((EditText)findViewById(R.id.editTextState))||
                 isEmpty((EditText)findViewById(R.id.editTextDist))
-                ||isEmpty((EditText)findViewById(R.id.editTextPanch))
-                ||isEmpty((EditText)findViewById(R.id.editTextVillage))
+               // ||isEmpty((EditText)findViewById(R.id.editTextPanch))
+               // ||isEmpty((EditText)findViewById(R.id.editTextVillage))
                 //||isEmpty((EditText)findViewById(R.id.editTextContact))
                 ||isEmpty((EditText)findViewById(R.id.editTextFed))||((EditText)findViewById(R.id.editTextFedCode)).getError()!=null
-                //||(((EditText)findViewById(R.id.editTextGirlGroup)).isShown()&&isEmpty((EditText)findViewById(R.id.editTextGirlGroup)))
+               // ||(((EditText)findViewById(R.id.editTextGirlGroup)).isShown()&&isEmpty((EditText)findViewById(R.id.editTextGirlGroup)))
         )
         {
             //Log.d("checkLocation","Something-empty");
@@ -1155,9 +1040,12 @@ public class MainActivity extends AppCompatActivity  {
             { childLocation.SAVELocation=false;return;}
             if(ENROL_ANTE)
             { anteLocation.SAVELocation=false;return;}
+            return;
         }
+        new getAsyncPanch().execute(((EditText) findViewById(R.id.editTextFedCode)).getText().toString());
+        new getAsyncVillage().execute(((EditText) findViewById(R.id.editTextFedCode)).getText().toString());
+        //getAsyncVillage().execute(((EditText) findViewById(R.id.editTextFedCode)).getText().toString());
 
-        else {
             if(ENROL_EMP)
             {
                 EmployeeLocation.SAVELocation = true;
@@ -1167,8 +1055,10 @@ public class MainActivity extends AppCompatActivity  {
                 EmployeeLocation.DISTRICT=((EditText)findViewById(R.id.editTextDist)).getText().toString();
                 EmployeeLocation.FED=((EditText)findViewById(R.id.editTextFed)).getText().toString();
                 EmployeeLocation.FEDCODE=((EditText)findViewById(R.id.editTextFedCode)).getText().toString();
-                EmployeeLocation.PANCH=((EditText)findViewById(R.id.editTextPanch)).getText().toString();
-                EmployeeLocation.VILLAGE=((EditText)findViewById(R.id.editTextVillage)).getText().toString();
+                //EmployeeLocation.PANCH=((EditText)findViewById(R.id.editTextPanch)).getText().toString();
+               // EmployeeLocation.VILLAGE=((EditText)findViewById(R.id.editTextVillage)).getText().toString();
+                 EmployeeLocation.PANCH=null;
+                 EmployeeLocation.VILLAGE=null;
                 DataBaseHelper DB=DataBaseHelper.getInstance(getBaseContext());
                 DB.setEmpLocation(EmployeeLocation);
 
@@ -1207,6 +1097,8 @@ public class MainActivity extends AppCompatActivity  {
                     locationFragment.GroupType="AdlGroup";
                 }
                 //------SAVING DATA FROM EDITTEXT INTO FIXED VARIABLES---------
+                nextGirlFragment();
+
             }
 
             if(ENROL_DELL)
@@ -1222,7 +1114,7 @@ public class MainActivity extends AppCompatActivity  {
                 DeliveryLocation.Contact=((EditText)findViewById(R.id.editTextContact)).getText().toString();
                 //------SAVING DATA FROM EDITTEXT INTO FIXED VARIABLES---------
 
-
+                nextMotherFragment();
             }
 
             if(ENROL_CHILD)
@@ -1236,9 +1128,8 @@ public class MainActivity extends AppCompatActivity  {
                 childLocation.PANCH=((EditText)findViewById(R.id.editTextPanch)).getText().toString();
                 childLocation.VILLAGE=((EditText)findViewById(R.id.editTextVillage)).getText().toString();
                 childLocation.Contact=((EditText)findViewById(R.id.editTextContact)).getText().toString();
-
                 //------SAVING DATA FROM EDITTEXT INTO FIXED VARIABLES---------
-
+                nextChildFragment();
             }
 
             if(ENROL_ANTE)
@@ -1253,29 +1144,142 @@ public class MainActivity extends AppCompatActivity  {
                 anteLocation.VILLAGE=((EditText)findViewById(R.id.editTextVillage)).getText().toString();
                 anteLocation.Contact=((EditText)findViewById(R.id.editTextContact)).getText().toString();
                 //------SAVING DATA FROM EDITTEXT INTO FIXED VARIABLES---------
+                nextAnteFragment();
             }
 
+    }
 
-            /*Toast.makeText(getBaseContext(), "Location Details Saved!", Toast.LENGTH_LONG).show();
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.Frame1, baseFragment);
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();*/
+    public void nextGirlFragment()
+    {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        /*if(!locationFragment.SAVELocation)
+        {
+            fragmentTransaction.replace(R.id.Frame1, locationFragment);
+
+        }*/
+        if(!PERSONALSAVED)
+        {
+            fragmentTransaction.replace(R.id.Frame1, personalFragment);
+
         }
+        else if(!EDUWORKSAVED)
+        {
+            fragmentTransaction.replace(R.id.Frame1, educationWorkFragment);
+        }
+        else if(!HEALTHSAVED)
+        {
+            fragmentTransaction.replace(R.id.Frame1, healthFragment);
+        }
+        else
+        {
+            fragmentTransaction.replace(R.id.Frame1, baseFragment);
+        }
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
+    public void nextAnteFragment()
+    {
+        Log.d("in-ANTE-FRAGMENT","LINE-1");
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+       /* if(!anteLocation.SAVELocation)
+        {
+            fragmentTransaction.replace(R.id.Frame1, anteLocation);
+
+        }*/
+        Log.d("in-ANTE-FRAGMENT","LINE-2");
+
+        if(!antePersonal.PPSAVED)
+        {
+            Log.d("in-ANTE-FRAGMENT","LINE-2.2");
+            fragmentTransaction.replace(R.id.Frame1, antePersonal);
+
+        }
+        else if(!PREDELIVERYSAVED||!antePreDelivery.PD_SAVED)
+        {
+            Log.d("in-ANTE-FRAGMENT","LINE-2.5");
+            fragmentTransaction.replace(R.id.Frame1, antePreDelivery);
+        }
+        else
+        {
+            Log.d("in-ANTE-FRAGMENT","LINE-3");
+            fragmentTransaction.replace(R.id.Frame1, baseFragment);
+        }
+        Log.d("in-ANTE-FRAGMENT","LINE-4");
+
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+        Log.d("in-ANTE-FRAGMENT","LINE-5");
+    }
+
+    public void nextMotherFragment()
+    {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+       /* if(!DeliveryLocation.SAVELocation)
+        {
+            fragmentTransaction.replace(R.id.Frame1, DeliveryLocation);
+
+        }*/
+        if(!pregPersonal.PPSAVED)
+        {
+            fragmentTransaction.replace(R.id.Frame1, pregPersonal);
+
+        }
+        else if(!DELIVERYSAVED)
+        {
+            fragmentTransaction.replace(R.id.Frame1, delivery);
+        }
+        else
+        {
+            fragmentTransaction.replace(R.id.Frame1, baseFragment);
+        }
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
 
+    public void nextChildFragment()
+    {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+       /* if(!childLocation.SAVELocation)
+        {
+            fragmentTransaction.replace(R.id.Frame1, childLocation);
+
+        }*/
+         if(!PARENTSSAVED)
+        {
+            fragmentTransaction.replace(R.id.Frame1, parents);
+
+        }
+        else if(!CHILDBIRTHSAVED)
+        {
+            fragmentTransaction.replace(R.id.Frame1, childBirth);
+        }
+        else if(!CHILDGROWTHSAVED)
+        {
+            fragmentTransaction.replace(R.id.Frame1, childGrowth);
+        }
+        else
+        {
+            fragmentTransaction.replace(R.id.Frame1, baseFragment);
+        }
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
 
     public void clearApplicationName(View view)
-    {       //Log.d("MMMM","Inside clickOnPressed");
-            ((EditText)findViewById(R.id.EditTextApplName)).setText("");
-
+    {
+        //Log.d("MMMM","Inside clickOnPressed");
+        ((EditText)findViewById(R.id.EditTextApplName)).setText("");
     }
 
     @Override
     protected void onDestroy() {
-
         super.onDestroy();
 //        unregisterReceiver(new InternetChecker());
     }
@@ -1481,21 +1485,24 @@ public  void Refresh(View view)
             YOM=Integer.parseInt(((EditText) findViewById(R.id.editTextMarrYear)).getText().toString());
         }
 
-        else if(isEmpty((EditText)findViewById(R.id.editTextName))
+        if(
+                isEmpty((EditText)findViewById(R.id.editTextName))
                 ||isEmpty((EditText)findViewById(R.id.editTextMother))
-                ||isEmpty((EditText)findViewById(R.id.editTextFather)))
+                ||isEmpty((EditText)findViewById(R.id.editTextFather))
+                ||isEmpty((EditText)findViewById(R.id.editTextContact))
+                ||isEmpty((EditText)findViewById(R.id.editTextGirlGroup))
+        )
         {
             Toast.makeText(getBaseContext(),"Please Enter Correct Details!",Toast.LENGTH_LONG).show();
             PERSONALSAVED=false;
             return;
         }
-        else if ((((RadioButton)findViewById(R.id.radioButtonYes)).isChecked()) &&
+        if ((((RadioButton)findViewById(R.id.radioButtonYes)).isChecked()) &&
                 (YOM<yDOB||YOM>c.get(Calendar.YEAR)||YOM==0))
         {
             Toast.makeText(getBaseContext(),"Enter Correct Year of Marriage!",Toast.LENGTH_LONG).show();
             PERSONALSAVED=false;
             return;
-
         }
 
         String text="Select Applicable Programme";
@@ -1509,11 +1516,6 @@ public  void Refresh(View view)
             return;
 
         }
-
-
-
-        else {
-
             if (HEALTHSAVED) {
                 HealthFragment.YOP=Integer.parseInt(HealthFragment.EditPuberty.getText().toString());
                if(HealthFragment.YOP<=yDOB)
@@ -1533,6 +1535,17 @@ public  void Refresh(View view)
             PersonalFragment.DOB=((EditText)findViewById(R.id.editTextDob)).getText().toString();
             PersonalFragment.MotherMem=((Spinner)findViewById(R.id.spinnerMomMember)).getSelectedItem().toString();
             PersonalFragment.FatherMem=((Spinner)findViewById(R.id.spinnerDadMember)).getSelectedItem().toString();
+            locationFragment.Contact=((EditText)findViewById(R.id.editTextContact)).getText().toString();
+            locationFragment.Group=((EditText)findViewById(R.id.editTextGirlGroup)).getText().toString();
+
+            if(((RadioButton)findViewById(R.id.radioButtonSchool)).isChecked())
+            {
+                locationFragment.GroupType="School";
+            }
+            else
+            {
+                locationFragment.GroupType="AdlGroup";
+            }
 
             if(!PersonalFragment.ISMARRIED)
             PersonalFragment.MarrYear="NULL";
@@ -1541,15 +1554,16 @@ public  void Refresh(View view)
 
             //---------STORING EDITABLE TEXT INTO STATIC MEMBERS---------
 
-            FragmentManager fragmentManager = getSupportFragmentManager();
+           /* FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.Frame1, baseFragment);
             fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
-        }
+            fragmentTransaction.commit();*/
+            nextGirlFragment();
+
     }
 
-    public boolean checkdate (EditText editText)
+    public  boolean checkdate (EditText editText)
     {
         Calendar c;String DOB="";int yDOB=0;int dDOB=0;int mDOB=0;Boolean DOBFORMAT=false;
         c= Calendar.getInstance();
@@ -1596,8 +1610,10 @@ public  void Refresh(View view)
         if(isEmpty((EditText)findViewById(R.id.editTextNameP))
             ||isEmpty((EditText)findViewById(R.id.editTextHusband))
             ||isEmpty((EditText)findViewById(R.id.editTextDobP))
+            ||isEmpty((EditText)findViewById(R.id.editTextContact))
             ||(((Spinner)findViewById(R.id.spinnerEntryPregEdu)).getSelectedItem().toString().equals("Select Your Education Level:"))
             ||(((Spinner)findViewById(R.id.spinnerPregHusband)).getSelectedItem().toString().equals("Select Applicable Programme"))
+            ||(((Spinner)findViewById(R.id.spinnerPregWoman)).getSelectedItem().toString().equals("Select Applicable Programme"))
          )
                 {
                     Toast.makeText(getBaseContext(),"Please Enter Correct Details",Toast.LENGTH_LONG).show();
@@ -1613,7 +1629,7 @@ public  void Refresh(View view)
                  return;
 
             // PERSONALPREGSAVED = true;
-
+             Toast.makeText(getBaseContext(), "Personal Details Saved!", Toast.LENGTH_LONG).show();
              if(ENROL_DELL) {
                  pregPersonal.PPSAVED = true;
                  pregPersonal.Name = ((EditText) findViewById(R.id.editTextNameP)).getText().toString();
@@ -1621,6 +1637,9 @@ public  void Refresh(View view)
                  pregPersonal.DOB = ((EditText) findViewById(R.id.editTextDobP)).getText().toString();
                  pregPersonal.Education = ((Spinner) findViewById(R.id.spinnerEntryPregEdu)).getSelectedItem().toString();
                  pregPersonal.HusbandMem = ((Spinner) findViewById(R.id.spinnerPregHusband)).getSelectedItem().toString();
+                 pregPersonal.WomanMem = ((Spinner) findViewById(R.id.spinnerPregWoman)).getSelectedItem().toString();
+                 DeliveryLocation.Contact=((EditText) findViewById(R.id.editTextContact)).getText().toString();
+                 nextMotherFragment();
              }
              if(ENROL_ANTE)
              {
@@ -1631,15 +1650,12 @@ public  void Refresh(View view)
                  antePersonal.DOB = ((EditText) findViewById(R.id.editTextDobP)).getText().toString();
                  antePersonal.Education = ((Spinner) findViewById(R.id.spinnerEntryPregEdu)).getSelectedItem().toString();
                  antePersonal.HusbandMem = ((Spinner) findViewById(R.id.spinnerPregHusband)).getSelectedItem().toString();
+                 antePersonal.WomanMem = ((Spinner) findViewById(R.id.spinnerPregWoman)).getSelectedItem().toString();
+                 anteLocation.Contact=((EditText) findViewById(R.id.editTextContact)).getText().toString();
 
-
+                 nextAnteFragment();
              }
-             Toast.makeText(getBaseContext(), "Personal Details Saved!", Toast.LENGTH_LONG).show();
-             FragmentManager fragmentManager = getSupportFragmentManager();
-             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-             fragmentTransaction.replace(R.id.Frame1, baseFragment);
-             fragmentTransaction.addToBackStack(null);
-             fragmentTransaction.commit();
+
          }
     }
 
@@ -1653,12 +1669,17 @@ public  void Refresh(View view)
         {
             Toast.makeText(getBaseContext(),"Please Enter Correct Details",Toast.LENGTH_LONG).show();
           //  if(ENROL_DELL)
-          //  preDelivery.PD_SAVED=false;
-            if(ENROL_ANTE)
+          //  preDelivery.PD_SAVED=false
                 antePreDelivery.PD_SAVED=false;
+                return;
         }
-        else
-        {
+
+        if(!checkdate((EditText)findViewById(R.id.editTextEDD)))
+            return;
+        if(!checkdate((EditText)findViewById(R.id.editTextLMP)))
+            return;
+        if(!checkdate((EditText)findViewById(R.id.editTextPHC)))
+            return;
            /* if(ENROL_DELL) {
 
 
@@ -1671,25 +1692,18 @@ public  void Refresh(View view)
                 preDelivery.MONTHPREG = ((EditText) findViewById(R.id.editTextMP)).getText().toString();
             }*/
 
-            if(ENROL_ANTE)
-            {
+                Log.d("IN-PRE-DELIEVERY","1-Line");
                 antePreDelivery.PD_SAVED = true;
+                PREDELIVERYSAVED=true;
 
                 antePreDelivery.LMP = ((EditText) findViewById(R.id.editTextLMP)).getText().toString();
                 antePreDelivery.EDD = ((EditText) findViewById(R.id.editTextEDD)).getText().toString();
                 antePreDelivery.GRAVIDA = ((EditText) findViewById(R.id.editTextGravida)).getText().toString();
                 antePreDelivery.PHC = ((EditText) findViewById(R.id.editTextPHC)).getText().toString();
                 antePreDelivery.MONTHPREG = ((EditText) findViewById(R.id.editTextMP)).getText().toString();
-
-            }
-
-            Toast.makeText(getBaseContext(), "Pregnancy Details Saved!", Toast.LENGTH_LONG).show();
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.Frame1, baseFragment);
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
-        }
+                Log.d("IN-PRE-DELIEVERY","2-Line");
+                nextAnteFragment();
+                Log.d("IN-PRE-DELIEVERY","3-Line");
     }
 
    public void checkDelivery(View view)
@@ -1697,7 +1711,7 @@ public  void Refresh(View view)
        String TempOutcome="";
        DELIVERYSAVED=true;
        String mess="IN-checkDelivery";
-       //Log.d(mess,"Start of funtion");
+       Log.d(mess,"Start of funtion");
 
        if(isEmpty((EditText)findViewById(R.id.editTextDelGravida)))
        {
@@ -1722,7 +1736,7 @@ public  void Refresh(View view)
       {
           TempOutcome+="CB";
 
-          //Log.d(mess,"value of TempOutcome->"+TempOutcome);
+          Log.d(mess,"value of TempOutcome->"+TempOutcome);
       }
        if(((AppCompatCheckBox)findViewById(R.id.checkAbortion)).isChecked())
        {
@@ -1794,7 +1808,8 @@ public  void Refresh(View view)
 
            //String babyAge=delivery.EDD;
 
-            if(!deliveryApplicant.ID_ENTERED) {
+            if(!deliveryApplicant.ID_WHO.equals("MOTH")) {
+                 mess="Child-In-CheckDel";
                 //Log.d("Twins?->", (((SwitchCompat) findViewById(R.id.switchkids)).isChecked()) ? "yes" : "no");
 
                 if (!((SwitchCompat) findViewById(R.id.switchkids)).isChecked()) {
@@ -1818,6 +1833,7 @@ public  void Refresh(View view)
                     childBirthS.ChildName = null;
                     childBirthS.ChildDOB = ((EditText) findViewById(R.id.editTextDelDob)).getText().toString();
                     childBirthS.ChildWeight = ((EditText) findViewById(R.id.editTextDelChildBWeightS)).getText().toString();
+                    Log.d(mess,"childBirthS.ChildWeight->"+childBirthS.ChildWeight);
                     if (((RadioButton) findViewById(R.id.radioButtonCol_Y)).isChecked())
                         childBirthS.ChildCol = "YES";
                     else
@@ -1868,6 +1884,8 @@ public  void Refresh(View view)
                     childBirth1.ChildName = null;
                     childBirth1.ChildDOB = ((EditText) findViewById(R.id.editTextDelDob)).getText().toString();
                     childBirth1.ChildWeight = ((EditText) findViewById(R.id.editTextDelChildBWeight1)).getText().toString();
+                    Log.d(mess,"childBirth1.ChildWeight->"+childBirth1.ChildWeight);
+
                     if (((RadioButton) findViewById(R.id.radioButtonCol_Y)).isChecked())
                         childBirth1.ChildCol = "YES";
                     else
@@ -1892,6 +1910,7 @@ public  void Refresh(View view)
                     childBirth2.ChildName = null;
                     childBirth2.ChildDOB = ((EditText) findViewById(R.id.editTextDelDob)).getText().toString();
                     childBirth2.ChildWeight = ((EditText) findViewById(R.id.editTextDelChildBWeight2)).getText().toString();
+                    Log.d(mess,"childBirth2.ChildWeight->"+childBirth2.ChildWeight);
                     if (((RadioButton) findViewById(R.id.radioButtonCol_Y)).isChecked())
                         childBirth2.ChildCol = "YES";
                     else
@@ -1915,7 +1934,8 @@ public  void Refresh(View view)
             else
             {
                 try {
-                    delivery.twins = deliveryApplicant.jsonObject.get("TWINS").toString();
+                    if(deliveryApplicant.ID_WHO.equals("MOTH"))
+                        delivery.twins = deliveryApplicant.jsonObject.get("TWINS").toString();
                 }
                 catch (JSONException j)
                 {
@@ -1927,11 +1947,7 @@ public  void Refresh(View view)
 
 
            Toast.makeText(getBaseContext(), "Delivery Details Saved!", Toast.LENGTH_LONG).show();
-           FragmentManager fragmentManager = getSupportFragmentManager();
-           FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-           fragmentTransaction.replace(R.id.Frame1, baseFragment);
-           fragmentTransaction.addToBackStack(null);
-           fragmentTransaction.commit();
+       nextMotherFragment();
 
 
 
@@ -1948,6 +1964,7 @@ public  void Refresh(View view)
                isEmpty((EditText)findViewById(R.id.editTextNameMom))||
                isEmpty((EditText)findViewById(R.id.editTextMomDoB))||
                isEmpty((EditText)findViewById(R.id.editTextFather))||
+               isEmpty((EditText)findViewById(R.id.editTextContact))||
                        ((Spinner)findViewById(R.id.spinnerParMemberM)).getSelectedItem().toString().equals(text)||
                        ((Spinner)findViewById(R.id.spinnerParMemberF)).getSelectedItem().toString().equals(text)
        )
@@ -1969,6 +1986,7 @@ public  void Refresh(View view)
            Parents.FatherName=((EditText)findViewById(R.id.editTextFather)).getText().toString();
            Parents.MomMem=((Spinner)findViewById(R.id.spinnerParMemberM)).getSelectedItem().toString();
            Parents.DadMem=((Spinner)findViewById(R.id.spinnerParMemberF)).getSelectedItem().toString();
+           childLocation.Contact=((EditText)findViewById(R.id.editTextContact)).getText().toString();
 
                if (isEmpty((EditText)findViewById(R.id.editTextMomId))) {
                    Parents.MomId = null;
@@ -1978,11 +1996,7 @@ public  void Refresh(View view)
 
            //Log.d(mess,"5thLine");
            Toast.makeText(getBaseContext(), "Parent Details Saved!", Toast.LENGTH_LONG).show();
-           FragmentManager fragmentManager = getSupportFragmentManager();
-           FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-           fragmentTransaction.replace(R.id.Frame1, baseFragment);
-           fragmentTransaction.addToBackStack(null);
-           fragmentTransaction.commit();
+               nextChildFragment();
        }
    }
 
@@ -2023,11 +2037,7 @@ public  void Refresh(View view)
 
 
            Toast.makeText(getBaseContext(), "Child Birth Details Saved!", Toast.LENGTH_LONG).show();
-           FragmentManager fragmentManager = getSupportFragmentManager();
-           FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-           fragmentTransaction.replace(R.id.Frame1, baseFragment);
-           fragmentTransaction.addToBackStack(null);
-           fragmentTransaction.commit();
+           nextChildFragment();
        }
 
    }
@@ -2053,11 +2063,7 @@ public  void Refresh(View view)
            //childGrowth.Age=((EditText) findViewById(R.id.editTextChildAge)).getText().toString();
 
            Toast.makeText(getBaseContext(), "Child Growth Details Saved!", Toast.LENGTH_LONG).show();
-           FragmentManager fragmentManager = getSupportFragmentManager();
-           FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-           fragmentTransaction.replace(R.id.Frame1, baseFragment);
-           fragmentTransaction.addToBackStack(null);
-           fragmentTransaction.commit();
+           nextChildFragment();
 
        }
 
@@ -2096,11 +2102,8 @@ public  void Refresh(View view)
 
 
             Toast.makeText(getBaseContext(), "Education & Work Details Saved!", Toast.LENGTH_LONG).show();
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.Frame1,baseFragment);
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
+            nextGirlFragment();
+
         }
     }
 
@@ -2123,7 +2126,8 @@ public  void Refresh(View view)
         }
 
         else
-        {HealthFragment.YOP=YOP;
+        {
+            HealthFragment.YOP=YOP;
             HEALTHSAVED=true;
             //---------STORING EDITABLE TEXT INTO STATIC MEMBERS---------
             if((((RadioButton)findViewById(R.id.radioButtonPYes)).isChecked()))
@@ -2138,11 +2142,9 @@ public  void Refresh(View view)
             //---------STORING EDITABLE TEXT INTO STATIC MEMBERS---------
 
             Toast.makeText(getBaseContext(), "Health Details Saved!", Toast.LENGTH_LONG).show();
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.Frame1, baseFragment);
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
+
+            nextGirlFragment();
+
         }
 
     }
@@ -2275,6 +2277,174 @@ Sp.setAdapter(arrayAdapter);
         {
             findViewById(R.id.textViewPubertyYear).setVisibility(View.VISIBLE);
             findViewById(R.id.editTextPuberty).setVisibility(View.VISIBLE);
+
+        }
+
+    }
+
+    private class getAsyncPanch extends AsyncTask<String,String,String>
+    {
+        String mess="AS-PANCH";
+        URL url;
+        HttpURLConnection conn;
+
+        @Override
+        protected String doInBackground(String... params) {
+            //Log.d("ASYNC","Entered BG of STATE");
+
+
+            try {
+                url = new URL(MainActivity.SERVER+"getPanch.php");
+            } catch (IOException e) {
+                e.printStackTrace();
+                return e.toString();
+            }
+            try {
+                // conn.setRequestMethod("GET");
+                conn=(HttpURLConnection)url.openConnection();
+                conn.setDoOutput(true);
+                conn.setDoInput(true);
+                conn.setConnectTimeout(10000);
+                conn.setReadTimeout(10000);
+                // conn.setDoInput(true);
+                // conn.connect();
+
+                Uri.Builder builder=null;
+                builder=new Uri.Builder().appendQueryParameter("FCODE",params[0]);
+                String query=builder.build().getEncodedQuery();
+                //Log.d(mess,"QUERY->"+query);
+                OutputStream os=conn.getOutputStream();
+                //Log.d(mess,"99");
+                BufferedWriter bw=new BufferedWriter(new OutputStreamWriter(os,"UTF-8"));
+                //Log.d(mess,"100");
+                bw.write(query);
+                bw.flush();
+                bw.close();
+                os.close();
+                conn.connect();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return e.toString();
+            }
+            try {
+                int response = conn.getResponseCode();
+                if (response == HttpURLConnection.HTTP_OK) {
+                    InputStream is = conn.getInputStream();
+                    BufferedReader br = new BufferedReader(new InputStreamReader(is));
+                    StringBuilder result = new StringBuilder();
+                    String line;
+
+                    while ((line = br.readLine())!= null) {
+                        result.append(line);
+                    }
+                    //Log.d("Inside asyncSTATE",result.toString());
+                    return result.toString();
+                } else
+                    return "NOTEXT";
+            } catch (IOException e) {
+                e.printStackTrace();
+                return e.toString();
+            } finally {
+                conn.disconnect();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            String mess="Panch-PE";
+            Log.d("Panch-PE","JSON-IS->"+s);
+            if(!s.equals("NOTEXT")&&!s.contains("java.net.")&&!s.contains("FALSE"))
+            {Log.d("Panch-PE","Insid-IF");
+                //DataBaseHelper DB=new DataBaseHelper(getApplicationContext(),null,null,1);
+                DataBaseHelper DB=DataBaseHelper.getInstance(getBaseContext());
+                DB.uploadPanch(s);
+                //DB.close();;
+            }
+
+        }
+
+    }
+
+    private class getAsyncVillage extends AsyncTask<String,String,String>
+    {
+        String mess="AS-VILLAGE";
+        URL url;
+        HttpURLConnection conn;
+
+        @Override
+        protected String doInBackground(String... params) {
+            //Log.d("ASYNC","Entered BG of STATE");
+
+
+            try {
+                url = new URL(MainActivity.SERVER+"getVillage.php");
+            } catch (IOException e) {
+                e.printStackTrace();
+                return e.toString();
+            }
+            try {
+                // conn.setRequestMethod("GET");
+                conn=(HttpURLConnection)url.openConnection();
+                conn.setDoOutput(true);
+                conn.setDoInput(true);
+                conn.setConnectTimeout(10000);
+                conn.setReadTimeout(10000);
+                // conn.setDoInput(true);
+                // conn.connect();
+
+                Uri.Builder builder=null;
+                builder=new Uri.Builder().appendQueryParameter("FCODE",params[0]);
+                String query=builder.build().getEncodedQuery();
+                //Log.d(mess,"QUERY->"+query);
+                OutputStream os=conn.getOutputStream();
+                //Log.d(mess,"99");
+                BufferedWriter bw=new BufferedWriter(new OutputStreamWriter(os,"UTF-8"));
+                //Log.d(mess,"100");
+                bw.write(query);
+                bw.flush();
+                bw.close();
+                os.close();
+                conn.connect();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return e.toString();
+            }
+            try {
+                int response = conn.getResponseCode();
+                if (response == HttpURLConnection.HTTP_OK) {
+                    InputStream is = conn.getInputStream();
+                    BufferedReader br = new BufferedReader(new InputStreamReader(is));
+                    StringBuilder result = new StringBuilder();
+                    String line;
+
+                    while ((line = br.readLine())!= null) {
+                        result.append(line);
+                    }
+                    //Log.d("Inside asyncSTATE",result.toString());
+                    return result.toString();
+                } else
+                    return "NOTEXT";
+            } catch (IOException e) {
+                e.printStackTrace();
+                return e.toString();
+            } finally {
+                conn.disconnect();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            String mess="Village-PE";
+            Log.d("Panch-PE","JSON-IS->"+s);
+            if(!s.equals("NOTEXT")&&!s.contains("java.net.")&&!s.contains("FALSE"))
+            {Log.d(mess,"Inside-IF");
+                //DataBaseHelper DB=new DataBaseHelper(getApplicationContext(),null,null,1);
+                DataBaseHelper DB=DataBaseHelper.getInstance(getBaseContext());
+                DB.uploadVillage(s);
+                //DB.close();;
+            }
 
         }
 

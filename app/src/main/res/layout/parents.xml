@@ -28,13 +28,98 @@
                 android:textColor="@color/skyblue"
                 />
 
+
+            <!--Contact Details-->
+            <LinearLayout
+                android:id="@+id/LinearContactBanner"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_below="@id/textViewHeadingParents"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="visible"
+                android:weightSum="3">
+
+
+                <View
+                    android:layout_width="80sp"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="4sp"
+                    android:layout_weight="1"
+                    android:background="@color/skyblue" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="bottom"
+                    android:paddingLeft="5sp"
+                    android:paddingRight="5sp"
+                    android:text="Contact Details"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:layout_marginRight="5sp"
+                    android:layout_weight="2"
+                    android:background="@color/skyblue" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/LinearContact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textViewHeadingParents"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20sp"
+                android:background="@drawable/topless_border"
+                android:orientation="vertical"
+                android:visibility="visible"
+                android:padding="10dp">
+
+                <TableRow
+                    android:id="@+id/rowContact"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10sp">
+
+                    <TextView
+                        android:id="@+id/textViewContact"
+                        style="@style/TextAppearance.AppCompat.Body1"
+                        android:layout_width="100sp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_span="3"
+                        android:text="Contact:"
+                        android:textColor="@color/skyblue"
+                        android:textSize="20sp" />
+
+                    <EditText
+                        android:id="@+id/editTextContact"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:layout_span="3"
+                        android:digits="1234567890"
+                        android:ems="10"
+                        android:hint="Enter Contact Number"
+                        android:inputType="number"
+                        android:maxLength="10"
+                        android:singleLine="true" />
+                </TableRow>
+            </LinearLayout>
+            <!--Contact Details-->
+
+
             <!---Father's Details-->
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
-                android:layout_below="@id/textViewHeadingParents"
+                android:layout_below="@id/LinearContact"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:weightSum="3">
@@ -69,7 +154,7 @@
                 android:id="@+id/LinearParentM"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/textViewHeadingParents"
+                android:layout_below="@id/LinearContact"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/topless_border"
                 android:orientation="vertical"
@@ -85,7 +170,7 @@
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
-                    android:layout_marginTop="30dp">
+                    android:layout_marginTop="10sp">
 
                     <TextView
                         android:id="@+id/textViewNameMom"
@@ -94,7 +179,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_span="2"
                         android:textColor="@color/skyblue"
-                        android:textSize="25dp"
+                        android:textSize="20sp"
                         android:text="Name"
                         />
 
@@ -115,7 +200,7 @@
                     <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
-                        android:layout_marginTop="30dp"
+                        android:layout_marginTop="10sp"
                         android:id="@+id/RowMomId">
 
                         <TextView
@@ -125,7 +210,7 @@
                             android:layout_marginLeft="10dp"
                             android:layout_span="2"
                             android:textColor="@color/skyblue"
-                            android:textSize="25dp"
+                            android:textSize="20sp"
                             android:text="ID. No."
                             />
 
@@ -168,7 +253,7 @@
                         android:layout_span="2"
                         android:text="Birth Date"
                         android:textColor="@color/skyblue"
-                        android:textSize="25dp" />
+                        android:textSize="20sp" />
 
                     <EditText
                         android:id="@+id/editTextMomDoB"
@@ -213,7 +298,7 @@
                         <Spinner
                             android:id="@+id/spinnerParMemberM"
                             android:layout_span="5"
-                            android:entries="@array/spinnerMembership"
+                            android:entries="@array/spinnerWomanMembership"
                             android:spinnerMode="dropdown"
                             android:textColor="@color/skyblue" />
 
@@ -329,7 +414,7 @@
                     <Spinner
                         android:id="@+id/spinnerParMemberF"
                         android:layout_span="6"
-                        android:entries="@array/spinnerMembership"
+                        android:entries="@array/spinnerManMembership"
                         android:spinnerMode="dropdown"
                         android:textColor="@color/skyblue" />
 
@@ -424,7 +509,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_span="3"
                     android:textColor="@color/skyblue"
-                    android:textSize="25dp"
+                    android:textSize="20sp"
                     android:text="Mother's Name"
                     />
 
@@ -455,7 +540,7 @@
                     android:layout_span="3"
                     android:text="Mother's Age"
                     android:textColor="@color/skyblue"
-                    android:textSize="25dp" />
+                    android:textSize="20sp" />
 
                 <EditText
                     android:id="@+id/editTextMomAge"
@@ -485,7 +570,7 @@
                     android:layout_span="3"
                     android:text="Father's Name:"
                     android:textColor="@color/skyblue"
-                    android:textSize="25dp" />
+                    android:textSize="20sp" />
 
                 <EditText
                     android:id="@+id/editTextDad"

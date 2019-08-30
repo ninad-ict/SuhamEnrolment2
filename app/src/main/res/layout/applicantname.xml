@@ -20,27 +20,181 @@
         android:stretchColumns="*"
         android:layout_marginBottom="25sp"
       >
-       <TableRow
+
+        <RelativeLayout
+            android:layout_height="wrap_content"
             android:layout_width="match_parent"
+            android:layout_span="6">
+       <TableRow
+           android:id="@+id/RowApplyHeading"
+            android:layout_width="match_parent"
+           android:layout_height="wrap_content"
             android:background="@color/skyblue"
             android:gravity="center">
+
             <TextView
                 android:id="@+id/textViewApplHeading"
                 style="@style/TextAppearance.AppCompat.Body1"
                 android:layout_gravity="center"
-                android:layout_span="6"
+                android:gravity="center"
                 android:padding="10sp"
                 android:text="Enrolment For Adolscent Girls"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
         </TableRow>
 
+        <!---Location Details-->
+
+        <LinearLayout
+            android:id="@+id/VillageBanner"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10sp"
+            android:layout_marginRight="10sp"
+            android:layout_below="@id/RowApplyHeading"
+            android:layout_marginTop="20sp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+
+            <View
+                android:layout_width="80sp"
+                android:layout_height="1dp"
+                android:layout_marginLeft="4sp"
+                android:layout_weight="1"
+                android:background="@color/skyblue" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="bottom"
+                android:paddingLeft="5sp"
+                android:paddingRight="5sp"
+                android:text=" Location "
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_marginRight="5sp"
+                android:layout_weight="2"
+                android:background="@color/skyblue" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/LinearVillage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10sp"
+            android:layout_marginRight="10sp"
+            android:layout_below="@id/RowApplyHeading"
+            android:background="@drawable/topless_border"
+            android:layout_marginTop="30sp"
+            android:orientation="vertical"
+            android:padding="10sp">
+
+
+            <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:stretchColumns="*">
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10sp"
+                    android:background="@color/Lightskyblue"
+                    android:padding="3sp">
+
+                    <TextView
+                        android:id="@+id/textViewPanch"
+                        style="@style/TextAppearance.AppCompat.Body1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_span="2"
+                        android:text="Panchayat:"
+                        android:gravity="left|center"
+                        android:textColor="@color/skyblue"
+                        android:textSize="18sp" />
+
+                   <!-- <EditText
+                        android:id="@+id/editTextPanch"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_span="3"
+                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz"
+                        android:ems="10"
+                        android:inputType="textCapWords"
+                        android:hint="Enter Panchayat"
+                        android:maxLength="50"
+                        android:singleLine="true"
+                        android:visibility="gone"/>-->
+                    <Spinner
+                        android:id="@+id/spinPanch"
+                        android:layout_width="wrap_content"
+                        android:gravity="left|center"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5sp"
+                        android:layout_span="3"
+                        />
+
+
+
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/rowVillage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10sp"
+                    android:background="@color/Lightskyblue"
+                    android:padding="3sp">
+
+                    <TextView
+                        android:id="@+id/textViewVillage"
+                        style="@style/TextAppearance.AppCompat.Body1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_span="2"
+                        android:text="Village:"
+                        android:textColor="@color/skyblue"
+                        android:textSize="18sp" />
+
+                  <!--  <EditText
+                        android:id="@+id/editTextVillage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_span="3"
+                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz"
+                        android:ems="10"
+                        android:inputType="textCapWords"
+                        android:hint="Enter Village"
+                        android:maxLength="50"
+                        android:singleLine="true" />-->
+                    <Spinner
+                        android:id="@+id/spinVillage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_span="3" />
+
+                </TableRow>
+            </TableLayout>
+
+
+        </LinearLayout>
+        </RelativeLayout>
+        <!---Location Details-->
+
         <TableRow xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/rowAskMember"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/Lightskyblue"
-            android:layout_marginTop="60sp"
+            android:layout_marginTop="30sp"
             >
 
             <TextView
@@ -73,7 +227,7 @@
   <TableRow
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="30sp">
+    >
 
       <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
           android:layout_width="match_parent"
@@ -83,7 +237,7 @@
             <EditText
                 android:id="@+id/EditTextApplName"
                 android:layout_height="wrap_content"
-                android:inputType="textCapWords"
+                android:inputType="textCapCharacters"
                 android:layout_width="match_parent"
                 android:hint="Enter Applicant's Name"
                 android:layout_centerVertical="true"
@@ -106,6 +260,20 @@
               android:visibility="gone"
               android:text="Button" />
 
+          <ProgressBar
+              android:id="@+id/progress_circular"
+              android:layout_alignParentRight="true"
+              android:layout_marginRight="5sp"
+              android:layout_marginTop="18sp"
+              style="?android:attr/progressBarStyleLargeInverse"
+              android:layout_width="42sp"
+              android:indeterminate="true"
+              android:indeterminateTintMode="src_atop"
+              android:indeterminateTint="@color/skyblue"
+              android:visibility="gone"
+              android:layout_height="42sp"/>
+
+
           <TextView
               android:id="@+id/errorText"
               android:layout_width="wrap_content"
@@ -116,21 +284,23 @@
               android:visibility="gone"/>
       </RelativeLayout>
 </TableRow>
+
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-             >
+            android:layout_alignStart="@+id/TableApplication">
+
             <TextView
                 android:id="@+id/TextViewForgetID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="50sp"
-                android:layout_margin="5dp"
-                android:text="@string/forgotid"
                 android:layout_gravity="center"
-                android:textSize="15sp"
+                android:layout_margin="5dp"
+                android:layout_marginBottom="10sp"
                 android:layout_span="6"
+                android:text="@string/forgotid"
                 android:textColor="@color/skyblue"
+                android:textSize="15sp"
                 android:visibility="gone" />
         </TableRow>
     </TableLayout>

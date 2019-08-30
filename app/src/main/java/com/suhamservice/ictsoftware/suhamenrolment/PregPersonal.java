@@ -25,7 +25,10 @@ public class PregPersonal extends Fragment {
     EditText editDoB;
     EditText editHusband;
     Spinner SpinHusband;
+    Spinner SpinWoman;
     Spinner SpinEducation;
+
+    EditText editContact;
 
     TextWatcher textWatcher;
 
@@ -38,6 +41,7 @@ public class PregPersonal extends Fragment {
     String Name="";
    String Husband="";
    String HusbandMem="";
+   String WomanMem="";
     //static String Father="";
     String DOB="";
     String Education="";
@@ -68,7 +72,10 @@ public class PregPersonal extends Fragment {
         editHusband = ((EditText) v.findViewById(R.id.editTextHusband));
         editDoB=v.findViewById(R.id.editTextDobP);
         SpinHusband=((Spinner)v.findViewById(R.id.spinnerPregHusband));
+        SpinWoman=((Spinner)v.findViewById(R.id.spinnerPregWoman));
         SpinEducation=((Spinner)v.findViewById(R.id.spinnerEntryPregEdu));
+
+        editContact=v.findViewById(R.id.editTextContact);
 
         if(ENROL_ANTE)
         {
@@ -81,13 +88,21 @@ public class PregPersonal extends Fragment {
                 try {
                     //Log.d("IN DELL PregPersonal", "In try part");
                     editDoB.setText(anteApplicant.jsonObject.get("DOB").toString());
+                    editContact.setText(anteApplicant.jsonObject.get("CONTACT").toString());
 
-                    if (anteApplicant.ID_WHO=="PREG") {
+                    if (anteApplicant.ID_WHO.equals("PREG")) {
                         editHusband.setText(anteApplicant.jsonObject.get("HUSBAND").toString());
                         ArrayAdapter<String> arrayAdapter =
-                                new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.spinnerMembership));
+                                new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.spinnerManMembership));
 
                         SpinHusband.setSelection(arrayAdapter.getPosition(anteApplicant.jsonObject.get("H_MEMBER").toString()));
+
+                        arrayAdapter =
+                                new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.spinnerWomanMembership));
+
+                        SpinWoman.setSelection(arrayAdapter.getPosition(anteApplicant.jsonObject.get("M_MEMBER").toString()));
+
+
                         arrayAdapter =
                                 new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.spinnerEntryPregEdu));
 
@@ -115,16 +130,24 @@ public class PregPersonal extends Fragment {
                 try {
                     //Log.d("IN DELL PregPersonal", "In try part");
                     editDoB.setText(deliveryApplicant.jsonObject.get("DOB").toString());
+                    editContact.setText(deliveryApplicant.jsonObject.get("CONTACT").toString());
                     if ((deliveryApplicant.ID_WHO.equals("PREG"))||(deliveryApplicant.ID_WHO.equals("MOTH")))
                     {
                         editHusband.setText(deliveryApplicant.jsonObject.get("HUSBAND").toString());
 
                        // String[] MemberArray = getResources().getStringArray(R.array.spinnerMembership);
                         ArrayAdapter<String> arrayAdapter =
-                                new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.spinnerMembership));
+                                new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.spinnerManMembership));
 
                         SpinHusband.setSelection(arrayAdapter.getPosition(deliveryApplicant.jsonObject.get("H_MEMBER").toString()));
+
                          arrayAdapter =
+                                new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.spinnerWomanMembership));
+
+                        SpinWoman.setSelection(arrayAdapter.getPosition(deliveryApplicant.jsonObject.get("M_MEMBER").toString()));
+
+
+                        arrayAdapter =
                                 new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.spinnerEntryPregEdu));
 
                         SpinEducation.setSelection(arrayAdapter.getPosition(deliveryApplicant.jsonObject.get("EDUCATION").toString()));

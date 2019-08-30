@@ -17,181 +17,373 @@
             android:layout_height="match_parent"
             android:stretchColumns="*">
 
-            <TableRow
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_marginBottom="60dp"
+                android:layout_height="wrap_content">
+            <TableRow
+                android:id="@+id/RowHeading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:gravity="center">
 
                 <TextView
                     android:id="@+id/textViewHeadingPregP"
                     style="@style/TextAppearance.AppCompat.Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textSize="20dp"
                     android:layout_span="6"
+                    android:layout_marginBottom="10sp"
                     android:text="Personal Details"
                     android:textColor="@color/skyblue"
                     />
             </TableRow>
 
-            <TableRow
+            <!--Contact Details-->
+            <LinearLayout
+                android:id="@+id/LinearWomanBanner"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_marginTop="30dp">
+                android:layout_below="@+id/RowHeading"
+                android:layout_height="20dp"
+                android:gravity="center_vertical"
+                android:layout_marginTop="10sp"
+                android:layout_marginLeft="10sp"
+                android:layout_marginRight="10sp"
+                android:orientation="horizontal"
+                android:visibility="visible"
+                android:weightSum="3">
+
+
+                <View
+                    android:layout_width="80sp"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="4sp"
+                    android:layout_weight="1"
+                    android:background="@color/skyblue" />
 
                 <TextView
-                    android:id="@+id/textViewNameP"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_span="3"
-                    android:textColor="@color/skyblue"
-                    android:textSize="20dp"
-                    android:text="Full Name"
-                    />
-
-                <EditText
-                    android:id="@+id/editTextNameP"
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:layout_span="3"
-                    android:ems="10"
-                    android:hint="Woman's Name"
-                    android:maxLength="50"
-                    android:inputType="textCapWords"
-                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz"
-                    android:singleLine="true"
-
-
-                    />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:id="@+id/rowHusband"
-                android:layout_height="100dp"
-                android:layout_marginTop="30dp"
-                android:visibility="visible">
-
-                <TextView
-                    android:id="@+id/textViewHusband"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_span="3"
-                    android:text="Husband"
-                    android:textColor="@color/skyblue"
-                    android:textSize="20dp" />
-
-                <EditText
-                    android:id="@+id/editTextHusband"
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:layout_span="3"
-                    android:ems="10"
-                    android:hint="Husband's Name"
-                    android:maxLength="50"
-                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz"
-                    android:inputType="textCapWords"
-                    android:singleLine="true" />
-
-            </TableRow>
-
-            <TableRow
-                android:id="@+id/RowMomMember"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:visibility="visible">
-
-                <TextView
-                    android:id="@+id/textViewMomMember"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_span="6"
-                    android:layout_marginLeft="10dp"
-                    android:paddingRight="30sp"
-                    android:text="Any prior membership of Husband?"
-                    android:textColor="@color/skyblue"
-                    android:textSize="20sp" />
-            </TableRow>
+                    android:gravity="bottom"
+                    android:paddingLeft="5sp"
+                    android:paddingRight="5sp"
+                    android:text="Own Details"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
-            <TableRow
-                android:id="@+id/RowMomMemberSpin"
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:layout_marginRight="5sp"
+                    android:layout_weight="2"
+                    android:background="@color/skyblue" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/LinearWoman"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10sp"
-                android:visibility="visible">
+                android:layout_marginTop="20sp"
+                android:layout_below="@+id/RowHeading"
+                android:layout_marginBottom="20sp"
+                android:layout_marginLeft="10sp"
+                android:layout_marginRight="10sp"
+                android:background="@drawable/topless_border"
+                android:orientation="vertical"
+                android:visibility="visible"
+                android:padding="10dp">
 
-                <Spinner
-                    android:id="@+id/spinnerPregHusband"
-                    android:layout_span="6"
-                    android:entries="@array/spinnerMembership"
-                    android:spinnerMode="dropdown"
-                    android:textColor="@color/skyblue" />
-
-            </TableRow>
-
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_marginTop="30dp">
-
-                <TextView
-                    android:id="@+id/textViewDobP"
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:stretchColumns="*">
+                <TableRow
+                    android:id="@+id/rowContact"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_span="3"
-                    android:text="Birth Date"
-                    android:textColor="@color/skyblue"
-                    android:textSize="20dp" />
+                    >
 
-                <EditText
-                    android:id="@+id/editTextDobP"
+                    <TextView
+                        android:id="@+id/textViewContact"
+                        style="@style/TextAppearance.AppCompat.Body1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_span="2"
+                        android:text="Contact:"
+                        android:textColor="@color/skyblue"
+                        android:textSize="20sp" />
+
+                    <EditText
+                        android:id="@+id/editTextContact"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:layout_span="4"
+                        android:digits="1234567890"
+                        android:ems="10"
+                        android:hint="Enter Contact Number"
+                        android:inputType="number"
+                        android:maxLength="10"
+                        android:singleLine="true" />
+                </TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="30dp">
+
+                    <TextView
+                        android:id="@+id/textViewNameP"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_span="2"
+                        android:textColor="@color/skyblue"
+                        android:textSize="20dp"
+                        android:text="Full Name"
+                        />
+
+                    <EditText
+                        android:id="@+id/editTextNameP"
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:layout_span="4"
+                        android:ems="10"
+                        android:hint="Woman's Name"
+                        android:maxLength="50"
+                        android:inputType="textCapWords"
+                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz"
+                        android:singleLine="true"
+                        />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="30dp">
+
+                    <TextView
+                        android:id="@+id/textViewDobP"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_span="2"
+                        android:text="Birth Date"
+                        android:textColor="@color/skyblue"
+                        android:textSize="20dp" />
+
+                    <EditText
+                        android:id="@+id/editTextDobP"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:layout_span="4"
+                        android:ems="10"
+                        android:hint="DD-MM-YYYY"
+                        android:maxLength="10"
+                        android:inputType="date"
+                        android:digits="0123456789-"
+                        />
+                </TableRow>
+                    <TableRow
+                        android:id="@+id/RowWomanMember"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:id="@+id/textViewWomanMember"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_span="6"
+                            android:layout_marginLeft="10dp"
+                            android:paddingRight="30sp"
+                            android:text="Membership?"
+                            android:textColor="@color/skyblue"
+                            android:textSize="20sp" />
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/RowMomMemberSpin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10sp"
+                        android:visibility="visible">
+
+                        <Spinner
+                            android:id="@+id/spinnerPregWoman"
+                            android:layout_span="6"
+                            android:entries="@array/spinnerWomanMembership"
+                            android:spinnerMode="dropdown"
+                            android:textColor="@color/skyblue" />
+
+                    </TableRow>
+                <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:layout_span="3"
-                    android:ems="10"
-                    android:hint="DD-MM-YYYY"
-                    android:maxLength="10"
-                    android:inputType="date"
-                    android:digits="0123456789-"
-                    />
-            </TableRow>
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20sp">
+                    android:layout_marginTop="20sp">
 
-                <TextView
-                    android:id="@+id/textViewEduPreg"
-                    android:text="Education Level"
-                    android:layout_marginLeft="10dp"
-                    android:layout_span="6"
-                    style="@style/TextAppearance.AppCompat.Title"
-                    android:textColor="@color/skyblue"
-                    android:textSize="20dp"
-                    />
-            </TableRow>
+                    <TextView
+                        android:id="@+id/textViewEduPreg"
+                        android:text="Education Level"
+                        android:layout_marginLeft="10dp"
+                        android:layout_span="6"
+                        style="@style/TextAppearance.AppCompat.Title"
+                        android:textColor="@color/skyblue"
+                        android:textSize="20dp"
+                        />
+                </TableRow>
 
+                <TableRow>
+                    <Spinner
+                        android:id="@+id/spinnerEntryPregEdu"
+                        android:spinnerMode="dropdown"
+                        android:entries="@array/spinnerEntryPregEdu"
+                        android:textColor="@color/skyblue"
+                        android:layout_span="6"
+                        android:layout_width="match_parent"
+                        />
 
+                </TableRow>
+                </TableLayout>
+            </LinearLayout>
+            <!--Contact Details-->
 
-            <TableRow>
-                <Spinner
-                    android:id="@+id/spinnerEntryPregEdu"
-                    android:spinnerMode="dropdown"
-                    android:entries="@array/spinnerEntryPregEdu"
-                    android:textColor="@color/skyblue"
-                    android:layout_span="6"
+                <LinearLayout
+                    android:id="@+id/LinearHusbandBanner"
                     android:layout_width="match_parent"
-                    />
+                    android:layout_height="20dp"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="30sp"
+                    android:layout_marginLeft="10sp"
+                    android:layout_marginRight="10sp"
+                    android:layout_below="@+id/LinearWoman"
+                    android:orientation="horizontal"
+                    android:visibility="visible"
+                    android:weightSum="3">
 
-            </TableRow>
+
+                    <View
+                        android:layout_width="80sp"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="4sp"
+                        android:layout_weight="1"
+                        android:background="@color/skyblue" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="bottom"
+                        android:paddingLeft="5sp"
+                        android:paddingRight="5sp"
+                        android:text="Husband Details"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="1dp"
+                        android:layout_marginRight="5sp"
+                        android:layout_weight="2"
+                        android:background="@color/skyblue" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/LinearHusband"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40sp"
+                    android:layout_marginBottom="20sp"
+                    android:layout_marginLeft="10sp"
+                    android:layout_marginRight="10sp"
+                    android:layout_below="@+id/LinearWoman"
+                    android:background="@drawable/topless_border"
+                    android:orientation="vertical"
+                    android:visibility="visible"
+                    android:padding="10dp">
+                    <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:stretchColumns="*">
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:id="@+id/rowHusband"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20sp"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:id="@+id/textViewHusband"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_span="2"
+                            android:text="Name:"
+                            android:textColor="@color/skyblue"
+                            android:textSize="20dp" />
+
+                        <EditText
+                            android:id="@+id/editTextHusband"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:layout_span="4"
+                            android:ems="10"
+                            android:hint="Husband's Name"
+                            android:maxLength="50"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz"
+                            android:inputType="textCapWords"
+                            android:singleLine="true" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/RowHusMember"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:id="@+id/textViewHusMember"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_span="6"
+                            android:layout_marginLeft="10dp"
+                            android:paddingRight="30sp"
+                            android:text="Membership?"
+                            android:textColor="@color/skyblue"
+                            android:textSize="20sp" />
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/RowHusMemberSpin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10sp"
+                        android:visibility="visible">
+
+                        <Spinner
+                            android:id="@+id/spinnerPregHusband"
+                            android:layout_span="6"
+                            android:entries="@array/spinnerManMembership"
+                            android:spinnerMode="dropdown"
+                            android:textColor="@color/skyblue" />
+
+                    </TableRow>
+                    </TableLayout>
+                </LinearLayout>
+
+            </RelativeLayout>
+
+
+
+
+
 
             <TableRow
                 android:layout_width="fill_parent"

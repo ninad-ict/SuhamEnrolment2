@@ -150,7 +150,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/content/ic_forward_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/content/ic_clear_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -160,8 +160,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="10ff22" />
-                            <entry key="outputName" value="forward_green" />
+                            <entry key="color" value="ff050c" />
+                            <entry key="outputName" value="cross_red" />
                             <entry key="sourceFile" value="C:\Users\ICT Software" />
                           </map>
                         </option>

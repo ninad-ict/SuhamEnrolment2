@@ -19,7 +19,6 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -33,10 +32,7 @@ import java.net.MalformedURLException;
 import java.net.Socket;
 import java.net.URL;
 
-import static com.suhamservice.ictsoftware.suhamenrolment.MainActivity.expandableListView;
 import static com.suhamservice.ictsoftware.suhamenrolment.MainActivity.isEmpty;
-import static com.suhamservice.ictsoftware.suhamenrolment.MainActivity.myToolbar;
-import static com.suhamservice.ictsoftware.suhamenrolment.MainActivity.mydrawLayout;
 
 public class EmployeeLogin extends Fragment {
 
@@ -112,9 +108,22 @@ public class EmployeeLogin extends Fragment {
                     //expandableListView.setEnabled(true);
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.Frame1, EmployeeLocation);
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
+
+                     DB=DataBaseHelper.getInstance(getContext());
+                    String locDetails[]=DB.getEmpLocation(DB.getEmpRegData()[0]);
+                    if(!locDetails[0].equals("-1"))
+                    {
+                        fragmentTransaction.replace(R.id.Frame1, new MainMenuFragment());
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
+                    }
+                    else {
+                        EmployeeLocation=new LocationFragment();
+                        fragmentTransaction.replace(R.id.Frame1, EmployeeLocation);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
+                    }
+
                 }
             }
         });

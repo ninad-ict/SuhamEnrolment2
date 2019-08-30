@@ -1,5 +1,6 @@
 package com.suhamservice.ictsoftware.suhamenrolment;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,13 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import org.json.JSONException;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import static com.suhamservice.ictsoftware.suhamenrolment.MainActivity.anteApplicant;
 import static com.suhamservice.ictsoftware.suhamenrolment.MainActivity.anteLocation;
@@ -59,6 +67,9 @@ public class LocationFragment extends Fragment {
     String Group;
     String GroupType;
 
+    static String commonPanch="";
+    static String commonVillage="";
+
 TextWatcher TWfedCode;
 TextWatcher TWfedState;
 TextWatcher TWfedDistrict;
@@ -85,22 +96,29 @@ TextWatcher TWfedFed;
         federation=locationView.findViewById(R.id.editTextFed);
         Panch=locationView.findViewById(R.id.editTextPanch);
         Village=locationView.findViewById(R.id.editTextVillage);
-        editContact=locationView.findViewById(R.id.editTextContact);
+       // editContact=locationView.findViewById(R.id.editTextContact);
+        new getAsyncState().execute();
+        new getAsyncDistrict().execute();
+        new getAsyncFed().execute();
 
+        DataBaseHelper DB=DataBaseHelper.getInstance(getContext());
         if(MainActivity.ENROL_EMP)
         {
-            heading.setText("Enter Your Location Details" + applicationName.ApplName);
-            DataBaseHelper DB=DataBaseHelper.getInstance(getContext());
-            String locDetails[]=DB.getEmpLocation(DB.getEmpRegData()[0]);
-            if(!locDetails[0].equals("-1"))
-            {
-                FedCode.setText(locDetails[0]);
-                state.setText(locDetails[1]);
-                district.setText(locDetails[2]);
-                federation.setText(locDetails[3]);
-                Panch.setText(locDetails[4]);
-                Village.setText(locDetails[5]);
-            }
+           // editContact.setVisibility(View.GONE);
+            heading.setText("Enter Your Location Details-" + DB.getEmpRegData()[1]);
+        }
+
+
+        String locDetails[]=DB.getEmpLocation(DB.getEmpRegData()[0]);
+        if(!locDetails[0].equals("-1"))
+        {
+            FedCode.setText(locDetails[0]);
+            state.setText(locDetails[1]);
+            district.setText(locDetails[2]);
+            federation.setText(locDetails[3]);
+            Panch.setText(locDetails[4]);
+            Village.setText(locDetails[5]);
+
         }
 
 
@@ -109,16 +127,16 @@ TextWatcher TWfedFed;
         locationFragment.SAVELocation = false;
         if (applicationName.ApplName!= null) {
 
-            heading.setText("Enter Location Details for " + applicationName.ApplName);
+            heading.setText("Enter Location Details for "+applicationName.ApplName);
         }
 
-            locationView.findViewById(R.id.LinearGirlGroup).setVisibility(View.VISIBLE);
-            locationView.findViewById(R.id.LinearGirlGroupBanner).setVisibility(View.VISIBLE);
+           // locationView.findViewById(R.id.LinearGirlGroup).setVisibility(View.VISIBLE);
+           // locationView.findViewById(R.id.LinearGirlGroupBanner).setVisibility(View.VISIBLE);
 
-            radioSchool=locationView.findViewById(R.id.radioButtonSchool);
-            radioAdlGrp=locationView.findViewById(R.id.radioButtonAdlGrp);
+           // radioSchool=locationView.findViewById(R.id.radioButtonSchool);
+          //  radioAdlGrp=locationView.findViewById(R.id.radioButtonAdlGrp);
 
-            EditGirlGroup=locationView.findViewById(R.id.editTextGirlGroup);
+           /* EditGirlGroup=locationView.findViewById(R.id.editTextGirlGroup);
             radioSchool.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -131,7 +149,7 @@ TextWatcher TWfedFed;
                 public void onClick(View v) {
                     EditGirlGroup.setHint("Enter Group Name");
                 }
-            });
+            });*/
 
 
 
@@ -147,13 +165,13 @@ TextWatcher TWfedFed;
                     federation.setText(applicationName.jsonObject.get("FEDERATION").toString());
                     Panch.setText(applicationName.jsonObject.get("PANCHAYAT").toString());
                     Village.setText(applicationName.jsonObject.get("VILLAGE").toString());
-                    editContact.setText(applicationName.jsonObject.get("CONTACT").toString());
-                    EditGirlGroup.setText(applicationName.jsonObject.get("GROUPNAME").toString());
+                    //editContact.setText(applicationName.jsonObject.get("CONTACT").toString());
+                   // EditGirlGroup.setText(applicationName.jsonObject.get("GROUPNAME").toString());
 
-                    if(applicationName.jsonObject.get("GROUPNAME").equals("AdlGroup"))
+                  /*  if(applicationName.jsonObject.get("GROUPNAME").equals("AdlGroup"))
                         radioAdlGrp.setChecked(true);
                     else
-                        radioSchool.setChecked(true);
+                        radioSchool.setChecked(true);*/
 
                     //Log.d("IN DELL Location","FedCode.gettext->"+FedCode.getText());
 
@@ -187,7 +205,7 @@ TextWatcher TWfedFed;
                     federation.setText(anteApplicant.jsonObject.get("FEDERATION").toString());
                     Panch.setText(anteApplicant.jsonObject.get("PANCHAYAT").toString());
                     Village.setText(anteApplicant.jsonObject.get("VILLAGE").toString());
-                    editContact.setText(anteApplicant.jsonObject.get("CONTACT").toString());
+                  //  editContact.setText(anteApplicant.jsonObject.get("CONTACT").toString());
                     //Log.d("IN DELL Location","FedCode.gettext->"+FedCode.getText());
 
                 }
@@ -219,7 +237,7 @@ TextWatcher TWfedFed;
                     federation.setText(deliveryApplicant.jsonObject.get("FEDERATION").toString());
                     Panch.setText(deliveryApplicant.jsonObject.get("PANCHAYAT").toString());
                     Village.setText(deliveryApplicant.jsonObject.get("VILLAGE").toString());
-                    editContact.setText(deliveryApplicant.jsonObject.get("CONTACT").toString());
+                   // editContact.setText(deliveryApplicant.jsonObject.get("CONTACT").toString());
 
                     //Log.d("IN DELL Location","FedCode.gettext->"+FedCode.getText());
 
@@ -264,7 +282,7 @@ TextWatcher TWfedFed;
                         federation.setText(childApplicant.jsonObject.get("FEDERATION").toString());
                         Panch.setText(childApplicant.jsonObject.get("PANCHAYAT").toString());
                         Village.setText(childApplicant.jsonObject.get("VILLAGE").toString());
-                        editContact.setText(childApplicant.jsonObject.get("CONTACT").toString());
+                      //  editContact.setText(childApplicant.jsonObject.get("CONTACT").toString());
 
                         //Log.d("IN DELL Location","FedCode.gettext->"+FedCode.getText());
 
@@ -596,5 +614,234 @@ TextWatcher TWfedFed;
 
 
     }
+
+
+
+    //---------CODE FOR GETTING STATE LIST FROM SERVER IN LOCAL DB----------
+
+    private class getAsyncState extends AsyncTask<String,String,String>
+    {
+        URL url;
+        HttpURLConnection conn;
+
+        @Override
+        protected String doInBackground(String... strings) {
+            //Log.d("ASYNC","Entered BG of STATE");
+
+
+            try {
+                url = new URL(MainActivity.SERVER+"getState.php");
+            } catch (IOException e) {
+                e.printStackTrace();
+                return e.toString();
+            }
+            try {
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(10000);
+                conn.setConnectTimeout(15000);
+                // conn.setRequestMethod("GET");
+                conn.setDoOutput(true);
+                // conn.setDoInput(true);
+                // conn.connect();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return e.toString();
+            }
+
+            try {
+                int response = conn.getResponseCode();
+                if (response == HttpURLConnection.HTTP_OK) {
+                    InputStream is = conn.getInputStream();
+                    BufferedReader br = new BufferedReader(new InputStreamReader(is));
+                    StringBuilder result = new StringBuilder();
+                    String line;
+
+                    while ((line = br.readLine())!= null) {
+                        result.append(line);
+                    }
+                    //Log.d("Inside asyncSTATE",result.toString());
+                    return result.toString();
+                } else
+                    return "NOTEXT";
+            } catch (IOException e) {
+                e.printStackTrace();
+                return e.toString();
+            } finally {
+                conn.disconnect();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(!s.equals("NOTEXT")&&!s.contains("java.net."))
+            {
+                //DataBaseHelper DB=new DataBaseHelper(getApplicationContext(),null,null,1);
+                DataBaseHelper DB=DataBaseHelper.getInstance(getContext());
+                DB.uploadState(s);
+                //DB.close();;
+
+            }
+            //  else
+            // {
+            //Log.d("STATE:post execute","NO Data");
+            //}
+
+        }
+
+    }
+
+    //---------CODE FOR GETTING STATE LIST FROM SERVER IN LOCAL DB----------
+
+
+    //---------CODE FOR GETTING District LIST FROM SERVER IN LOCAL DB----------
+
+    private class getAsyncDistrict extends AsyncTask<String,String,String>
+    {
+        URL url;
+        HttpURLConnection conn;
+
+        @Override
+        protected String doInBackground(String... strings) {
+            //Log.d("ASYNC","Entered BG of DISTRICT");
+
+            try {
+                url = new URL(MainActivity.SERVER+"getDistrict.php");
+            } catch (IOException e) {
+                e.printStackTrace();
+                return e.toString();
+            }
+            try {
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(10000);
+                conn.setConnectTimeout(15000);
+                // conn.setRequestMethod("GET");
+                conn.setDoOutput(true);
+                // conn.setDoInput(true);
+                // conn.connect();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return e.toString();
+            }
+
+            try {
+                int response = conn.getResponseCode();
+                if (response == HttpURLConnection.HTTP_OK) {
+                    InputStream is = conn.getInputStream();
+                    BufferedReader br = new BufferedReader(new InputStreamReader(is));
+                    StringBuilder result = new StringBuilder();
+                    String line;
+
+                    while ((line = br.readLine())!= null) {
+                        result.append(line);
+                    }
+                    //Log.d("Inside asyncDistict",result.toString());
+                    return result.toString();
+                } else
+                    return "NOTEXT";
+            } catch (IOException e) {
+                e.printStackTrace();
+                return e.toString();
+            } finally {
+                conn.disconnect();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(!s.equals("NOTEXT")&&!s.contains("java.net."))
+            {
+                //DataBaseHelper DB=new DataBaseHelper(getApplicationContext(),null,null,1);
+                DataBaseHelper DB=DataBaseHelper.getInstance(getContext());
+                DB.uploadDistrict(s);
+                //DB.close();;
+
+            }
+            //   else
+            // {
+            //    //Log.d("District:post execute","NO Data");
+            //  }
+
+        }
+
+    }
+
+    //---------CODE FOR GETTING District LIST FROM SERVER IN LOCAL DB----------
+
+    //---------CODE FOR GETTING Fed LIST FROM SERVER IN LOCAL DB----------
+
+    private class getAsyncFed extends AsyncTask<String,String,String>
+    {
+        URL url;
+        HttpURLConnection conn;
+
+        @Override
+        protected String doInBackground(String... strings) {
+            //Log.d("ASYNC","Entered BG of FED");
+
+            try {
+                url = new URL(MainActivity.SERVER+"getFed.php");
+            } catch (IOException e) {
+                e.printStackTrace();
+                return e.toString();
+            }
+            try {
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(10000);
+                conn.setConnectTimeout(15000);
+                // conn.setRequestMethod("GET");
+                conn.setDoOutput(true);
+                // conn.setDoInput(true);
+                // conn.connect();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return e.toString();
+            }
+
+            try {
+                int response = conn.getResponseCode();
+                if (response == HttpURLConnection.HTTP_OK) {
+                    InputStream is = conn.getInputStream();
+                    BufferedReader br = new BufferedReader(new InputStreamReader(is));
+                    StringBuilder result = new StringBuilder();
+                    String line;
+
+                    while ((line = br.readLine())!= null) {
+                        result.append(line);
+                    }
+                    //Log.d("Inside asyncFed",result.toString());
+                    return result.toString();
+                } else
+                    return "NOTEXT";
+            } catch (IOException e) {
+                e.printStackTrace();
+                return e.toString();
+            } finally {
+                conn.disconnect();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(!s.equals("NOTEXT")&&!s.contains("java.net."))
+            {
+                //DataBaseHelper DB=new DataBaseHelper(getApplicationContext(),null,null,1);
+                DataBaseHelper DB=DataBaseHelper.getInstance(getContext());
+                DB.uploadFed(s);
+                //DB.close();;
+
+            }
+            // else
+            // {
+            //      //Log.d("FED:post execute","NO Data");
+            // }
+
+        }
+
+    }
+
+    //---------CODE FOR GETTING Fed LIST FROM SERVER IN LOCAL DB----------
 
 }

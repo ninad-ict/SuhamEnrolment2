@@ -26,6 +26,7 @@ public class ExpandableListData {
 
         List<String> Associate =new ArrayList<String>();
         Associate.add("Profile");
+        Associate.add("Location Details");
 
 
 
@@ -33,6 +34,8 @@ public class ExpandableListData {
         ExpandedListDetail.put("ENROLMENT",Application);
         ExpandedListDetail.put("ASSOCIATE",Associate);
         ExpandedListDetail.put("CONTACT US",new ArrayList<String>());
+        ExpandedListDetail.put("ABOUT",new ArrayList<String>());
+        ExpandedListDetail.put("LOGOUT",new ArrayList<String>());
 
 
 

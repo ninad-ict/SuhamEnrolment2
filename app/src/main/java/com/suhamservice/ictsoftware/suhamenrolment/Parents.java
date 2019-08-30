@@ -35,6 +35,8 @@ public class Parents extends Fragment {
     Spinner spinMom;
     Spinner spinDad;
 
+    EditText editContact;
+
 
     @Nullable
     @Override
@@ -53,6 +55,8 @@ public class Parents extends Fragment {
         spinDad=viewParents.findViewById(R.id.spinnerParMemberF);
         editMomId=viewParents.findViewById(R.id.editTextMomId);
 
+        editContact=viewParents.findViewById(R.id.editTextContact);
+
         if(childApplicant.ID_ENTERED)
         {
             //((TableRow)viewParents.findViewById(R.id.RowMomId)).setVisibility(View.GONE);
@@ -64,6 +68,7 @@ public class Parents extends Fragment {
                 heading.setText("Enter Parents Details for " + childApplicant.ApplName);*/
 
             try {
+                editContact.setText(childApplicant.jsonObject.get("CONTACT").toString());
                 if(childApplicant.ID_WHO.equals("MOTH"))
                editDoB.setText(childApplicant.jsonObject.get("DOB").toString());
                 else if(childApplicant.ID_WHO.equals("CHILD"))
@@ -80,10 +85,13 @@ public class Parents extends Fragment {
                    ((TableRow)viewParents.findViewById(R.id.RowNote)).setVisibility(View.GONE);
 
                    ArrayAdapter<String> arrayAdapter =
-                           new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.spinnerMembership));
+                           new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.spinnerWomanMembership));
 
                    //spinMom.setSelection(arrayAdapter.getPosition(deliveryApplicant.jsonObject.get("M_MEMBER").toString()));
                    spinMom.setSelection(arrayAdapter.getPosition("SUHAM"));
+                    arrayAdapter =
+                           new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.spinnerManMembership));
+
                    spinDad.setSelection(arrayAdapter.getPosition(childApplicant.jsonObject.get("H_MEMBER").toString()));
                }
 
@@ -94,10 +102,13 @@ public class Parents extends Fragment {
                    editMomId.setText(childApplicant.jsonObject.get("MID").toString());
 
                    ArrayAdapter<String> arrayAdapter =
-                           new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.spinnerMembership));
+                           new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.spinnerWomanMembership));
 
                    //spinMom.setSelection(arrayAdapter.getPosition(deliveryApplicant.jsonObject.get("M_MEMBER").toString()));
                    spinMom.setSelection(arrayAdapter.getPosition(childApplicant.jsonObject.get("M_MEMBER").toString()));
+                   arrayAdapter =
+                           new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.spinnerManMembership));
+
                    spinDad.setSelection(arrayAdapter.getPosition(childApplicant.jsonObject.get("D_MEMBER").toString()));
                }
            }

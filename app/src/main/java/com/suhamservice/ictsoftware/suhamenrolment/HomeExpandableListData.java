@@ -1,8 +1,6 @@
 package com.suhamservice.ictsoftware.suhamenrolment;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;

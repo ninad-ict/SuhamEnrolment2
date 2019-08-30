@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.SwitchCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,8 +69,11 @@ View viewDelivery;
         viewDelivery=inflater.inflate(R.layout.delivery,container,false);
 
         checkBoxNormal=viewDelivery.findViewById(R.id.checkNormal);
+
         checkBoxAbortion=viewDelivery.findViewById(R.id.checkAbortion);
+
         checkBoxMMR=viewDelivery.findViewById(R.id.checkMMR);
+
         checkBoxStill=viewDelivery.findViewById(R.id.checkStill);
 
         editDoB=viewDelivery.findViewById(R.id.editTextDelDob);
@@ -98,7 +102,8 @@ View viewDelivery;
                     viewDelivery.findViewById(R.id.TableDelivery).setVisibility(View.VISIBLE);
                     // viewDelivery.findViewById(R.id.tableDelChildS).setVisibility(View.VISIBLE);
 
-                    if(!deliveryApplicant.ID_ENTERED) {
+                    if(!deliveryApplicant.ID_WHO.equals("MOTH")) {
+                        Log.d("IN-CHECK-NORMAL","NOt-not");
                         viewDelivery.findViewById(R.id.LinearDelChildDetails).setVisibility(View.VISIBLE);
                         viewDelivery.findViewById(R.id.LinearChildBanner).setVisibility(View.VISIBLE);
                     }
@@ -191,9 +196,9 @@ View viewDelivery;
             }
         });
 
-        if(deliveryApplicant.ID_ENTERED)
+        if(deliveryApplicant.ID_ENTERED&&deliveryApplicant.ID_WHO.equals("MOTH"))
         {
-
+Log.d("IN-IF-MOTH","Line1");
 
             try {
                 editGravida.setText(deliveryApplicant.jsonObject.get("GRAVIDA").toString());
@@ -246,6 +251,7 @@ View viewDelivery;
             }
             catch (JSONException j)
             {
+                Log.d("JSON-Failed","IN-DELL");
                 j.printStackTrace();
             }
 

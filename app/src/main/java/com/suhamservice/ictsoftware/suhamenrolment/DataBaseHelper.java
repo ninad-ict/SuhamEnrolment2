@@ -9,7 +9,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import org.joda.time.LocalDateTime;
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Random;
 
@@ -59,6 +61,8 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_NAME_STATE= "STATE";
     private static final String TABLE_NAME_DISTRICT = "DISTRICT";
     private static final String TABLE_NAME_FED = "FED";
+    private static final String TABLE_NAME_PANCH = "PANCHAYAT";
+    private static final String TABLE_NAME_VILLAGE = "VILLAGE";
     //---------TABLES FOR STORING MAPPED LOCATIONS WHERE DHAN WORKS-----------
 
     private static final String TABLE_NAME_ARCHIVE = "ARCHIVETABLE";
@@ -170,6 +174,7 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
     private static final String COL_PP_NAME="NAME";
     private static final String COL_PP_HUSBAND="HUSBAND";
     private static final String COL_PP_H_MEMBER="H_MEMBER";
+    private static final String COL_PP_M_MEMBER="M_MEMBER";
     private static final String COL_PP_DOB="DOB";
     private static final String COL_PP_EDUCATION="EDUCATION";
 
@@ -220,6 +225,15 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
     private static final String COL_FED_FC = "F_CODE";
     private static final String COL_FED_DC = "D_CODE";
     private static final String COL_FED_SC = "S_CODE";
+
+    private static final String COL_PANCH_N = "NAME";
+    private static final String COL_PANCH_PID = "PID";
+    private static final String COL_PANCH_FCODE = "FCODE";
+
+    private static final String COL_VILL_N = "NAME";
+    private static final String COL_VILL_VID = "VID";
+    private static final String COL_VILL_PID = "PID";
+
     //---------COLUMNS FOR STORING LOCATIONS WHERE DHAN WORKS-----------
 
     //---------COLUMNS FOR STORING TIMESTAMP-----------
@@ -364,7 +378,7 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
 
         //------CREATE TABLE PREG_PERSONAL----
 
-        CREATE_TABLE = "CREATE TABLE " + TABLE_NAME_PREG_PERSONAL+ " (" + COL_PP_NAME + " TEXT," + COL_PP_HUSBAND + " TEXT," +COL_PP_H_MEMBER + " TEXT," + COL_PP_DOB + " TEXT," + COL_PP_EDUCATION + " TEXT," +COL_ID+" TEXT NOT NULL);";
+        CREATE_TABLE = "CREATE TABLE " + TABLE_NAME_PREG_PERSONAL+ " (" + COL_PP_NAME + " TEXT," +COL_PP_M_MEMBER + " TEXT," + COL_PP_HUSBAND + " TEXT," +COL_PP_H_MEMBER + " TEXT," + COL_PP_DOB + " TEXT," + COL_PP_EDUCATION + " TEXT," +COL_ID+" TEXT NOT NULL);";
         db.execSQL(CREATE_TABLE);
         // log.d("ON-CREATE","Create TABLE_NAME_PREG_PERSONAL QUERY->"+CREATE_TABLE);
 
@@ -446,6 +460,22 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
 
         //------CREATE TABLE FED----
 
+        //------CREATE TABLE PANCH----
+
+        CREATE_TABLE = "CREATE TABLE " + TABLE_NAME_PANCH+ " (" + COL_PANCH_N + " TEXT," + COL_PANCH_PID + " INT NOT NULL PRIMARY KEY,"+COL_PANCH_FCODE+",foreign key("+COL_PANCH_FCODE+") references "+TABLE_NAME_FED+" ("+COL_FED_FC+"));";
+        db.execSQL(CREATE_TABLE);
+        // log.d("ON-CREATE","Create TABLE_NAME_DISTRICT QUERY->"+CREATE_TABLE);
+
+        //------CREATE TABLE PANCH----
+
+        //------CREATE TABLE VILLAGE----
+
+        CREATE_TABLE = "CREATE TABLE " + TABLE_NAME_VILLAGE+ " (" + COL_VILL_N + " TEXT," + COL_VILL_VID + " INT NOT NULL PRIMARY KEY,"+COL_VILL_PID+",foreign key("+COL_VILL_PID+") references "+TABLE_NAME_PANCH+" ("+COL_PANCH_PID+"));";
+        db.execSQL(CREATE_TABLE);
+        // log.d("ON-CREATE","Create TABLE_NAME_DISTRICT QUERY->"+CREATE_TABLE);
+
+        //------CREATE TABLE VILLAGE----
+
         //------CREATE TABLE TRANSITION----
 
         CREATE_TABLE = "CREATE TABLE " + TABLE_NAME_TRANSITION+ " (" + COL_OLD + " TEXT," + COL_NEW + " TEXT);";
@@ -462,15 +492,40 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
         if(oldVersion<2) {
             //------CREATE NEW  TABLE EMPREG------
             db.execSQL("DROP TABLE IF EXISTS "+TABLE_NAME_EMPREG);
+            db.execSQL("DROP TABLE IF EXISTS "+TABLE_NAME_PREG_PERSONAL);
 
             String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME_EMPREG + " (" + COL_EMP_ID + " TEXT," + COL_EMP_NAME + " TEXT,"+ COL_EMP_PIN + " TEXT,"+ COL_EMP_MOBILE + " TEXT,"+ COL_EMP_ADDRESS + " TEXT);";
             db.execSQL(CREATE_TABLE);
             //------CREATE NEW  TABLE EMPREG------
 
+            //------CREATE TABLE PREG_PERSONAL----
+
+            CREATE_TABLE = "CREATE TABLE " + TABLE_NAME_PREG_PERSONAL+ " (" + COL_PP_NAME + " TEXT," +COL_PP_M_MEMBER + " TEXT," + COL_PP_HUSBAND + " TEXT," +COL_PP_H_MEMBER + " TEXT," + COL_PP_DOB + " TEXT," + COL_PP_EDUCATION + " TEXT," +COL_ID+" TEXT NOT NULL);";
+            db.execSQL(CREATE_TABLE);
+            // log.d("ON-CREATE","Create TABLE_NAME_PREG_PERSONAL QUERY->"+CREATE_TABLE);
+
+            //------CREATE TABLE PREG_PERSONAL---
+
             //---------CREATE TABLE FOR EMP LOCATION----------
             CREATE_TABLE = "CREATE TABLE " + TABLE_EMP_LOCATION + " (" + COL_L_FEDCODE + " TEXT,"+ COL_L_STATE + " TEXT,"+ COL_L_DISTRICT + " TEXT," + COL_L_FED + " TEXT," + COL_L_PANCH + " TEXT," + COL_L_VILLAGE + " TEXT," + COL_ID + " TEXT NOT NULL);";
             db.execSQL(CREATE_TABLE);
             //---------CREATE TABLE FOR EMP LOCATION----------
+
+            //------CREATE TABLE PANCH----
+
+            CREATE_TABLE = "CREATE TABLE " + TABLE_NAME_PANCH+ " (" + COL_PANCH_N + " TEXT," + COL_PANCH_PID + " INT NOT NULL PRIMARY KEY,"+COL_PANCH_FCODE+",foreign key("+COL_PANCH_FCODE+") references "+TABLE_NAME_FED+" ("+COL_FED_FC+"));";
+            db.execSQL(CREATE_TABLE);
+            // log.d("ON-CREATE","Create TABLE_NAME_DISTRICT QUERY->"+CREATE_TABLE);
+
+            //------CREATE TABLE PANCH----
+
+            //------CREATE TABLE VILLAGE----
+
+            CREATE_TABLE = "CREATE TABLE " + TABLE_NAME_VILLAGE+ " (" + COL_VILL_N + " TEXT," + COL_VILL_VID + " INT NOT NULL PRIMARY KEY,"+COL_VILL_PID+",foreign key("+COL_VILL_PID+") references "+TABLE_NAME_PANCH+" ("+COL_PANCH_PID+"));";
+            db.execSQL(CREATE_TABLE);
+            // log.d("ON-CREATE","Create TABLE_NAME_DISTRICT QUERY->"+CREATE_TABLE);
+
+            //------CREATE TABLE VILLAGE----
         }
 
 
@@ -671,7 +726,11 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL_L_PANCH, locationFragment.PANCH);
         contentValues.put(COL_ID,getEmpRegData()[0]);
 
+        //        db.update(TABLE_NAME_ARCHIVE,contentValues,COL_ID+"=?",new String[]{id});
+        if(getEmpLocation(getEmpRegData()[0])[0].equals("-1"))
         db.insert(TABLE_EMP_LOCATION,null,contentValues);
+        else
+            db.update(TABLE_EMP_LOCATION,contentValues,COL_ID+"=?",new String[]{getEmpRegData()[0]});
     }
 
     public void uploadState(String regions)
@@ -715,6 +774,148 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
            contentValues.put(COL_R_NAME,Line[i]);
            db.insert(TABLE_NAME_REGION,null,contentValues);
        }*/
+    }
+
+    public void uploadPanch(String result)
+    {
+        String mess="Inside-UPLOAD-Panch";
+        Log.d(mess,"result->"+result);
+        JSONArray jsonArray=null;
+        try{
+            Log.d(mess,"TRY-1");
+            jsonArray=new JSONArray(result);
+            for(int i=0;i<jsonArray.length();i++) {
+                JSONObject jsonObject=jsonArray.getJSONObject(i);
+                Log.d(mess, "JSON-IS->" + jsonObject.getString("NAME"));
+                SQLiteDatabase db=this.getWritableDatabase();
+                String countQuery="Select * from "+ TABLE_NAME_PANCH+" where "+COL_PANCH_PID+"=?";
+                Cursor cursor=null;
+                try
+                {
+                    cursor=db.rawQuery(countQuery,new String[]{jsonObject.getString("PID")});
+                    Log.d(mess,"jsonObject.getString(PID)->"+jsonObject.getString("PID"));
+                    if(cursor.getCount()>0)
+                        continue;
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put(COL_PANCH_N,jsonObject.getString("NAME"));
+                    contentValues.put(COL_PANCH_PID,jsonObject.getString("PID"));
+                    contentValues.put(COL_PANCH_FCODE,jsonObject.getString("FCODE"));
+                    db.insert(TABLE_NAME_PANCH,null,contentValues);
+                    // log.d(mess,"Cursor->"+cursor.getCount());
+                }catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+
+        }catch (JSONException j)
+        {
+            j.printStackTrace();
+        }
+
+        }
+
+
+    public void uploadVillage(String result)
+    {
+        String mess="Inside-UPLOAD-Panch";
+        Log.d(mess,"result->"+result);
+        JSONArray jsonArray=null;
+        try{
+            Log.d(mess,"TRY-1");
+            jsonArray=new JSONArray(result);
+            for(int i=0;i<jsonArray.length();i++) {
+                JSONObject jsonObject=jsonArray.getJSONObject(i);
+                Log.d(mess, "JSON-IS->" + jsonObject.getString("NAME"));
+                SQLiteDatabase db=this.getWritableDatabase();
+                String countQuery="Select * from "+ TABLE_NAME_VILLAGE+" where "+COL_VILL_VID+"=?";
+                Cursor cursor=null;
+                try
+                {
+                    cursor=db.rawQuery(countQuery,new String[]{jsonObject.getString("VID")});
+                    Log.d(mess,"jsonObject.getString(VID)->"+jsonObject.getString("VID"));
+                    if(cursor.getCount()>0)
+                        continue;
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put(COL_VILL_N,jsonObject.getString("NAME"));
+                    contentValues.put(COL_VILL_VID,jsonObject.getString("VID"));
+                    contentValues.put(COL_VILL_PID,jsonObject.getString("PID"));
+                    db.insert(TABLE_NAME_VILLAGE,null,contentValues);
+                    // log.d(mess,"Cursor->"+cursor.getCount());
+                }catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+
+        }catch (JSONException j)
+        {
+            j.printStackTrace();
+        }
+
+    }
+
+        public String[] getPanch(String FEDCODE) {
+            SQLiteDatabase db = this.getWritableDatabase();
+            String Query = "Select "+COL_PANCH_N+" from " + TABLE_NAME_PANCH + " where " + COL_PANCH_FCODE + "=?";
+            Cursor cursor = null;
+            try {
+                cursor = db.rawQuery(Query, new String[]{FEDCODE});
+
+                if (cursor.getCount() == 0) {
+                    // log.d(mess,"No rows selected");
+                    return new String[]{"No List!"};
+                } else {
+                    String[] result=new String[cursor.getCount()+1];
+                    result[0]="Select Panchayat";
+                    for (int i=1;i<=cursor.getCount();i++)
+                    {
+                        cursor.moveToNext();
+                        // log.d(mess,"Cursor is pointing at->"+String.valueOf(cursor.getString(0)));
+                        result[i]=String.valueOf(cursor.getString(0));
+                        // updateSentStatus(StoreID[i],"Y");
+                    }
+
+                    return result;
+
+                }
+                } catch (Exception e) {
+                e.getStackTrace();
+            }
+            return new String[]{"-1"};
+        }
+
+    public String[] getVillage(String PANCH) {
+       String mess="IN-GET-VILLAGE";
+       Log.d(mess,"PANCH->"+PANCH);
+        SQLiteDatabase db = this.getWritableDatabase();
+        String Query = "Select "+COL_VILL_N+" from " + TABLE_NAME_VILLAGE
+                + " where " + COL_VILL_PID + " IN (SELECT "+COL_PANCH_PID+" FROM "+TABLE_NAME_PANCH+" WHERE "+COL_PANCH_N+"=?);";
+        Cursor cursor = null;
+        try {
+            cursor = db.rawQuery(Query, new String[]{PANCH});
+
+            if (cursor.getCount() == 0) {
+                // log.d(mess,"No rows selected");
+                return new String[]{"No List!"};
+            } else {
+                String[] result=new String[cursor.getCount()+1];
+                result[0]="Select Village";
+                for (int i=1;i<=cursor.getCount();i++)
+                {
+                    cursor.moveToNext();
+                    // log.d(mess,"Cursor is pointing at->"+String.valueOf(cursor.getString(0)));
+                    result[i]=String.valueOf(cursor.getString(0));
+                    // updateSentStatus(StoreID[i],"Y");
+                }
+
+                return result;
+
+            }
+        } catch (Exception e) {
+            e.getStackTrace();
+        }
+        return new String[]{"-1"};
     }
 
     public void uploadDistrict(String lines)
@@ -1576,6 +1777,7 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
             contentValues.put(COL_PP_NAME, antePersonal.Name);
             contentValues.put(COL_PP_HUSBAND, antePersonal.Husband);
             contentValues.put(COL_PP_H_MEMBER, antePersonal.HusbandMem);
+            contentValues.put(COL_PP_M_MEMBER, antePersonal.WomanMem);
             contentValues.put(COL_PP_DOB, antePersonal.DOB);
             contentValues.put(COL_PP_EDUCATION, antePersonal.Education);
             contentValues.put(COL_ID, id);
@@ -1616,6 +1818,7 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
                 contentValues.put(COL_PP_NAME, pregPersonal.Name);
                 contentValues.put(COL_PP_HUSBAND, pregPersonal.Husband);
                 contentValues.put(COL_PP_H_MEMBER, pregPersonal.HusbandMem);
+                contentValues.put(COL_PP_M_MEMBER, pregPersonal.WomanMem);
                 contentValues.put(COL_PP_DOB, pregPersonal.DOB);
                 contentValues.put(COL_PP_EDUCATION, pregPersonal.Education);
                 contentValues.put(COL_ID, id);
@@ -1648,18 +1851,18 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
                 //---------------INSERTING CONTENTS OF DELIVERY INTO LOCAL DB-------------
 
                 String dd=delivery.Outcome;
-                // log.d(mess, "Value of delivery.Outcome->"+dd);
-                if((delivery.Outcome.contains("CB"))&&!deliveryApplicant.ID_ENTERED)
+               Log.d(mess, "Value of delivery.Outcome->"+dd);
+                if((delivery.Outcome.contains("CB"))&&!deliveryApplicant.ID_WHO.equals("MOTH"))
                 {
                     String MomID=id;
-                    // log.d(mess, "Inside dell->CB");
+                     Log.d(mess, "Inside dell->CB");
                     if(delivery.twins.equals("NO")) {
 
                         // log.d(mess, "Inside dell->CB->twinNO");
 
                         random=new Random().nextInt(9999)+1;
                         id = locationFragment.FEDCODE +"C"+random.toString();
-                        // log.d(mess,"TwinS-ID->"+id);
+                        Log.d(mess,"child-ID->"+id);
 
                         //---------------UPDATING ADDMOD TABLE ------------
 
@@ -1736,7 +1939,7 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
 
                         contentValues = new ContentValues();
                         contentValues.put(COL_PAR_MOM, pregPersonal.Name);
-                        contentValues.put(COL_PAR_M_MEMBER, "SUHAM");
+                        contentValues.put(COL_PAR_M_MEMBER, pregPersonal.WomanMem);
                         contentValues.put(COL_PAR_DOB, pregPersonal.DOB);
                         contentValues.put(COL_PAR_DAD, pregPersonal.Husband);
                         contentValues.put(COL_PAR_D_MEMBER, pregPersonal.HusbandMem);
@@ -1861,7 +2064,7 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
 
                         contentValues = new ContentValues();
                         contentValues.put(COL_PAR_MOM, pregPersonal.Name);
-                        contentValues.put(COL_PAR_M_MEMBER, "SUHAM");
+                        contentValues.put(COL_PAR_M_MEMBER, pregPersonal.WomanMem);
                         contentValues.put(COL_PAR_DOB, pregPersonal.DOB);
                         contentValues.put(COL_PAR_D_MEMBER, pregPersonal.HusbandMem);
                         contentValues.put(COL_ID, id);
@@ -1989,7 +2192,7 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
                        // // log.d(mess, "age->" + age);
                         contentValues = new ContentValues();
                         contentValues.put(COL_PAR_MOM, pregPersonal.Name);
-                        contentValues.put(COL_PAR_M_MEMBER, "SUHAM");
+                        contentValues.put(COL_PAR_M_MEMBER, pregPersonal.WomanMem);
                         contentValues.put(COL_PAR_DOB, pregPersonal.DOB);
                         contentValues.put(COL_PAR_D_MEMBER, pregPersonal.HusbandMem);
                         contentValues.put(COL_ID, id);
@@ -2213,9 +2416,9 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
 
 
         final int  COL_LENGTH=27;
-        final int  COL_LENGTH_DELL=24;
+        final int  COL_LENGTH_DELL=25;
         final int  COL_LENGTH_CHILD=25;
-        final int  COL_LENGTH_ANTE=21;
+        final int  COL_LENGTH_ANTE=22;
 
         // log.d(mess,"QUERY IS->"+query);
         // log.d(mess,"ID IS->"+id);
@@ -2236,7 +2439,7 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
             // log.d(mess, "Girl Cursor is empty");
 
             String PREGquery =  "select L.STATE ,L.DISTRICT,L.FED_CODE, L.PANCHAYAT,L.FEDERATION,L.VILLAGE,L.ID,"+
-                    "P.NAME ,P.HUSBAND,P.H_MEMBER, P.DOB ,P.EDUCATION ," +
+                    "P.NAME,P.M_MEMBER,P.HUSBAND,P.H_MEMBER, P.DOB ,P.EDUCATION ," +
                     "PG.LMP ,PG.EDD ,PG.GRAVIDA ,PG.WHEN_REGISTERED ,PG.MONTH_PREGNANT,T.TIME,AM.STATUS,C.CONTACT,TR.OLD" +
                     " FROM LOCATIONTABLE L JOIN PREGPERSONAL P ON L.ID=P.ID JOIN PREGNANCY PG " +
                     "ON PG.ID=L.ID JOIN TIMESTAMP T ON T.ID=L.ID JOIN ADDMOD AM ON AM.ID=L.ID JOIN CONTACT C ON C.ID=L.ID " +
@@ -2250,7 +2453,7 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
             if ((cursor.getCount() == 0)) {
                 // log.d(mess, "PREG Cursor is empty");
                 query = "select L.STATE ,L.DISTRICT,L.FED_CODE, L.PANCHAYAT,L.FEDERATION,L.VILLAGE,L.ID,"+
-                        "P.NAME ,P.HUSBAND,P.H_MEMBER, P.DOB ,P.EDUCATION ," +
+                        "P.NAME,P.M_MEMBER,P.HUSBAND,P.H_MEMBER, P.DOB ,P.EDUCATION ," +
                         "D.PLACE,D.STATUS,D.COLOSTRUM,D.TWINS,D.OUTCOME,D.ABORTION_MONTH,D.DOD,D.GRAVIDA,T.TIME,AM.STATUS,C.CONTACT,TR.OLD"+
                         " FROM LOCATIONTABLE L JOIN PREGPERSONAL P ON L.ID=P.ID JOIN DELIVERY D ON D.ID=L.ID JOIN TIMESTAMP T ON T.ID=L.ID JOIN ADDMOD AM ON AM.ID=L.ID " +
                         "JOIN CONTACT C ON C.ID=L.ID LEFT JOIN TRANSITION TR on TR.NEW=L.ID WHERE L." + COL_ID + "=?";
@@ -2262,7 +2465,7 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
                 result[0] = "DELL";
 
             if ((cursor.getCount() == 0)) {
-                // log.d(mess, "DEL Cursor is empty");
+                 Log.d(mess, "DEL Cursor is empty");
 
                 String CHILDquery ="select L.STATE ,L.DISTRICT,L.FED_CODE, L.PANCHAYAT,L.FEDERATION,L.VILLAGE,L.ID,"+
                         "P.MOM ,P.M_MEMBER,P.MOM_DOB ,P.DAD,P.D_MEMBER," +
