@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -829,11 +830,12 @@ TextWatcher TWfedFed;
             {
                 //DataBaseHelper DB=new DataBaseHelper(getApplicationContext(),null,null,1);
                 DataBaseHelper DB=DataBaseHelper.getInstance(getContext());
+                Log.d("in OPE->","s->"+s);
                 DB.uploadFed(s);
                 //DB.close();;
 
             }
-            // else
+            // elseuploadFed
             // {
             //      //Log.d("FED:post execute","NO Data");
             // }

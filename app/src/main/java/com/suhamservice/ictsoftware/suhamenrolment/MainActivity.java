@@ -135,9 +135,9 @@ static GirlFragment girlFragment=new GirlFragment();
 
 
     static Boolean RECEIVED=false;
-    static String SERVER="http://192.168.1.126:80/SUHAM_Final/";
+    //static String SERVER="http://192.168.1.126:80/SUHAM_Final/";
     //static String SERVER="http://ec2-13-126-88-91.ap-south-1.compute.amazonaws.com/SUHAM/";
-    //static String SERVER="http://www.suhamhealth.org/";
+    static String SERVER="http://www.suhamhealth.org/";
     static String ID="";
 
     //------VALUES FOR IDENTIFYING WHICH MENU OPTION IS SELECTED--------
@@ -148,7 +148,9 @@ static GirlFragment girlFragment=new GirlFragment();
     static boolean ENROL_EMP=false;
     //------VALUES FOR IDENTIFYING WHICH MENU OPTION IS SELECTED--------
 
+//----VALUE FOR GETTING EMPID----------
 
+//----VALUE FOR GETTING EMPID----------
     @Override
     public void onBackPressed() {
         //super.onBackPressed();
@@ -1042,8 +1044,20 @@ static GirlFragment girlFragment=new GirlFragment();
             { anteLocation.SAVELocation=false;return;}
             return;
         }
-        new getAsyncPanch().execute(((EditText) findViewById(R.id.editTextFedCode)).getText().toString());
-        new getAsyncVillage().execute(((EditText) findViewById(R.id.editTextFedCode)).getText().toString());
+
+        //---------Code changes for Fedcode 0000---------------
+        String Fedcode=((EditText) findViewById(R.id.editTextFedCode)).getText().toString();
+        if(Fedcode.length()==1)
+            Fedcode="000"+Fedcode;
+       else if(Fedcode.length()==2)
+            Fedcode="00"+Fedcode;
+        else if(Fedcode.length()==3)
+            Fedcode="0"+Fedcode;
+
+        //---------Code changes for Fedcode 0000---------------
+
+        new getAsyncPanch().execute(Fedcode);
+        new getAsyncVillage().execute(Fedcode);
         //getAsyncVillage().execute(((EditText) findViewById(R.id.editTextFedCode)).getText().toString());
 
             if(ENROL_EMP)
@@ -1054,7 +1068,7 @@ static GirlFragment girlFragment=new GirlFragment();
                 EmployeeLocation.STATE=((EditText)findViewById(R.id.editTextState)).getText().toString();
                 EmployeeLocation.DISTRICT=((EditText)findViewById(R.id.editTextDist)).getText().toString();
                 EmployeeLocation.FED=((EditText)findViewById(R.id.editTextFed)).getText().toString();
-                EmployeeLocation.FEDCODE=((EditText)findViewById(R.id.editTextFedCode)).getText().toString();
+                EmployeeLocation.FEDCODE=Fedcode;
                 //EmployeeLocation.PANCH=((EditText)findViewById(R.id.editTextPanch)).getText().toString();
                // EmployeeLocation.VILLAGE=((EditText)findViewById(R.id.editTextVillage)).getText().toString();
                  EmployeeLocation.PANCH=null;
@@ -1082,7 +1096,7 @@ static GirlFragment girlFragment=new GirlFragment();
                 locationFragment.STATE=((EditText)findViewById(R.id.editTextState)).getText().toString();
                 locationFragment.DISTRICT=((EditText)findViewById(R.id.editTextDist)).getText().toString();
                 locationFragment.FED=((EditText)findViewById(R.id.editTextFed)).getText().toString();
-                locationFragment.FEDCODE=((EditText)findViewById(R.id.editTextFedCode)).getText().toString();
+                locationFragment.FEDCODE=Fedcode;
                 locationFragment.PANCH=((EditText)findViewById(R.id.editTextPanch)).getText().toString();
                 locationFragment.VILLAGE=((EditText)findViewById(R.id.editTextVillage)).getText().toString();
                 locationFragment.Group=((EditText)findViewById(R.id.editTextGirlGroup)).getText().toString();
@@ -1108,7 +1122,7 @@ static GirlFragment girlFragment=new GirlFragment();
                 DeliveryLocation.STATE=((EditText)findViewById(R.id.editTextState)).getText().toString();
                 DeliveryLocation.DISTRICT=((EditText)findViewById(R.id.editTextDist)).getText().toString();
                 DeliveryLocation.FED=((EditText)findViewById(R.id.editTextFed)).getText().toString();
-                DeliveryLocation.FEDCODE=((EditText)findViewById(R.id.editTextFedCode)).getText().toString();
+                DeliveryLocation.FEDCODE=Fedcode;
                 DeliveryLocation.PANCH=((EditText)findViewById(R.id.editTextPanch)).getText().toString();
                 DeliveryLocation.VILLAGE=((EditText)findViewById(R.id.editTextVillage)).getText().toString();
                 DeliveryLocation.Contact=((EditText)findViewById(R.id.editTextContact)).getText().toString();
@@ -1124,7 +1138,7 @@ static GirlFragment girlFragment=new GirlFragment();
                 childLocation.STATE=((EditText)findViewById(R.id.editTextState)).getText().toString();
                 childLocation.DISTRICT=((EditText)findViewById(R.id.editTextDist)).getText().toString();
                 childLocation.FED=((EditText)findViewById(R.id.editTextFed)).getText().toString();
-                childLocation.FEDCODE=((EditText)findViewById(R.id.editTextFedCode)).getText().toString();
+                childLocation.FEDCODE=Fedcode;
                 childLocation.PANCH=((EditText)findViewById(R.id.editTextPanch)).getText().toString();
                 childLocation.VILLAGE=((EditText)findViewById(R.id.editTextVillage)).getText().toString();
                 childLocation.Contact=((EditText)findViewById(R.id.editTextContact)).getText().toString();
@@ -1139,7 +1153,7 @@ static GirlFragment girlFragment=new GirlFragment();
                 anteLocation.STATE=((EditText)findViewById(R.id.editTextState)).getText().toString();
                 anteLocation.DISTRICT=((EditText)findViewById(R.id.editTextDist)).getText().toString();
                 anteLocation.FED=((EditText)findViewById(R.id.editTextFed)).getText().toString();
-                anteLocation.FEDCODE=((EditText)findViewById(R.id.editTextFedCode)).getText().toString();
+                anteLocation.FEDCODE=Fedcode;
                 anteLocation.PANCH=((EditText)findViewById(R.id.editTextPanch)).getText().toString();
                 anteLocation.VILLAGE=((EditText)findViewById(R.id.editTextVillage)).getText().toString();
                 anteLocation.Contact=((EditText)findViewById(R.id.editTextContact)).getText().toString();
@@ -1473,7 +1487,7 @@ public  void Refresh(View view)
         int YOM=0;
         int yDOB=0;
         Calendar c= Calendar.getInstance();
-        if(!checkdate((EditText)findViewById(R.id.editTextDob)))
+        if(!checkdate((EditText)findViewById(R.id.editTextDob),false))
             return;
         else
         {
@@ -1563,7 +1577,7 @@ public  void Refresh(View view)
 
     }
 
-    public  boolean checkdate (EditText editText)
+    public  boolean checkdate (EditText editText,Boolean Future)
     {
         Calendar c;String DOB="";int yDOB=0;int dDOB=0;int mDOB=0;Boolean DOBFORMAT=false;
         c= Calendar.getInstance();
@@ -1584,7 +1598,7 @@ public  void Refresh(View view)
         dDOB = Integer.valueOf(DOB.split("-")[0]);
         mDOB = Integer.valueOf(DOB.split("-")[1]);
 
-        if (yDOB<1900 || yDOB>c.get(Calendar.YEAR)) {
+        if (yDOB<1900 ||(Future==false&& yDOB>c.get(Calendar.YEAR))) {
             Toast.makeText(getBaseContext(),"Please Check Date Year",Toast.LENGTH_LONG).show();
             return false;
         }
@@ -1625,7 +1639,7 @@ public  void Refresh(View view)
                 }
                 else
          {
-             if(!checkdate((EditText)findViewById(R.id.editTextDobP)))
+             if(!checkdate((EditText)findViewById(R.id.editTextDobP),false))
                  return;
 
             // PERSONALPREGSAVED = true;
@@ -1674,11 +1688,11 @@ public  void Refresh(View view)
                 return;
         }
 
-        if(!checkdate((EditText)findViewById(R.id.editTextEDD)))
+        if(!checkdate((EditText)findViewById(R.id.editTextEDD),true))
             return;
-        if(!checkdate((EditText)findViewById(R.id.editTextLMP)))
+        if(!checkdate((EditText)findViewById(R.id.editTextLMP),false))
             return;
-        if(!checkdate((EditText)findViewById(R.id.editTextPHC)))
+        if(!checkdate((EditText)findViewById(R.id.editTextPHC),false))
             return;
            /* if(ENROL_DELL) {
 
@@ -1798,7 +1812,7 @@ public  void Refresh(View view)
            else
                delivery.Colostrum="NO";
 
-           if(!checkdate((EditText)findViewById(R.id.editTextDelDob)))
+           if(!checkdate((EditText)findViewById(R.id.editTextDelDob),false))
            {
                DELIVERYSAVED=false;
                return;
@@ -1977,7 +1991,7 @@ public  void Refresh(View view)
        else
        {
            //Log.d(mess,"3rd Line");
-           if(!checkdate((EditText)findViewById(R.id.editTextMomDoB)))
+           if(!checkdate((EditText)findViewById(R.id.editTextMomDoB),false))
                return;
            //Log.d(mess,"4th Line");
            PARENTSSAVED=true;
@@ -2016,7 +2030,7 @@ public  void Refresh(View view)
        }
        else
        {
-           if(!checkdate((EditText)findViewById(R.id.editTextChildDob)))
+           if(!checkdate((EditText)findViewById(R.id.editTextChildDob),false))
                return;
 
            CHILDBIRTHSAVED=true;

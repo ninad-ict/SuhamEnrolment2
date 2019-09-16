@@ -38,6 +38,7 @@ public class EmployeeLogin extends Fragment {
 
     View EmpLoginView;
     EditText editLogin;
+    static String userName=null;
     EditText editPassword;
     Button buttonLogin;
     static String LOGNAME="";
@@ -62,6 +63,12 @@ public class EmployeeLogin extends Fragment {
         editLogin=EmpLoginView.findViewById(R.id.input_login);
         editPassword=EmpLoginView.findViewById(R.id.input_password);
         buttonLogin=EmpLoginView.findViewById(R.id.buttonLogin);
+        DataBaseHelper DB=DataBaseHelper.getInstance(getContext());
+        if(!DB.getUser().equals("-1"))
+        {
+            editLogin.setText(DB.getUser());
+        }
+
         //EmpLoginView.findViewById(R.id.toolbar_top).setEnabled(false);
 
          //expandableListView.setEnabled(false);
@@ -77,6 +84,7 @@ public class EmployeeLogin extends Fragment {
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String mess="IN-LoginButtonClick";
 
                 if(isEmpty(editLogin)||isEmpty(editPassword))
                 {
@@ -84,8 +92,10 @@ public class EmployeeLogin extends Fragment {
                     return;
                 }
                 DataBaseHelper DB=DataBaseHelper.getInstance(getContext());
+                DB.setUser(editLogin.getText().toString());
+                Log.d(mess,"Login->"+editLogin.getText().toString()+"Password->"+editPassword.getText().toString());
                 Boolean EmpValidity=DB.checkEmpStatus(editLogin.getText().toString(),editPassword.getText().toString());
-                //
+                Log.d(mess,"EmpValidity->"+EmpValidity);
 
                 if(!EmpValidity)
                 {

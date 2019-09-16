@@ -40,7 +40,7 @@ import static com.suhamservice.ictsoftware.suhamenrolment.MainActivity.pregPerso
 public  class DataBaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE = "SUHAM_ENROLDATA";
-    private static final int DB_VERSION = 2;
+    private static final int DB_VERSION = 4;
     //-----------TABLES--------------
     private static final String TABLE_NAME_REGION = "REGIONTABLE";
 
@@ -104,8 +104,17 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_EMP_LOCATION = "EMPLOCATION";
     //-----------------------TABLE FOR CONTACT----------------------------
 
+    //-----------------------TABLE FOR USER STORAGE----------------------------
+    private static final String TABLE_USER = "USER";
+    //-----------------------TABLE FOR USER STORAGE----------------------------
 
+    //-----------------------TABLE FOR EMP TRACKING---------------------------
+    private static final String TABLE_EMP_TRACK = "EMPTRACK";
+    //-----------------------TABLE FOR EMP TRACKING---------------------------
 
+    //------------COLUMNS FOR EMP TRACKING---------------
+    private static final String COL_EMP_TRACK="EMPID";
+    //------------COLUMNS FOR EMP TRACKING---------------
 
     //---------COLUMNS FOR TRANSITION-----------
     private static final String COL_TEST_NAME = "NAME";
@@ -257,6 +266,10 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
     private static final String COL_CONTACT = "CONTACT";
     //---------COLUMNS FOR STORING CONTACT NUMBERS ----------
 
+    // ---------COLUMNS FOR STORING CONTACT NUMBERS ----------
+    private static final String COL_L_USER = "USER";
+    //---------COLUMNS FOR STORING CONTACT NUMBERS ----------
+
     private static DataBaseHelper sInstance;
 
    /* public DataBaseHelper(Context context, String database, SQLiteDatabase.CursorFactory factory, int version) {
@@ -304,6 +317,11 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
         CREATE_TABLE = "CREATE TABLE " + TABLE_NAME_EMPREG + " (" + COL_EMP_ID + " TEXT," + COL_EMP_NAME + " TEXT,"+ COL_EMP_PIN + " TEXT,"+ COL_EMP_MOBILE + " TEXT,"+ COL_EMP_ADDRESS + " TEXT);";
         db.execSQL(CREATE_TABLE);
         //----------VERSION-2-----------------
+
+        //----------VERSION-3-----------------
+        CREATE_TABLE = "CREATE TABLE " + TABLE_USER + " (" + COL_L_USER + " TEXT);";
+        db.execSQL(CREATE_TABLE);
+        //----------VERSION-3-----------------
 
         //Log.d("ON-CREATE","Create TABLE_NAME_EMPREG QUERY->"+CREATE_TABLE);
         //------CREATE TABLE EMPREG------
@@ -484,6 +502,11 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
 
         //------CREATE TABLE TRANSITION----
         //db.close();
+
+        //------CREATE TABLE FOR EMP TRACK-------------
+        CREATE_TABLE = "CREATE TABLE " + TABLE_EMP_TRACK+ " (" + COL_EMP_TRACK + " TEXT," + COL_ID + " TEXT);";
+        db.execSQL(CREATE_TABLE);
+        //------CREATE TABLE FOR EMP TRACK-------------
     }
 
     @Override
@@ -528,10 +551,50 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
             //------CREATE TABLE VILLAGE----
         }
 
+        if(oldVersion<3)
+        {
+            String CREATE_TABLE = "CREATE TABLE " + TABLE_USER + " (" + COL_L_USER + " TEXT);";
+            db.execSQL(CREATE_TABLE);
+        }
+
+        if(oldVersion<4)
+        {
+            //------CREATE TABLE FOR EMP TRACK-------------
+            String CREATE_TABLE = "CREATE TABLE " + TABLE_EMP_TRACK+ " (" + COL_EMP_TRACK + " TEXT," + COL_ID + " TEXT);";
+            db.execSQL(CREATE_TABLE);
+            //------CREATE TABLE FOR EMP TRACK-------------
+        }
 
     }
 
 
+    public void setUser(String user)
+    {
+        SQLiteDatabase db=this.getReadableDatabase();
+        ContentValues contentValues = new ContentValues();
+        db.delete(TABLE_USER,null,null);
+        contentValues.put(COL_L_USER,user);
+        db.insert(TABLE_USER,null,contentValues);
+    }
+
+    public String getUser() {
+        String mess = "In getUser";
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT " + COL_L_USER + " FROM " + TABLE_USER + ";";
+        Cursor cursor = null;
+        Log.d(mess, "QUERY->" + query);
+
+        cursor = db.rawQuery(query, null);
+
+        if (cursor.getCount() == 0) {
+            // log.d(mess,"No rows selected");
+            return "-1";
+        } else {
+            cursor.moveToNext();
+
+            return cursor.getString(0);
+        }
+    }
 
 
     public Boolean checkEmpStatus(String Login,String Password)
@@ -564,109 +627,29 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
         db.insert(TABLE_NAME_EMPREG,null,contentValues);
     }
 
-    /*public String isEMPRegFormFilled()
-    {
-        SQLiteDatabase db=this.getReadableDatabase();
-        String query="SELECT "+COL_EMP_STATUS+","+COL_EMP_ID+" FROM "+TABLE_NAME_EMPREG+";";
-        Cursor cursor=null;
-       try {
 
-
-           cursor = db.rawQuery(query, null);
-           // //db.close();
-           if (cursor.getCount() < 1) {
-               return "EMPTY";
-           } else {
-               cursor.moveToNext();
-               if (String.valueOf(cursor.getString(0)).equals("N")) {
-                   return "WAIT-" + cursor.getString(1);
-               }
-               if (String.valueOf(cursor.getString(0)).equals("Y")) {
-                   return "SUCCESS-" + cursor.getString(1);
-               }
-           }
-       }
-       finally {
-           if (cursor != null) {
-              // cursor.close();  //
-               ////db.close();
-           }
-       }
-        return "CHECK";
-    }*/
-
-   /* public void updateEmpRegStatus(String EmpID,String Status)
-    {
-        String mess="UPDATE-ERS";
-        SQLiteDatabase db=this.getWritableDatabase();
-        ContentValues contentValues=new ContentValues();
-        contentValues.put(COL_EMP_STATUS,Status);
-        db.update(TABLE_NAME_EMPREG,contentValues,COL_EMP_ID+"=?",new String[]{EmpID});
-        ////db.close();
-    }*/
-
-    //public ContentValues sendEmpRegData(String name,String phone,String address)
-    //{
-        /*
-        String query="SELECT "+COL_EMP_STATUS+","+COL_EMP_ID+" FROM "+TABLE_NAME_EMPREG+";";
-        Cursor cursor=null;
-        cursor=db.rawQuery(query,null);
-
-        if(cursor.getCount()<1){
-            return "EMPTY";
-        }
-
-         */
-
-        //---------------CHECK IF ANY ROW ALREADY PRESENT IN LOCAL DB--------------
-
-       /* String query="Select * from "+TABLE_NAME_EMPREG;
-        SQLiteDatabase db=this.getReadableDatabase();
-        Cursor cursor=db.rawQuery(query,null);
-        if(cursor.getCount()>0){
-            return null;
-        }
-
-        //---------------CHECK IF ANY ROW ALREADY PRESENT IN LOCAL DB--------------
-        ContentValues contentValues = new ContentValues();
-
-        String emp_id=name.substring(0,3)+phone.substring(phone.length()-3)+new Random().nextInt(1000) + 1;
-        // log.d("inside-sendEmpRegData",emp_id);
-        contentValues.put(COL_EMP_ID,emp_id);
-        contentValues.put(COL_EMP_NAME,name);
-        contentValues.put(COL_EMP_PHONE,phone);
-        contentValues.put(COL_EMP_ADDRESS,address);
-        contentValues.put(COL_EMP_TIME,String.valueOf(new LocalDateTime()));
-        contentValues.put(COL_EMP_STATUS,"N");
-               // Long result=db.insert(TABLE_NAME_EMPREG,null,contentValues);
-        //// log.d("IN-sendEMPREGdata","result->"+result);
-        db.insert(TABLE_NAME_EMPREG,null,contentValues);
-       // //db.close();
-        // log.d("IN-sendEmpRegData",contentValues.toString());
-        return contentValues;
-    }*/
 
    public String[] getEmpRegData()
     {
-        String mess="IN getEmpRegData";
-        // log.d(mess,"FirstLine");
+        String mess="IN-getEmpRegData";
+         Log.d(mess,"FirstLine");
 
         SQLiteDatabase db=this.getReadableDatabase();
         Cursor cursor=null;
         //select s.name,d.name,f.name from fed f,state s,district d where f_code=8002 and f.d_code=d.d_code and f.s_code=s.s_code;
         String query="SELECT * FROM "+TABLE_NAME_EMPREG+" WHERE "+COL_EMP_MOBILE+"= ? AND "+COL_EMP_PIN+"= ?";
-        // log.d(mess,query);
+        Log.d(mess,query);
             cursor = db.rawQuery(query, new String[]{EmployeeLogin.LOGNAME,EmployeeLogin.LOGPASS});
             ////db.close();
             int count = cursor.getCount();
-            // log.d(mess,"count->"+count);
+        Log.d(mess,"count->"+count);
             if (count == 0) {
-                // log.d(mess,"No rows selected");
+                Log.d(mess,"No rows selected");
                 return new String[]{"-1"};
             } else {
                 cursor.moveToNext();
 
-                // log.d(mess,"cursor[0]->"+cursor.getString(0));
+                Log.d(mess,"cursor[0]->"+cursor.getString(0));
                 // log.d(mess,"cursor[1]->"+cursor.getString(1));
                 // log.d(mess,"cursor[2]->"+cursor.getString(2));
                 // log.d(mess,"cursor[3]->"+cursor.getString(3));
@@ -710,7 +693,6 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
             EMPDATA[5] = cursor.getString(5);
             return EMPDATA;
         }
-
 
     }
 
@@ -1274,7 +1256,7 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
         String mess = "ADD-DATA";
 
 
-        Integer random = new Random().nextInt(1000) + 1;
+        Integer random = new Random().nextInt(9999) + 1;
         //String id=locationFragment.region.substring(0,1)+"-"+
         //      locationFragment.village.substring(0,1)+"-"+random.toString();
 
@@ -1654,9 +1636,19 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
         MainActivity.ID=id;
         // log.d(mess,"ID is->"+id);
 
-       //---------------INSERTING CONTENTS OF LOCATION FRAGMENT INTO LOCAL DB-------------
+        //----------TRACKING EMP WHO HAS FILLED THE FORM------------------
 
         ContentValues contentValues = new ContentValues();
+        contentValues.put(COL_EMP_TRACK,getEmpRegData()[0]);
+        contentValues.put(COL_ID,id);
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.insert(TABLE_EMP_TRACK, null, contentValues);
+
+        //----------TRACKING EMP WHO HAS FILLED THE FORM------------------
+
+       //---------------INSERTING CONTENTS OF LOCATION FRAGMENT INTO LOCAL DB-------------
+
+        contentValues = new ContentValues();
         contentValues.put(COL_L_VILLAGE,locationFragment.VILLAGE);
         contentValues.put(COL_L_STATE,locationFragment.STATE);
         contentValues.put(COL_L_DISTRICT,locationFragment.DISTRICT);
@@ -1665,7 +1657,7 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL_L_PANCH, locationFragment.PANCH);
         contentValues.put(COL_ID,id);
 
-        SQLiteDatabase db = this.getWritableDatabase();
+        db = this.getWritableDatabase();
         // log.d(mess,"Columns Are ->>"+COL_L_FED+" AND "+COL_L_PANCH+" AND "+COL_L_VILLAGE+" AND "+COL_L_REGION+" AND "+COL_ID);
         //Log.d(mess,"Columns Are ->>"+COL_L_FED+" AND "+COL_L_PANCH+" AND "+COL_L_VILLAGE+" AND "+COL_L_REGION+" AND "+COL_L_ID+" AND "+COL_L_SENT);
         db.insert(TABLE_NAME_LOCATION, null, contentValues);
@@ -1864,6 +1856,16 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
                         id = locationFragment.FEDCODE +"C"+random.toString();
                         Log.d(mess,"child-ID->"+id);
 
+                        //----------TRACKING EMP WHO HAS FILLED THE FORM------------------
+
+                        contentValues = new ContentValues();
+                        contentValues.put(COL_EMP_TRACK,getEmpRegData()[0]);
+                        contentValues.put(COL_ID,id);
+                        db = this.getWritableDatabase();
+                        db.insert(TABLE_EMP_TRACK, null, contentValues);
+
+                        //----------TRACKING EMP WHO HAS FILLED THE FORM------------------
+
                         //---------------UPDATING ADDMOD TABLE ------------
 
                         contentValues = new ContentValues();
@@ -1887,7 +1889,6 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
                         //db.close();
 
                         //---------------UPDATING ADDMOD TABLE ------------
-
 
 
 
@@ -1989,9 +1990,19 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
                         // log.d(mess, "Inside dell->CB->TwinYes");
 
                         //------------------------TWIN 1------------------------------
-                        random=new Random().nextInt(1000)+1;
+                        random=new Random().nextInt(9999)+1;
                         id = locationFragment.FEDCODE +"C"+random.toString();
                         // log.d(mess,"Twin1-ID->"+id);
+
+                        //----------TRACKING EMP WHO HAS FILLED THE FORM------------------
+
+                        contentValues = new ContentValues();
+                        contentValues.put(COL_EMP_TRACK,getEmpRegData()[0]);
+                        contentValues.put(COL_ID,id);
+                        db = this.getWritableDatabase();
+                        db.insert(TABLE_EMP_TRACK, null, contentValues);
+
+                        //----------TRACKING EMP WHO HAS FILLED THE FORM------------------
 
                         //---------------UPDATING ADDMOD TABLE ------------
 
@@ -2115,9 +2126,20 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
 
 
                         //------------------------TWIN 2------------------------------
-                        random=new Random().nextInt(1000)+1;
+                        random=new Random().nextInt(9999)+1;
                         id = locationFragment.FEDCODE + "C" +random.toString();
                         // log.d(mess,"Twin2-ID->"+id);
+
+                        //----------TRACKING EMP WHO HAS FILLED THE FORM------------------
+
+                        contentValues = new ContentValues();
+                        contentValues.put(COL_EMP_TRACK,getEmpRegData()[0]);
+                        contentValues.put(COL_ID,id);
+                        db = this.getWritableDatabase();
+                        db.insert(TABLE_EMP_TRACK, null, contentValues);
+
+                        //----------TRACKING EMP WHO HAS FILLED THE FORM------------------
+
 
                         //---------------UPDATING ADDMOD TABLE ------------
 
@@ -2409,16 +2431,16 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
         String query = "select L.STATE ,L.DISTRICT,L.FED_CODE, L.PANCHAYAT,L.FEDERATION," +
                 "L.VILLAGE,L.ID,P.GNAME,P.MOTHER,P.FATHER,P.DOB," +
                 "P.M_MEMBER,P.F_MEMBER,P.MARRIAGE_YEAR," +
-                "E.EDUCATION,E.WORK,E.STUDY,H.YEAR_PUBERTY,H.HB,H.HEIGHT,H.WEIGHT,T.TIME,AM.STATUS,GG.GROUPNAME,GG.GROUPTYPE,C.CONTACT,TR.OLD FROM LOCATIONTABLE L JOIN PERSONALTABLE P " +
+                "E.EDUCATION,E.WORK,E.STUDY,H.YEAR_PUBERTY,H.HB,H.HEIGHT,H.WEIGHT,T.TIME,AM.STATUS,GG.GROUPNAME,GG.GROUPTYPE,C.CONTACT,TR.OLD,ET.EMPID FROM LOCATIONTABLE L JOIN PERSONALTABLE P " +
                 "ON L.ID=P.ID JOIN HEALTHTABLE H ON H.ID=L.ID  JOIN EDUCATIONTABLE E ON E.ID=L.ID JOIN CONTACT C ON C.ID=L.ID " +
                 "JOIN GIRLGROUP GG ON GG.ID=L.ID JOIN TIMESTAMP T ON T.ID=L.ID " +
-                "JOIN ADDMOD AM ON AM.ID=L.ID LEFT JOIN TRANSITION TR on TR.NEW=L.ID where L."+COL_ID+"=?";
+                "JOIN ADDMOD AM ON AM.ID=L.ID JOIN EMPTRACK ET ON ET.ID=L.ID LEFT JOIN TRANSITION TR on TR.NEW=L.ID where L."+COL_ID+"=?";
 
 
-        final int  COL_LENGTH=27;
-        final int  COL_LENGTH_DELL=25;
-        final int  COL_LENGTH_CHILD=25;
-        final int  COL_LENGTH_ANTE=22;
+        final int  COL_LENGTH=28;
+        final int  COL_LENGTH_DELL=26;
+        final int  COL_LENGTH_CHILD=26;
+        final int  COL_LENGTH_ANTE=23;
 
         // log.d(mess,"QUERY IS->"+query);
         // log.d(mess,"ID IS->"+id);
@@ -2440,9 +2462,10 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
 
             String PREGquery =  "select L.STATE ,L.DISTRICT,L.FED_CODE, L.PANCHAYAT,L.FEDERATION,L.VILLAGE,L.ID,"+
                     "P.NAME,P.M_MEMBER,P.HUSBAND,P.H_MEMBER, P.DOB ,P.EDUCATION ," +
-                    "PG.LMP ,PG.EDD ,PG.GRAVIDA ,PG.WHEN_REGISTERED ,PG.MONTH_PREGNANT,T.TIME,AM.STATUS,C.CONTACT,TR.OLD" +
+                    "PG.LMP ,PG.EDD ,PG.GRAVIDA ,PG.WHEN_REGISTERED ,PG.MONTH_PREGNANT,T.TIME,AM.STATUS,C.CONTACT,TR.OLD,ET.EMPID" +
                     " FROM LOCATIONTABLE L JOIN PREGPERSONAL P ON L.ID=P.ID JOIN PREGNANCY PG " +
                     "ON PG.ID=L.ID JOIN TIMESTAMP T ON T.ID=L.ID JOIN ADDMOD AM ON AM.ID=L.ID JOIN CONTACT C ON C.ID=L.ID " +
+                    "JOIN EMPTRACK ET ON ET.ID=L.ID "+
                    "LEFT JOIN TRANSITION TR on TR.NEW=L.ID WHERE L." + COL_ID + "=?";
 
             // log.d(mess, "QUERY IS->" + PREGquery);
@@ -2454,9 +2477,9 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
                 // log.d(mess, "PREG Cursor is empty");
                 query = "select L.STATE ,L.DISTRICT,L.FED_CODE, L.PANCHAYAT,L.FEDERATION,L.VILLAGE,L.ID,"+
                         "P.NAME,P.M_MEMBER,P.HUSBAND,P.H_MEMBER, P.DOB ,P.EDUCATION ," +
-                        "D.PLACE,D.STATUS,D.COLOSTRUM,D.TWINS,D.OUTCOME,D.ABORTION_MONTH,D.DOD,D.GRAVIDA,T.TIME,AM.STATUS,C.CONTACT,TR.OLD"+
+                        "D.PLACE,D.STATUS,D.COLOSTRUM,D.TWINS,D.OUTCOME,D.ABORTION_MONTH,D.DOD,D.GRAVIDA,T.TIME,AM.STATUS,C.CONTACT,TR.OLD,ET.EMPID"+
                         " FROM LOCATIONTABLE L JOIN PREGPERSONAL P ON L.ID=P.ID JOIN DELIVERY D ON D.ID=L.ID JOIN TIMESTAMP T ON T.ID=L.ID JOIN ADDMOD AM ON AM.ID=L.ID " +
-                        "JOIN CONTACT C ON C.ID=L.ID LEFT JOIN TRANSITION TR on TR.NEW=L.ID WHERE L." + COL_ID + "=?";
+                        "JOIN CONTACT C ON C.ID=L.ID JOIN EMPTRACK ET ON ET.ID=L.ID LEFT JOIN TRANSITION TR on TR.NEW=L.ID WHERE L." + COL_ID + "=?";
 
 
                 // log.d(mess, "QUERY IS->" + query);
@@ -2470,10 +2493,10 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
                 String CHILDquery ="select L.STATE ,L.DISTRICT,L.FED_CODE, L.PANCHAYAT,L.FEDERATION,L.VILLAGE,L.ID,"+
                         "P.MOM ,P.M_MEMBER,P.MOM_DOB ,P.DAD,P.D_MEMBER," +
                         "CB.NAME ,CB.SEX ,CB.WEIGHT ,CB.DOB ,CB.COLOSTRUM," +
-                        "CG.ORDERBIRTH ,CG.HEIGHT ,CG.WEIGHT,T.TIME,AM.STATUS,MC.ID,C.CONTACT,TR.OLD FROM" +
+                        "CG.ORDERBIRTH ,CG.HEIGHT ,CG.WEIGHT,T.TIME,AM.STATUS,MC.ID,C.CONTACT,TR.OLD,ET.EMPID FROM" +
                         " LOCATIONTABLE L JOIN PARENTS P ON L.ID=P.ID JOIN CHILDBIRTH CB ON CB.ID=L.ID JOIN CHILDGROWTH CG " +
                         "ON CG.ID=L.ID JOIN TIMESTAMP T ON T.ID=L.ID JOIN ADDMOD AM ON AM.ID=L.ID JOIN MOMCHILD MC ON MC.CID=L.ID " +
-                        "JOIN CONTACT C ON C.ID=L.ID LEFT JOIN TRANSITION TR on TR.NEW=L.ID WHERE L." + COL_ID + "=?";
+                        "JOIN CONTACT C ON C.ID=L.ID JOIN EMPTRACK ET ON ET.ID=L.ID LEFT JOIN TRANSITION TR on TR.NEW=L.ID WHERE L." + COL_ID + "=?";
 
                 // log.d(mess, "QUERY IS->" + CHILDquery);
 
@@ -2543,6 +2566,8 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
         db.delete(TABLE_NAME_MOMCHILD,COL_CID+"=?",arg);
 
         db.delete(TABLE_NAME_CONTACT,COL_ID+"=?",arg);
+
+        db.delete(TABLE_EMP_TRACK,COL_ID+"=?",arg);
 
         db.delete(TABLE_NAME_TRANSITION,COL_NEW+"=?",arg);
 

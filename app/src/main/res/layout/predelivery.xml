@@ -149,7 +149,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_span="10"
-                            android:text="Month of Registration in PHC/Anganwadi"
+                            android:text="PHC/Anganwadi Registration Date"
                             android:textColor="@color/skyblue"
                             android:textSize="20sp" />
 

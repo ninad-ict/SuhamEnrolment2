@@ -718,7 +718,7 @@ public class GirlFragment extends Fragment {
                         editFather.setError("Please enter a Valid Value");
                     if(isEmpty(editDob))
                         editDob.setError("Please enter a Valid Value");
-                    else if(new MainActivity().checkdate(editDob))
+                    else if(new MainActivity().checkdate(editDob,false))
                         editDob.setError("Please enter a Valid Value");
                     else if(!isEmpty(editDob))
                     {
@@ -798,7 +798,7 @@ public class GirlFragment extends Fragment {
             editWeight.setError("Please enter a Valid Value");
         if(editPubertyYear.isShown()&&isEmpty(editPubertyYear))
             editPubertyYear.setError("Please enter a Valid Value");
-        else if(!isEmpty(editDob)&&new MainActivity().checkdate(editDob))
+        else if(!isEmpty(editDob)&&new MainActivity().checkdate(editDob,false))
         {
             if(Integer.valueOf(editPubertyYear.getText().toString())<=Integer.valueOf(editDob.getText().toString().split("-")[2]))
                 editPubertyYear.setError("Please enter a Valid Value");

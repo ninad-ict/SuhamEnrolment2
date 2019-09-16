@@ -2,6 +2,7 @@ package com.suhamservice.ictsoftware.suhamenrolment;
 
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -43,7 +44,7 @@ String mess="OnCreate:Arch";
             public void onClick(View v) {
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.Frame1, new HomePage());
+                fragmentTransaction.replace(R.id.Frame1, new MainMenuFragment());
 
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
@@ -134,7 +135,9 @@ String mess="OnCreate:Arch";
                // ContextCompat.getDrawable(getContext(),R.drawable.cell_shape);
 
                 textView.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.cell_shape));
+               if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M)
                 textView.setTextColor(getResources().getColor(R.color.Black,null));
+
                 textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
 
