@@ -66,7 +66,34 @@
                             android:singleLine="true" />
 
                     </TableRow>
+                    <TableRow
+                        android:id="@+id/rowLMP"
+                        android:layout_width="match_parent"
+                        android:layout_height="100sp"
+                        android:layout_marginTop="30sp">
 
+                        <TextView
+                            android:id="@+id/textViewLMP"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_span="4"
+                            android:text="LMP"
+                            android:textColor="@color/skyblue"
+                            android:textSize="20sp" />
+
+                        <EditText
+                            android:id="@+id/editTextLMP"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_span="12"
+                            android:digits="0123456789-"
+                            android:ems="10"
+                            android:gravity="center"
+                            android:hint="DD-MM-YYYY"
+                            android:inputType="date"
+                            android:maxLength="10"
+                            android:singleLine="true" />
+                    </TableRow>
                     <TableRow
                         android:id="@+id/rowEDD"
                         android:layout_width="match_parent"
@@ -91,7 +118,7 @@
                             android:digits="1234567890-"
                             android:ems="10"
                             android:gravity="center"
-                            android:hint="DD/MM/YYYY"
+                            android:hint="DD-MM-YYYY"
                             android:inputType="number"
                             android:maxLength="10"
                             android:singleLine="true" />
@@ -106,34 +133,7 @@
                     android:layout_height="wrap_content"
                     android:stretchColumns="*">
 
-                    <TableRow
-                        android:id="@+id/rowLMP"
-                        android:layout_width="match_parent"
-                        android:layout_height="100sp"
-                        android:layout_marginTop="30sp">
 
-                        <TextView
-                            android:id="@+id/textViewLMP"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_span="4"
-                            android:text="LMP"
-                            android:textColor="@color/skyblue"
-                            android:textSize="20sp" />
-
-                        <EditText
-                            android:id="@+id/editTextLMP"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_span="12"
-                            android:digits="0123456789-"
-                            android:ems="10"
-                            android:gravity="center"
-                            android:hint="Last Menstrual Period Date"
-                            android:inputType="date"
-                            android:maxLength="10"
-                            android:singleLine="true" />
-                    </TableRow>
 
 
                     <TableRow
@@ -161,7 +161,7 @@
                             android:digits="0123456789-"
                             android:ems="10"
                             android:gravity="center"
-                            android:hint="Date"
+                            android:hint="DD-MM-YYYY"
                             android:inputType="date"
                             android:maxLength="10"
                             android:singleLine="true" />

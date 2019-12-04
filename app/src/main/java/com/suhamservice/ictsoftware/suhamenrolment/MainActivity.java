@@ -135,9 +135,9 @@ static GirlFragment girlFragment=new GirlFragment();
 
 
     static Boolean RECEIVED=false;
-    //static String SERVER="http://192.168.1.126:80/SUHAM_Final/";
+    static String SERVER="http://192.168.1.126:80/SUHAM_Final/";
     //static String SERVER="http://ec2-13-126-88-91.ap-south-1.compute.amazonaws.com/SUHAM/";
-    static String SERVER="http://www.suhamhealth.org/";
+    //static String SERVER="http://www.suhamhealth.org/";
     static String ID="";
 
     //------VALUES FOR IDENTIFYING WHICH MENU OPTION IS SELECTED--------

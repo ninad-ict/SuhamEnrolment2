@@ -70,7 +70,7 @@ public class HealthFragment extends Fragment {
                 editWeight.setText(applicationName.jsonObject.get("WEIGHT").toString());
 
                // ArrayAdapter<String> arrayAdapter =
-                 //       new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.spinnerMembership));
+                //new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.spinnerMembership));
 
 
                 if(applicationName.jsonObject.get("YEAR_PUBERTY").toString().equals("NULL"))
@@ -86,9 +86,6 @@ public class HealthFragment extends Fragment {
                     EditPuberty.setVisibility(View.VISIBLE);
                     EditPuberty.setText(applicationName.jsonObject.get("YEAR_PUBERTY").toString());
                 }
-
-
-
             }
 
             catch(JSONException j)
@@ -97,8 +94,6 @@ public class HealthFragment extends Fragment {
                 j.printStackTrace();
             }
         }
-
-
         return healthView;
     }
 

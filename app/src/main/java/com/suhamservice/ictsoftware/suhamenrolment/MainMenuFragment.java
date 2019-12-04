@@ -55,7 +55,7 @@ ImageView ImageOldChild;
          fragmentManager = getActivity().getSupportFragmentManager();
          fragmentTransaction = fragmentManager.beginTransaction();
 
-        if (Build.VERSION.SDK_INT <=Build.VERSION_CODES.M)
+        if (Build.VERSION.SDK_INT <Build.VERSION_CODES.M)
         {
             MainMenuView.findViewById(R.id.OldGridLayout).setVisibility(View.VISIBLE);
             MainMenuView.findViewById(R.id.mainGrid).setVisibility(View.GONE);

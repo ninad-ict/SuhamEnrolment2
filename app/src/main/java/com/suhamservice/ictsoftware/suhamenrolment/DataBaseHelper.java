@@ -40,7 +40,7 @@ import static com.suhamservice.ictsoftware.suhamenrolment.MainActivity.pregPerso
 public  class DataBaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE = "SUHAM_ENROLDATA";
-    private static final int DB_VERSION = 4;
+    private static final int DB_VERSION = 5;
     //-----------TABLES--------------
     private static final String TABLE_NAME_REGION = "REGIONTABLE";
 
@@ -565,6 +565,11 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
             //------CREATE TABLE FOR EMP TRACK-------------
         }
 
+        if(oldVersion<5)
+        {
+
+        }
+
     }
 
 
@@ -913,10 +918,10 @@ public  class DataBaseHelper extends SQLiteOpenHelper {
             // log.d(mess,"word.Length->"+word.length);
 
             Cursor cursor=null;
-            String countQuery="Select * from "+ TABLE_NAME_DISTRICT+" where d_code=?";
+            String countQuery="Select * from "+ TABLE_NAME_DISTRICT+" where d_code=? and s_code=?";
             try
             {
-                cursor=db.rawQuery(countQuery,new String[]{word[1]});
+                cursor=db.rawQuery(countQuery,new String[]{word[1],word[2]});
                 // log.d(mess,"Cursor->"+cursor.getCount());
             }catch (Exception e)
             {
